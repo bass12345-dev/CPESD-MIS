@@ -119,21 +119,6 @@ class UserService
         $this->customRepository->insert_item($this->conn,$this->login_history_table,$items);
     }
 
-    public function user_full_name($key){
-
-        return $key->first_name . ' ' . $key->middle_name . ' ' . $key->last_name . ' ' . $key->extension;
-
-    }
-
-    public function full_address($row){
-        
-        $province   = $row->province == NULL ? '' :  explode("-", $row->province)[1];
-        $city       = $row->city == NULL ? '' : explode("-", $row->city)[1].' , ';
-        $barangay   = $row->barangay == NULL ? '' : explode("-", $row->barangay)[1].' , ';
-        $street     = $row->street == NULL ? '' : $row->street.' , ';
-
-        return $street.''.$barangay.''.$city.''.$province;
-    }
 
 
     public function get_systems(array $row_sys){

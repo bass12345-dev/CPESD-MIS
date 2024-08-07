@@ -28,8 +28,7 @@ class ProjectStoreRequest extends FormRequest
                 'project_cost'          => ['required','numeric', 'min:1','max:1000000000000.99', 'regex:/^\d+(\.\d{1,2})?$/'],
                 'street'                => 'nullable',
                 'barangay'              => 'required|string|min:1',
-                'city'                  => 'required|string|min:1',
-                'province'              => 'required|string|min:1',
+                'date_started'          => 'required|string|min:1',
                 'project_status'        => 'nullable'
         ];
     }

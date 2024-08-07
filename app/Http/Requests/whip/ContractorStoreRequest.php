@@ -21,14 +21,17 @@ class ContractorStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        $default_connection = config('app._database.lls_whip');
+        $default_connection = config('custom_config.database.lls_whip');
         return [
                 'contractor_name'       => 'required|string|min:3',
                 'proprietor'            => 'required|string|min:3',
                 'street'                => 'nullable',
                 'barangay'              => 'nullable|string|min:3',
+                'barangay_code'         => 'nullable|string|min:3',
                 'city'                  => 'required|string|min:3',
+                'city_code'             => 'nullable|string|min:3',
                 'province'              => 'required|string|min:3',
+                'province_code'         => 'nullable|string|min:3',
                 'phone_number'          => 'nullable|digits:11',
                 'phone_number_owner'    => 'nullable|string|min:3',
                 'telephone_number'      => 'nullable',

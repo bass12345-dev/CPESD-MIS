@@ -11,7 +11,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-support"></i>
+                                        <i class="notika-icon notika-edit"></i>
                                     </div>
                                     <div class="nk-int-st">
                                         <input type="text" class="form-control" name="contractor_name"
@@ -22,7 +22,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-mail"></i>
+                                        <i class="notika-icon notika-support"></i>
                                     </div>
                                     <div class="nk-int-st">
                                         <input type="text" class="form-control" name="proprietor"
@@ -38,6 +38,7 @@
                                         <i class="notika-icon notika-map"></i>
                                     </div>
                                     <div class="nk-int-st">
+                                        <label>Province</label>
                                         <select class="form-control province_select" name="province"
                                             id="province_select" disabled></select>
                                     </div>
@@ -49,6 +50,7 @@
                                         <i class="notika-icon notika-map"></i>
                                     </div>
                                     <div class="nk-int-st">
+                                        <label>City</label>
                                         <select class="form-control" id="city_select" name="city" disabled></select>
                                     </div>
                                 </div>
@@ -56,9 +58,10 @@
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-travel"></i>
+                                        <i class="notika-icon notika-map"></i>
                                     </div>
                                     <div class="nk-int-st">
+                                        <label>Barangay</label>
                                         <select class="form-control" id="brgy_select" name="barangay" disabled></select>
                                     </div>
                                 </div>
@@ -66,7 +69,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-mail"></i>
+                                        <i class="notika-icon notika-map"></i>
                                     </div>
                                     <div class="nk-int-st">
                                         <input type="text" class="form-control" name="street" placeholder="Street">
@@ -78,7 +81,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-travel"></i>
+                                        <i class="notika-icon notika-phone"></i>
                                     </div>
                                     <div class="nk-int-st">
                                         <input type="text" class="form-control" name="phone_number"
@@ -89,7 +92,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-map"></i>
+                                        <i class="notika-icon notika-support"></i>
                                     </div>
                                     <div class="nk-int-st">
                                         <input type="text" class="form-control" name="phone_number_owner"
@@ -102,7 +105,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-next"></i>
+                                        <i class="notika-icon notika-phone"></i>
                                     </div>
                                     <div class="nk-int-st">
                                         <input type="text" class="form-control" name="telephone_number"
@@ -113,7 +116,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-next"></i>
+                                        <i class="notika-icon notika-mail"></i>
                                     </div>
                                     <div class="nk-int-st">
                                         <input type="text" class="form-control" name="email_address"

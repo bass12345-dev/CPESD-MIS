@@ -35,10 +35,9 @@ class ContractorQuery
                     'projects.project_title as project_title',
                     'projects.street as street',
                     'projects.barangay as barangay',
-                    'projects.city as city',
-                    'projects.province as province', 
                     'projects.project_cost as project_cost',
-                    'projects.project_status as project_status'             
+                    'projects.project_status as project_status',
+                    'projects.date_started as date_started'         
 
         )
         ->where('contractors.status', 'active')

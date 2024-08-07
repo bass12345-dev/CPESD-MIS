@@ -14,7 +14,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <div class="logo-area">
                         <a href="">
-                            <h3>WHIP - {{session('user_type')}}</h3>
+                            <h3>WHIP - {{session('user_type') == 'user' ? 'User' : 'Administrator  '}}</h3>
                             <!-- <img src="img/logo/logo.png" alt="" /> -->
                         </a>
                     </div>

@@ -12,7 +12,7 @@ class ProjectsService
     protected $customRepository;
     protected $projects_table;
     public function __construct(CustomRepository $customRepository){
-        $this->conn                 = config('app._database.lls_whip');
+        $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->projects_table       = 'projects';
     }
@@ -28,9 +28,8 @@ class ProjectsService
             'project_cost'          => $item['project_cost'],
             'street'                => $item['street'],
             'barangay'              => $item['barangay'],
-            'city'                  => $item['city'],
-            'province'              => $item['province'],
             'project_status'        => 'ongoing',
+            'date_started'          => $item['date_started'],
             'created_on'            => Carbon::now()->format('Y-m-d H:i:s'),
             
         );

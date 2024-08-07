@@ -2,7 +2,6 @@
     <div class="main-menu-area mg-tb-40">
         <div class="container">
             <div class="row">
-
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <?php $segments = Request::segments();?>
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
@@ -10,9 +9,9 @@
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-contractor' || $segments[2] == 'contractors-list' ? 'active' : '' ?>" href="#mailbox1"><i class="notika-icon notika-mail"></i>Contractors</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#positions"><i class="notika-icon notika-mail"></i>Positions</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'whip-positions' ? 'active' : '' ?>" href="#positions"><i class="notika-icon notika-mail"></i>Positions</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#status"><i class="notika-icon notika-mail"></i>Employment Status</a>
                         </li>
@@ -42,29 +41,29 @@
 
                             </ul>
                         </div>
-                        <div id="all_projects" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <div id="all_projects" class="tab-pane <?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
-                                <li><a href="{{url('admin/whip/add-new-project')}}">Add New</a>
+                                <li><a href="{{url('admin/whip/add-new-project')}}" class="<?= $segments[2] == 'add-new-project' ? 'active' : '' ?>">Add New</a>
                                 </li>
-                                <li><a href="{{url('admin/whip/projects-list')}}">Projects List</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div id="positions" class="tab-pane notika-tab-menu-bg animated flipInX">
-                            <ul class="notika-main-menu-dropdown">
-                                <li><a href="{{url('admin/whip/whip-positions')}}">Manage Positions</a>
+                                <li><a href="{{url('admin/whip/projects-list')}}" class="<?= $segments[2] == 'projects-list' ? 'active' : '' ?>">Projects List</a>
                                 </li>
                             </ul>
                         </div>
-                        <div id="status" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <div id="positions" class="tab-pane <?= $segments[2] == 'whip-positions'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
-                                <li><a href="{{url('admin/whip/whip-positions')}}">Manage Employment Status</a>
+                                <li><a href="{{url('admin/whip/whip-positions')}}" class="<?= $segments[2] == 'whip-positions' ? 'active' : '' ?>">Manage Positions</a>
                                 </li>
                             </ul>
                         </div>
-                        <div id="employees" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <div id="status" class="tab-pane <?= $segments[2] == 'employment-status'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
-                                <li><a href="{{url('admin/whip/employees-record')}}">Manage Employees Record</a>
+                                <li><a href="{{url('admin/whip/employment-status')}}" class="<?= $segments[2] == 'employment-status' ? 'active' : '' ?>">Manage Employment Status</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="employees" class="tab-pane <?= $segments[2] == 'employees-record'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li><a href="{{url('admin/whip/employees-record')}}" class="<?= $segments[2] == 'employees-record' ? 'active' : '' ?>">Manage Employees Record</a>
                                 </li>
                             </ul>
                         </div>

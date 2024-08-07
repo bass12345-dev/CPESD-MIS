@@ -21,10 +21,19 @@ class EmployeeStoreRequest extends FormRequest
      */
     public function rules()
     {
-        $default_connection = config('app._database.lls_whip');
-        return [
-                'establishment_id'          => 'nullable',   
-                 'first_name'               => 'nullable',   
+        $default_connection = config('custom_config.database.lls_whip');
+        return [ 
+                'first_name'                => 'required|string|min:1', 
+                'middle_name'               => 'nullable',   
+                'last_name'                 => 'required|string|min:1', 
+                'extension'                 => 'nullable',   
+                'province'                  => 'required|string|min:1', 
+                'city'                      => 'required|string|min:1', 
+                'barangay'                  => 'nullable',   
+                'street'                    => 'nullable',   
+                'gender'                    => 'required|string|min:1', 
+                'contact_number'            => 'nullable|digits:11',
+                'birthdate'                 => 'nullable',   
         ];
     }
 }
