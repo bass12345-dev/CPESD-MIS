@@ -20,33 +20,7 @@ class ContractorQuery
     }
 
 
-    public function QueryAllProjects($conn){
 
-        $rows = DB::connection($conn)->table('projects as projects')
-          ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
-          ->select(   
-                    //Contractors
-                    'contractors.contractor_id as contractor_id', 
-                    'contractors.contractor_name as contractor_name',
-                    'contractors.status as contractor_status' ,
-
-                    //Projects
-                    'projects.project_id as project_id',
-                    'projects.project_title as project_title',
-                    'projects.street as street',
-                    'projects.barangay as barangay',
-                    'projects.project_cost as project_cost',
-                    'projects.project_status as project_status',
-                    'projects.date_started as date_started'         
-
-        )
-        ->where('contractors.status', 'active')
-        ->orderBy('project_id', 'desc')
-        ->get();
-       
-        return $rows;
-  
-      }
 
 
 

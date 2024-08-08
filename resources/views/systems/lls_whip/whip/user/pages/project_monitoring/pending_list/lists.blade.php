@@ -1,11 +1,13 @@
-@extends('systems.lls_whip.whip.' . session('user_type') . '.layout.' . session('user_type') . '_master')
+
+@extends('systems.lls_whip.whip.user.layout.user_master')
 @section('title', $title)
 @section('content')
-@include('systems.lls_whip.whip.both.projects.lists.sections.table')
+@include('systems.lls_whip.whip.user.pages.project_monitoring.pending_list.sections.table')
 @endsection
 @section('js')
 <script>
-     $(document).ready(function() {
+
+ $(document).ready(function() {
        table =  $('#data-table-basic').DataTable({
             responsive: true,
             ordering: false,
@@ -18,7 +20,7 @@
             "dom": "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             buttons: datatables_buttons(),
             ajax: {
-                url: base_url + "/user/act/whip/g-a-p",
+                url: base_url + "/user/act/whip/g-u-p-m",
                 method: 'GET',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -26,7 +28,7 @@
                 dataSrc: ""
             },
             columns: [{
-                    data: 'project_id'
+                    data: 'project_monitoring_id'
                 },
                 {
                     data: 'project_title'
@@ -35,23 +37,15 @@
                     data: 'contractor'
                 },
                 {
-                    data: 'project_cost'
+                    data: 'date_of_monitoring'
                 },
                 {
-                    data: 'project_location'
+                    data: 'specific_activity'
                 },
                 {
-                    data: 'project_nature'
+                    data: 'monitoring_status'
                 },
-                {
-                    data: 'date_started'
-                },
-                {
-                    data: 'monitoring_count'
-                },
-                {
-                    data: null
-                }
+               
             ],
             'select': {
                 'style': 'multi',
@@ -66,7 +60,7 @@
                     targets: 1,
                     data: null,
                     render: function(data, type, row) {
-                        return '<a href="' + base_url + '/admin/whip/project-information/' + row.project_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
+                        return '<a href="' + base_url + '/user/whip/project-monitoring-info/' + row.project_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
                     }
                 },
                 {
@@ -75,9 +69,9 @@
                     orderable: false,
                     className: 'text-center',
                     render: function(data, type, row) {
-                        return row.project_status == 'completed' ? 
-                        '<span class="badge notika-bg-success">Completed</span>' :
-                        '<span class="badge notika-bg-danger">Ongoing</span>';
+                        return row.monitoring_status == 'pending' ? 
+                        '<span class="badge notika-bg-danger">Pending</span>' :
+                        '<span class="badge notika-bg-success">Completed</span>';
                     }
                 }
             ]
@@ -85,21 +79,6 @@
         });
     });
 
-
-    $('button#multi-delete').on('click', function() {
-        var button_text = 'Delete selected items';
-        var text = '';
-        var url = '/user/act/whip/d-p';
-        let items = get_select_items_datatable();
-        var data = {
-            id: items,
-        };
-        if (items.length == 0) {
-            toast_message_error('Please Select at Least One')
-        } else {
-            delete_item(data, url, button_text, text, table);
-        }
-    });
 
 </script>
 @endsection

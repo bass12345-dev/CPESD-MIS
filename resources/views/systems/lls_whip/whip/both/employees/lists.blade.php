@@ -13,6 +13,8 @@
 @section('js')
 @include('systems.lls_whip.includes.custom_js.location_js')
 <script>
+    
+   
     $(document).ready(function () {
         table = $('#data-table-basic').DataTable({
             responsive: true,

@@ -48,12 +48,17 @@
     });
     $('#add_form').on('submit', function (e) {
         e.preventDefault();
-        table = null;
+        if($('input[name=contractor_id]').val() == null){
+            toast_message_error('Please Seach Contractor');
+        }else {
+            table = null;
         $(this).find('button').prop('disabled', true);
         $(this).find('button').html('<span class="loader"></span>')
         var url = '/user/act/whip/insert-project';
         let form = $(this);
         _insertAjax(url, form, table);
+        }
+       
 
     });
 

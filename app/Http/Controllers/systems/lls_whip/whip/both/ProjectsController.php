@@ -8,6 +8,7 @@ use App\Services\whip\ContractorsService;
 use App\Services\whip\ProjectsService;
 use App\Http\Requests\whip\ProjectStoreRequest;
 use App\Repositories\whip\ContractorQuery;
+use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -16,6 +17,7 @@ class ProjectsController extends Controller
 {
     protected $conn;
     protected $Contractorquery;
+    protected $projectQuery;
     protected $projectService;
     protected $contractorService;
     protected $customService;
@@ -25,16 +27,19 @@ class ProjectsController extends Controller
     protected $order_by_asc = 'asc';
     protected $order_by_key = 'project_id';
     protected $position_table;
+    protected $nature_table;
 
-    public function __construct(CustomRepository $customRepository, ProjectsService $projectService, ContractorsService $contractorsService, ContractorQuery $Contractorquery, CustomService $customService){
+    public function __construct(CustomRepository $customRepository, ProjectsService $projectService, ContractorsService $contractorsService, ContractorQuery $Contractorquery, ProjectQuery $projectQuery,CustomService $customService){
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
+        $this->projectQuery         = $projectQuery;
         $this->projectService       = $projectService;
         $this->contractorService    = $contractorsService;
         $this->customService        = $customService;
         $this->projects_table       = 'projects';
         $this->position_table       = 'positions';
         $this->status_table         = 'employment_status';
+        $this->nature_table         = 'project_nature';
         $this->Contractorquery      = $Contractorquery;
     }
 
@@ -47,6 +52,7 @@ class ProjectsController extends Controller
     public function add_new_project(){
         $data['title'] = 'Add New Project';
         $data['barangay']   = config('custom_config.barangay');
+        $data['project_nature']  = $this->customRepository->q_get_order($this->conn,$this->nature_table,'project_nature','asc')->get();
         return view('systems.lls_whip.whip.both.projects.add_new.add_new')->with($data);
     }
     //CREATE
@@ -70,7 +76,7 @@ class ProjectsController extends Controller
     }
     //READ
     public function get_all_projects(){
-        $query_row = $this->Contractorquery->QueryAllProjects($this->conn);
+        $query_row = $this->projectQuery->QueryAllProjects($this->conn);
         $items = [];
         foreach ($query_row as $row) {
             $items[] = array(
@@ -80,7 +86,9 @@ class ProjectsController extends Controller
                         'project_status'    => $row->project_status,
                         'contractor'        => $row->contractor_name,
                         'project_location'  => $row->barangay.' , '.$row->street,
-                        'date_started'      => Carbon::parse($row->date_started)->format('M d Y') 
+                        'date_started'      => Carbon::parse($row->date_started)->format('M d Y') ,
+                        'monitoring_count'  => $row->monitoring_count,
+                        'project_nature'    => $row->project_nature
             );
         }
         return response()->json($items);
@@ -104,6 +112,21 @@ class ProjectsController extends Controller
 
 
 
+        return response()->json($data);
+    }
+
+    //SEARCH
+    public function search_project(){
+        $q = trim($_GET['key']);
+        $items = $this->projectQuery->q_search($this->conn,$q);
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = array(
+                'project_id'        => $row->project_id,
+                'project_title'     => $row->project_title,
+                
+            );
+        }
         return response()->json($data);
     }
 }

@@ -30,6 +30,7 @@ class ProjectsService
             'barangay'              => $item['barangay'],
             'project_status'        => 'ongoing',
             'date_started'          => $item['date_started'],
+            'project_nature_id'     => $item['project_nature_id'],
             'created_on'            => Carbon::now()->format('Y-m-d H:i:s'),
             
         );

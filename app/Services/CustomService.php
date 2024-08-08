@@ -7,7 +7,7 @@ class CustomService
 {
     public function full_address($row)
     {
-        return $row->street . '' .  $row->barangay . '' . $row->city . '' . $row->province;
+        return $row->street . ' ' .  $row->barangay . ' ' . $row->city . ' ' . $row->province;
     }
     public function user_full_name($key){
 

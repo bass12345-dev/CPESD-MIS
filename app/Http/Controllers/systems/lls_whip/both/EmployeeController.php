@@ -99,7 +99,7 @@ class EmployeeController extends Controller
                     'full_name'             => $this->customService->user_full_name($row),
                     'full_address'          => $this->customService->full_address($row),
                     'contact_number'        => $row->contact_number,
-                    'birthdate'            => date('M d Y - h:i a', strtotime($row->birthdate)),
+                    'birthdate'            => date('M d Y', strtotime($row->birthdate)),
                     'created'               => date('M d Y - h:i a', strtotime($row->created_on)),
            );
         }
@@ -124,6 +124,24 @@ class EmployeeController extends Controller
 
 
 
+        return response()->json($data);
+    }
+
+    //SEARCH
+    
+    public function search_employee(){
+        $q = trim($_GET['key']);
+        $emp = $this->employeeQuery->q_search($this->conn,$q);
+        $data = [];
+        foreach ($emp as $row) {
+            $data[] = array(
+                'employee_id'   => $row->employee_id,
+                'first_name'    => $row->first_name,
+                'middle_name'   => $row->middle_name == null ? ' ' : $row->middle_name,
+                'last_name'     => $row->last_name,
+                'extension'     => $row->extension == null ? ' ' : $row->extension
+            );
+        }
         return response()->json($data);
     }
 

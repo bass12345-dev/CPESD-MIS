@@ -151,6 +151,7 @@
                                                 <i class="notika-icon notika-travel"></i>
                                             </div>
                                             <div class="nk-int-st">
+                                                <label>Birthdate</label>
                                                 <input type="date" class="form-control" name="birthdate"
                                                     placeholder="Date of Birth">
                                             </div>

@@ -23,12 +23,14 @@ class ProjectStoreRequest extends FormRequest
     {
         $default_connection = config('app._database.lls_whip');
         return [
-                'contractor_id'         => 'nullable',
+                'contractor_id'         => 'required|string|min:1',
+                'contractor'            => 'required|string|min:1',
                 'project_title'         => 'required|string|min:3',
                 'project_cost'          => ['required','numeric', 'min:1','max:1000000000000.99', 'regex:/^\d+(\.\d{1,2})?$/'],
                 'street'                => 'nullable',
                 'barangay'              => 'required|string|min:1',
                 'date_started'          => 'required|string|min:1',
+                'project_nature_id'     => 'required|string|min:1',
                 'project_status'        => 'nullable'
         ];
     }

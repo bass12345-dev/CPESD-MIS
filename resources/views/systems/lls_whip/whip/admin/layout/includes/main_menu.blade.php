@@ -11,11 +11,13 @@
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
                         </li>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'project-nature' ? 'active' : '' ?>" href="#project_nature"><i class="notika-icon notika-mail"></i>Project Nature</a>
+                        </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'whip-positions' ? 'active' : '' ?>" href="#positions"><i class="notika-icon notika-mail"></i>Positions</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#status"><i class="notika-icon notika-mail"></i>Employment Status</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#employees"><i class="notika-icon notika-mail"></i>Employees Record</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'employees-record' ? 'active' : '' ?>" href="#employees"><i class="notika-icon notika-mail"></i>Employees Record</a>
                         </li>
                         
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#compliant"><i class="notika-icon notika-mail"></i>Compliant</a>
@@ -46,6 +48,16 @@
                                 <li><a href="{{url('admin/whip/add-new-project')}}" class="<?= $segments[2] == 'add-new-project' ? 'active' : '' ?>">Add New</a>
                                 </li>
                                 <li><a href="{{url('admin/whip/projects-list')}}" class="<?= $segments[2] == 'projects-list' ? 'active' : '' ?>">Projects List</a>
+                                </li>
+                                <li><a href="{{url('admin/whip/pending-monitoring')}}" class="<?= $segments[2] == 'pending-monitoring' ? 'active' : '' ?>">Pending Monitoring</a>
+                                </li>
+                                <li><a href="{{url('admin/whip/approved-monitoring')}}" class="<?= $segments[2] == 'approved-monitoring' ? 'active' : '' ?>">Approved Monitoring</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="project_nature" class="tab-pane <?= $segments[2] == 'project-nature'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li><a href="{{url('admin/whip/project-nature')}}" class="<?= $segments[2] == 'project-nature' ? 'active' : '' ?>">Manage Project Nature</a>
                                 </li>
                             </ul>
                         </div>
