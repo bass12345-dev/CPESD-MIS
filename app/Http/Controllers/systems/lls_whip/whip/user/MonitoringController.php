@@ -130,7 +130,7 @@ class MonitoringController extends Controller
 
         $contractors = $this->projectQuery->get_user_monitoring();
         $items = [];
-        $i = 0;
+        $i = 1;
         foreach ($contractors as $row) {
            $items[] = array(
                     'i'                             => $i++,
@@ -250,6 +250,27 @@ class MonitoringController extends Controller
             }
     }
     //DELETE
+
+    public function delete_project_monitoring(Request $request){
+
+        $id = $request->input('id')['id'];
+        if (is_array($id)) {
+            foreach ($id as $row) {
+               $where = array('project_monitoring_id' => $row);
+               $this->customRepository->delete_item($this->conn,$this->monitoring_table,$where);
+               $this->customRepository->delete_item($this->conn,$this->project_employee_table,$where);
+            }
+            
+            $data = array('message' => 'Deleted Succesfully', 'response' => true);
+        } else {
+            $data = array('message' => 'Error', 'response' => false);
+        }
+
+
+
+        return response()->json($data);
+
+    }
 
     public function delete_project_employee(Request $request){
 
