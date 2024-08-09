@@ -92,6 +92,23 @@ class EmployeeQuery
     return $rows;
   }
 
+  public function get_unskilled_and_skilled($id,$project_id){
+
+    $rows = DB::connection($this->conn)->table('project_employee as project_employee')
+    ->leftJoin('employees', 'employees.employee_id', '=', 'project_employee.employee_id')
+      ->select(
+        //Employee
+        'project_employee.nature_of_employment as nature_of_employment',
+        DB::raw('COUNT(project_employee.nature_of_employment) as count_nature'),
+      )
+      ->where('project_employee.project_monitoring_id', $id)
+      ->where('project_employee.project_id', $project_id)
+      ->groupBy('project_employee.nature_of_employment')
+      ->get();
+    return $rows;
+
+  }
+
 
 
 }

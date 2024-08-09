@@ -213,6 +213,14 @@ class MonitoringController extends Controller
     }
 
 
+    public function get_skilled_unskilled_total(Request $request){
+        $id             = $request->input('id');
+        $project_id     = $request->input('project_id');
+        $data = $this->employeeQuery->get_unskilled_and_skilled($id,$project_id);
+        return response()->json($data);
+
+    }
+
     
 
 

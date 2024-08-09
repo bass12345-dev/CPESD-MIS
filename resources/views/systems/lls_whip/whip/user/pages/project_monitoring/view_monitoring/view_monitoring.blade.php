@@ -300,13 +300,15 @@
         }
 
     });
-    let total_skilled_inside = 0;
-    let total_skilled_outside = 0;
+
+    var chart_inside;
+    var chart_outside;
+    var id = $('input[name=project_monitoring_id]').val();
+    var project_id = $('input[name=project_id]').val();
 
     function load_skilled_inside_chart() {
 
-        var id = $('input[name=project_monitoring_id]').val();
-        var project_id = $('input[name=project_id]').val();
+       
         $.ajax({
             url: base_url + "/user/act/whip/g-n-e-i",
             method: 'POST',
@@ -324,7 +326,7 @@
             success: function (data) {
                 $('.submit-loader').addClass('hidden');
                 try {
-                    new Chart(document.getElementById("inside-skilled-chart"), {
+                 chart_inside =    new Chart(document.getElementById("inside-skilled-chart"), {
                         type: 'pie',
                         data: {
                             labels: data.label,
@@ -351,8 +353,7 @@
 
     function load_skilled_outside_chart() {
 
-        var id = $('input[name=project_monitoring_id]').val();
-        var project_id = $('input[name=project_id]').val();
+
         $.ajax({
             url: base_url + "/user/act/whip/g-n-e-o",
             method: 'POST',
@@ -370,7 +371,7 @@
             success: function (data) {
                 $('.submit-loader').addClass('hidden');
                 try {
-                    new Chart(document.getElementsByClassName("outside-skilled-chart"), {
+                 chart_outside =    new Chart(document.getElementsByClassName("outside-skilled-chart"), {
                         type: 'pie',
                         data: {
                             labels: data.label,
@@ -394,13 +395,48 @@
             },
         });
     }
+    function get_total(){
+
+        $.ajax({
+            url: base_url + "/user/act/whip/g-s-u-t",
+            method: 'POST',
+            data: {
+                id: id,
+                project_id: project_id
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            success: function (data) {
+                var table = $('#nature_table');
+                let total = 0;
+                $.each(data, function(index,row){
+                    table.find('.' + row.nature_of_employment).html(row.count_nature);
+                    total += row.count_nature;
+                });
+                table.find('.total_workers').html(total);
+            
+            },
+            error: function (xhr, status, error){
+
+                toast_message_error('Count Total is not displaying... Please Reload the Page')
+
+            },
+        });
+
+    }
     $(document).on('click','button.refresh-data', function(){
+        chart_inside.destroy();
+        chart_outside.destroy();
         setTimeout(() => {
+            get_total();
             load_skilled_outside_chart();
             load_skilled_inside_chart();
         }, 1000);
        
-    })
+    });
+    get_total();
     load_skilled_outside_chart();
     load_skilled_inside_chart();
 </script>
