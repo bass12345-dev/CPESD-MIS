@@ -23,11 +23,13 @@
                                             placeholder="ID" required>
                                             <input type="hidden" class="form-control" value="{{$row->project_id}}" name="project_id"
                                             placeholder="ID" required>
+                                            <input type="hidden" class="form-control" value="" name="project_employee_id"
+                                            placeholder="ID" >
                                                 <input type="hidden" class="form-control" name="employee_id"
                                                     placeholder="ID" required>
                                                 <div id="the-basics">
                                                     <input class="typeahead form-control" type="text" name="employee"
-                                                        placeholder="Search Employee" style="width: 100%;">
+                                                        placeholder="Search Employee" required style="width: 100%;">
                                                 </div>
                                                 <div class="display_name"></div>
                                             </div>
@@ -39,7 +41,7 @@
                                                 <i class="notika-icon notika-map"></i>
                                             </div>
                                             <div class="nk-int-st">
-                                                <select class="form-control" name="employment_nature" >
+                                                <select class="form-control" name="employment_nature" required >
                                                     <option value="" selected>Select Nature of Employment</option>
                                                     <?php foreach ($nature_of_employment as $row): ?>
                                                     <option value="{{$row}}">{{ucfirst($row)}}</option>
@@ -56,7 +58,7 @@
                                                 <i class="notika-icon notika-travel"></i>
                                             </div>
                                             <div class="nk-int-st">
-                                                <select class="form-control" name="position" >
+                                                <select class="form-control" name="position" required >
                                                     <option value="" selected>Select Position</option>
                                                     <?php foreach ($positions as $row): ?>
                                                     <option value="{{$row->position_id}}">{{$row->position}}</option>
@@ -72,7 +74,7 @@
                                             </div>
                                             <div class="nk-int-st">
                                                 <select class="form-control" name="employment_status"
-                                                    id="employment_status">
+                                                    id="employment_status" required>
                                                     <option value="" selected>Select Employment Status</option>
                                                     <?php foreach ($employment_status as $row): ?>
                                                     <option value="{{$row->employment_status_id}}">{{$row->status}}
@@ -92,7 +94,7 @@
                                                 <i class="notika-icon notika-map"></i>
                                             </div>
                                             <div class="nk-int-st">
-                                                <select class="form-control" name="employment_level" >
+                                                <select class="form-control" name="employment_level"  required>
                                                     <option value="" selected>Select Level of Employment</option>
                                                     <?php foreach ($level_of_employment as $row): ?>
                                                     <option value="{{$row}}">{{ ucfirst(str_replace('_', ' ', $row))}}

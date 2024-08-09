@@ -22,10 +22,14 @@
                 <td>Address</td>
                 <td class="text-start"><span class="title">{{$row->barangay.' '.$row->street}}</span></td>
             </tr>
+            <tr>
+                <td>Project Started</td>
+                <td class="text-start"><span class="title">{{date('M d Y', strtotime($row->date_started))}}</span></td>
+            </tr>
 
             <tr>
                 <td>Date Of monitoring</td>
-                <td class="text-start"><span class="title1">{{$row->date_of_monitoring}}</span><input type="hidden" class="form-control date" name="date_of_monitoring" value="{{$row->date_of_monitoring}}"></td>
+                <td class="text-start"><span class="title1">{{date('M d Y', strtotime($row->date_of_monitoring))}}</span><input type="hidden" class="form-control date" name="date_of_monitoring" value="{{$row->date_of_monitoring}}"></td>
             </tr>
 
             <tr>

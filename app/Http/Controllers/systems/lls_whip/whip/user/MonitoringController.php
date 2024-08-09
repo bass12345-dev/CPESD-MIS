@@ -7,24 +7,30 @@ use App\Http\Requests\whip\ProjectEmployeeStoreRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Repositories\CustomRepository;
+use App\Repositories\whip\EmployeeQuery;
 use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
+use App\Services\whip\ProjectsService;
 
 class MonitoringController extends Controller
 {   
     protected $conn;
     protected $customRepository;
     protected $customService;
+    protected $projectsService;
     protected $projectQuery;
+    protected $employeeQuery;
     protected $monitoring_table;
     protected $position_table;
     protected $employment_status_table;
     protected $project_employee_table;
-    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, CustomService $customService){
+    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery ,CustomService $customService, ProjectsService $projectsService){
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->customService        = $customService;
+        $this->projectsService     = $projectsService;
         $this->projectQuery         = $projectQuery;
+        $this->employeeQuery        = $employeeQuery;
         $this->monitoring_table     = 'project_monitoring';
         $this->position_table       = 'positions';
         $this->employment_status_table = 'employment_status';
@@ -42,7 +48,7 @@ class MonitoringController extends Controller
     
     public function project_monitoring_information($id){
         
-        $count = $this->projectQuery->get_monitoring_information($this->conn,array('project_monitoring_id' => $id));
+        $count = $this->projectQuery->get_monitoring_information(array('project_monitoring_id' => $id));
         if($count->count() > 0 ){
             $row                = $count->first();
             $data['title']      = 'Pending Project Monitoring '.$row->project_title;
@@ -87,43 +93,47 @@ class MonitoringController extends Controller
         }   
     }
 
-    public function insert_update_project_employee(ProjectEmployeeStoreRequest $request){
-        $row = $request->validated();
+    public function insert_update_project_employee(Request $request){
+
+        
    
         $items = array(
-            'employee_id'                   => $row['employee_id'],
-            'project_id'                   => $row['project_id'],
-            'position_id'                   => $row['position'],
-            'nature_of_employment'          => $row['employment_nature'],
-            'status_of_employment_id'       => $row['employment_status'],  
+            'employee_id'                   => $request->input('employee_id'),
+            'project_id'                   => $request->input('project_id'),
+            'position_id'                   => $request->input('position'),
+            'nature_of_employment'          => $request->input('employment_nature'),
+            'status_of_employment_id'       => $request->input('employment_status'),  
             'start_date'                    => NULL,
             'end_date'                      => NULL,
-            'level_of_employment'              => $row['employment_level'],
-            'project_monitoring_id'         => $row['project_monitoring_id'],
-            'created_on'                    => Carbon::now()->format('Y-m-d H:i:s')
+            'level_of_employment'           => $request->input('employment_level'),
+            'project_monitoring_id'         => $request->input('project_monitoring_id'), 
         );
-        $insert = $this->customRepository->insert_item($this->conn,$this->project_employee_table,$items);
-        if ($insert) {
-            // Registration successful
-            return response()->json([
-                'message' => 'Employee Added Successfully', 
-                'response' => true
-            ], 201);
+
+        if(empty($request->input('project_employee_id'))){
+            if(!empty($items['employee_id'])){
+                $resp = $this->projectsService->insert_project_employee($items);
+            }else {
+                $resp = [
+                    'message' => 'Please Search Employee Properly', 
+                    'response' => false
+                ];
+            }     
         }else {
-            return response()->json([
-                'message' => 'Something Wrong', 
-                'response' => false
-            ], 422);
-        }     
+            $where = array('project_employee_id' => $request->input('project_employee_id'));
+            $resp = $this->projectsService->update_project_employee($where,$items);
+        }
+        return response()->json($resp);
     }
 
     //READ
     public function get_user_project_monitoring(){
 
-        $contractors = $this->projectQuery->get_user_monitoring($this->conn);
+        $contractors = $this->projectQuery->get_user_monitoring();
         $items = [];
+        $i = 0;
         foreach ($contractors as $row) {
            $items[] = array(
+                    'i'                             => $i++,
                     'project_monitoring_id'         => $row->project_monitoring_id,
                     'project_title'                 => $row->project_title,
                     'date_of_monitoring'            => date('M d Y ', strtotime($row->date_of_monitoring)),
@@ -140,10 +150,13 @@ class MonitoringController extends Controller
 
 
     public function get_all_project_employee(Request $request){
-       $items = $this->projectQuery->get_project_employee($this->conn,$request->input('id'));
+        $id = $request->input('id');
+       $items = $this->projectQuery->get_project_employee($id);
        $data = [];
+       $i = 1;
         foreach ($items as $row) {
            $data[] = array(
+                    'i'                => $i++,
                     'project_employee_id'   => $row->project_employee_id,
                     'employee_id'           => $row->employee_id,
                     'full_name'             => $this->customService->user_full_name($row),
@@ -161,6 +174,48 @@ class MonitoringController extends Controller
         }
         return response()->json($data);
     }
+
+
+    //Reports
+
+    public function get_nature_employee_inside(Request $request) {  
+        $id             = $request->input('id');
+        $project_id     = $request->input('project_id');
+        $res            = $this->employeeQuery->nature_inside($id,$project_id);
+        $nature         = [];
+        $total          = [];
+        foreach ($res as $row) {
+            $nature[]   = $row->nature_of_employment;
+            $total[]    = $row->count_nature;
+        }
+       $data['label']   = $nature;
+       $data['total']   = $total;
+       $data['color']   = ['#2E236C','#684B49'];
+       return response()->json($data);
+       
+    }
+
+    public function get_nature_employee_outside(Request $request) {  
+        $id             = $request->input('id');
+        $project_id     = $request->input('project_id');
+        $res            = $this->employeeQuery->nature_outside($id,$project_id);
+        $nature         = [];
+        $total          = [];
+        foreach ($res as $row) {
+            $nature[]   = $row->nature_of_employment;
+            $total[]    = $row->count_nature;
+        }
+       $data['label']   = $nature;
+       $data['total']   = $total;
+       $data['color']   = ['#2E236C','#684B49'];
+       return response()->json($data);
+       
+    }
+
+
+    
+
+
     //UPDATE
     public function update_project_monitoring(Request $request){
         $where = array('project_monitoring_id' => $request->input('project_monitoring_id'));
@@ -188,7 +243,25 @@ class MonitoringController extends Controller
     }
     //DELETE
 
+    public function delete_project_employee(Request $request){
 
+        $id = $request->input('id')['id'];
+        if (is_array($id)) {
+            foreach ($id as $row) {
+               $where = array('project_employee_id' => $row);
+               $this->customRepository->delete_item($this->conn,$this->project_employee_table,$where);
+            }
+
+            $data = array('message' => 'Deleted Succesfully', 'response' => true);
+        } else {
+            $data = array('message' => 'Error', 'response' => false);
+        }
+
+
+
+        return response()->json($data);
+
+    }
 
    
 }

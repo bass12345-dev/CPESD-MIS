@@ -9,7 +9,7 @@
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-contractor' || $segments[2] == 'contractors-list' ? 'active' : '' ?>" href="#mailbox1"><i class="notika-icon notika-mail"></i>Contractors</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' || $segments[2] == 'add-monitoring' || $segments[2] == 'pending-projects-monitoring' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' || $segments[2] == 'add-monitoring' || $segments[2] == 'pending-projects-monitoring' || $segments[2] == 'project-monitoring-info' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'whip-positions' ? 'active' : '' ?>" href="#positions"><i class="notika-icon notika-mail"></i>Positions</a>
                         </li>

@@ -14,6 +14,7 @@
                                 <thead>
                                     <tr>
                                         <th></th>
+                                        <th>#</th>
                                         <th>Full Name</th>
                                         <th>Gender</th>
                                         <th>Address</th>

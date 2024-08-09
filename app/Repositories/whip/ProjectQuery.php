@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectQuery
 {
+  protected $conn;
+  protected $default_city;
+  public function __construct(){
+    $this->conn                 = config('custom_config.database.lls_whip');
+    $this->default_city         = config('custom_config.default_city');
+  }
     public function q_search($conn,$search){
         $rows = DB::connection($conn)->table('projects as projects')
         ->select(   
@@ -20,9 +26,9 @@ class ProjectQuery
     }
 
 
-    public function QueryAllProjects($conn){
+    public function QueryAllProjects(){
 
-      $rows = DB::connection($conn)->table('projects as projects')
+      $rows = DB::connection($this->conn)->table('projects as projects')
         ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
         ->leftJoin('project_nature', 'project_nature.project_nature_id', '=', 'projects.project_nature_id')
         ->leftJoin('project_monitoring', 'project_monitoring.project_id', '=', 'projects.project_id')
@@ -56,9 +62,9 @@ class ProjectQuery
 
 
 
-    public function get_user_monitoring($conn){
+    public function get_user_monitoring(){
 
-        $rows = DB::connection($conn)->table('project_monitoring as project_monitoring')
+        $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
           ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
           ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
           ->select(   
@@ -92,9 +98,9 @@ class ProjectQuery
       }
 
 
-    public function get_monitoring_information($conn,$where){
+    public function get_monitoring_information($where){
 
-      $rows = DB::connection($conn)->table('project_monitoring as project_monitoring')
+      $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
           ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
           ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
           ->select(   
@@ -129,9 +135,9 @@ class ProjectQuery
 
 
 
-    public function get_project_employee($conn,$id){
+    public function get_project_employee($id){
 
-      $rows = DB::connection($conn)->table('project_employee as project_employee')
+      $rows = DB::connection($this->conn)->table('project_employee as project_employee')
           ->leftJoin('employees', 'employees.employee_id', '=', 'project_employee.employee_id')
           ->leftJoin('positions','positions.position_id','=','project_employee.position_id')
           ->leftJoin('employment_status','employment_status.employment_status_id','=','project_employee.status_of_employment_id')

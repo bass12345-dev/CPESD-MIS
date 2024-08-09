@@ -69,5 +69,7 @@ return [
         'managerial',
         'proprietor',
     ],
+    'default_province' => 'Misamis Occidental',
+    'default_city' => 'City of Oroquieta'
 ];
 

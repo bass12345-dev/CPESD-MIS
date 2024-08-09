@@ -13,6 +13,7 @@
                             <thead>
                                     <tr>
                                         <th></th>
+                                        <th>#</th>
                                         <th>Project</th>
                                         <th>Contractor</th>
                                         <th>Address</th>

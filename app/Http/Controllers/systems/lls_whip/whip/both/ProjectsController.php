@@ -76,7 +76,7 @@ class ProjectsController extends Controller
     }
     //READ
     public function get_all_projects(){
-        $query_row = $this->projectQuery->QueryAllProjects($this->conn);
+        $query_row = $this->projectQuery->QueryAllProjects();
         $items = [];
         foreach ($query_row as $row) {
             $items[] = array(

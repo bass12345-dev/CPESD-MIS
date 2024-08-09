@@ -5,10 +5,19 @@
     <div class="container">
         <div class="row">
             @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.monitoring_information')
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.nature_chart')
+                </div>
+                <div class="row">
+                    @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.count_nature_table')
+                </div>
+
+            </div>
         </div>
         <hr>
         <div class="row">
-        @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.employee_table')
+            @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.employee_table')
         </div>
     </div>
 </div>
@@ -42,7 +51,7 @@
         $('button.edit-information').prop('disabled', false);
     });
 
-    $(document).on('click', 'button.submit', function() {
+    $(document).on('click', 'button.submit', function () {
         let form = {
             project_monitoring_id: $('input[name=project_monitoring_id]').val(),
             date_of_monitoring: $('input[name=date_of_monitoring]').val(),
@@ -58,11 +67,11 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
-            beforeSend: function() {
+            beforeSend: function () {
                 $('button.submit').prop('disabled', true);
                 $('button.submit').html('<span class="loader"></span>')
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.response) {
                     toast_message_success(data.message);
                     setTimeout(() => {
@@ -70,11 +79,11 @@
                     }, 1500);
                 }
             },
-            error: function(err) {
+            error: function (err) {
                 toast_message_error('Server Error');
                 setTimeout(() => {
-                        location.reload();
-                    }, 1500);
+                    location.reload();
+                }, 1500);
             }
 
 
@@ -82,8 +91,8 @@
     });
 
 
-    
-    $('#add_update_form').on('submit', function(e) {
+
+    $('#add_update_form').on('submit', function (e) {
         e.preventDefault();
 
         $(this).find('button[type="submit"]').prop('disabled', true);
@@ -92,10 +101,11 @@
         let form = $('#add_update_form');
         var status = $('select[name=employment_status] :selected').val();
 
-        if (!form.find('input[name=project_monitoring_id]').val()) {
+        if (!form.find('input[name=project_employee_id]').val()) {
             _insertAjax(url, form, table);
         } else {
             _updatetAjax(url, form, table);
+
         }
 
         // setTimeout(() => {
@@ -108,9 +118,15 @@
 
     });
 
+    $(document).on('click', 'button.add-employee', function () {
+        $('h2.title').text('Add Employee');
+        $('form#add_update_form')[0].reset();
+        $('input[name=employee]').val($(this).data('employee-name')).attr('disabled', false);
+    });
 
 
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         table = $('#data-table-basic').DataTable({
             responsive: true,
             ordering: false,
@@ -133,103 +149,105 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 },
                 dataSrc: "",
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     toast_message_error('Employees List is not displaying... Please Reload the Page')
                 }
             },
             columns: [{
-                    data: 'project_employee_id'
-                },
+                data: 'project_employee_id'
+            },
+            {
+                data: 'i'
+            },
 
-                {
-                    data: null
-                },
-                {
-                    data: null
-                },
-                {
-                    data: 'full_address'
-                },
-                {
-                    data: 'position'
-                },
-                {
-                    data: null
-                },
-                {
-                    data: 'status_of_employment'
-                },
-                
-                {
-                    data: null
-                },
-                {
-                    data: null
-                },
+            {
+                data: null
+            },
+            {
+                data: null
+            },
+            {
+                data: 'full_address'
+            },
+            {
+                data: 'position'
+            },
+            {
+                data: null
+            },
+            {
+                data: 'status_of_employment'
+            },
+
+            {
+                data: null
+            },
+            {
+                data: null
+            },
             ],
             'select': {
                 'style': 'multi',
             },
             columnDefs: [{
-                    'targets': 0,
-                    'checkboxes': {
-                        'selectRow': true
-                    }
-                },
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            },
+            {
+                targets: 2,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return '<a href="' + base_url + '/admin/lls/employee/' + row.employee_id +
+                        '">' + row.full_name + '</a>';
 
-                {
-                    targets: 1,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        return '<a href="' + base_url + '/admin/lls/employee/' + row.employee_id +
-                            '">' + row.full_name + '</a>';
+                }
+            },
+            {
+                targets: 3,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return capitalizeFirstLetter(row.gender);
 
-                    }
-                },
-                {
-                    targets: 2,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        return capitalizeFirstLetter(row.gender);
+                }
+            },
 
-                    }
-                },
+            {
+                targets: 6,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return capitalizeFirstLetter(row.nature_of_employment);
 
-                {
-                    targets: 5,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        return capitalizeFirstLetter(row.nature_of_employment);
+                }
+            },
+            {
+                targets: -2,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    var result = row.level_of_employment.replaceAll('_', ' ');
+                    return capitalizeFirstLetter(result);
 
-                    }
-                },
-                {
-                    targets: -2,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        var result = row.level_of_employment.replaceAll('_', ' ');
-                        return capitalizeFirstLetter(result);
+                }
+            },
 
-                    }
-                },
-
-                {
-                    targets: -1,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        //return '<button class="btn btn-success">Update</button> <button class="btn btn-success">Delete</button>';
-                        return '<div class="actions">\
-                                <div ><button class="btn btn-success update-establishment-employee" data-toggle="modal" data-target="#add_employee_modal" \
+            {
+                targets: -1,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    //return '<button class="btn btn-success">Update</button> <button class="btn btn-success">Delete</button>';
+                    return '<div class="actions">\
+                                <div ><button class="btn btn-success update-project-employee" data-toggle="modal" data-target="#add_employee_modal" \
                                 data-id="' + row.project_employee_id + '"\
                                 data-employee-id="' + row.employee_id + '"\
                                 data-employee-name="' + row.full_name + '"\
@@ -242,12 +260,133 @@
                                 ><i class="fas fa-pen"></i></button> </div>\
                                 </div>\
                                 ';
-                    }
                 }
+            }
             ]
 
         });
+
+
     });
 
+    //UpdateoNClick
+    $(document).on('click', 'button.update-project-employee', function () {
+        $('form#add_update_form').find('input[name=project_employee_id]').val($(this).data('id'));
+        var status = $(this).data('status');
+        $('input[name=employee_id]').val($(this).data('employee-id'))
+        $('input[name=employee]').val($(this).data('employee-name')).attr('disabled', true);
+        $('h2.title').text($(this).data('employee-name'));
+        $('select[name=employment_nature]').val($(this).data('nature'));
+        $('select[name=position]').val($(this).data('position'));
+        $('select[name=employment_status]').val(status);
+        $('select[name=employment_level]').val($(this).data('level'));
+    });
+
+    $('button#multi-delete').on('click', function () {
+        var button_text = 'Delete selected items';
+        var text = '';
+        var url = '/user/act/whip/d-p-e';
+        let items = get_select_items_datatable();
+        var data = {
+            id: items,
+        };
+
+        if (items.length == 0) {
+            toast_message_error('Please Select at Least One')
+        } else {
+            delete_item(data, url, button_text, text, table);
+
+        }
+
+    });
+    let total_skilled_inside = 0;
+    let total_skilled_outside = 0;
+
+    function load_skilled_inside_chart() {
+
+        var id = $('input[name=project_monitoring_id]').val();
+        var project_id = $('input[name=project_id]').val();
+        $.ajax({
+            url: base_url + "/user/act/whip/g-n-e-i",
+            method: 'POST',
+            data: {
+                id: id,
+                project_id: project_id
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            success: function (data) {
+                try {
+                    new Chart(document.getElementById("inside-skilled-chart"), {
+                        type: 'pie',
+                        data: {
+                            labels: data.label,
+                            datasets: [{
+                                label: '',
+                                backgroundColor: data.color,
+                                borderColor: 'rgb(23, 125, 255)',
+                                data: data.total
+                            },]
+                        },
+
+                    });
+                } catch (error) {
+
+                }
+            },
+            error: function (xhr, status, error) {
+
+                toast_message_error('Gender Pie Chart is not displaying... Please Reload the Page')
+
+            },
+        });
+    }
+
+    function load_skilled_outside_chart() {
+
+        var id = $('input[name=project_monitoring_id]').val();
+        var project_id = $('input[name=project_id]').val();
+        $.ajax({
+            url: base_url + "/user/act/whip/g-n-e-o",
+            method: 'POST',
+            data: {
+                id: id,
+                project_id: project_id
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            success: function (data) {
+                
+                try {
+                    new Chart(document.getElementById("outside-skilled-chart"), {
+                        type: 'pie',
+                        data: {
+                            labels: data.label,
+                            datasets: [{
+                                label: '',
+                                backgroundColor: data.color,
+                             
+                                data: data.total
+                            },]
+                        },
+
+                    });
+                } catch (error) {
+
+                }
+            },
+            error: function (xhr, status, error) {
+
+                toast_message_error('Gender Pie Chart is not displaying... Please Reload the Page')
+
+            },
+        });
+    }
+    load_skilled_outside_chart();
+    load_skilled_inside_chart();
 </script>
 @endsection

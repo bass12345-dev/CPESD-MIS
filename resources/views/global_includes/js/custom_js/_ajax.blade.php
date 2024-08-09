@@ -51,7 +51,7 @@
         success: function(data) {
             if (data.response) {
                 toast_message_success(data.message);
-                form[0].reset();
+                // form[0].reset();
                 if (table != null) {
                     table.ajax.reload();
                 }

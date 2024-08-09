@@ -7,13 +7,20 @@ use Illuminate\Support\Facades\DB;
 class EmployeeQuery
 {
 
-    public function get_project_employee($conn,$id){
+  protected $conn;
+  protected $default_city;
+  public function __construct(){
+    $this->conn                 = config('custom_config.database.lls_whip');
+    $this->default_city         = config('custom_config.default_city');
+  }
+  public function get_project_employee($conn, $id)
+  {
 
-        $rows = DB::connection($conn)->table('contractor_employee as contractor_employee')
-        ->leftJoin('employees', 'employees.employee_id', '=', 'contractor_employee.employee_id')
-        ->leftJoin('positions', 'positions.position_id', '=', 'contractor_employee.position_id')
-        ->leftJoin('employment_status', 'employment_status.employ_stat_id', '=', 'contractor_employee.status_of_employment_id')
-        ->select(   
+    $rows = DB::connection($conn)->table('contractor_employee as contractor_employee')
+      ->leftJoin('employees', 'employees.employee_id', '=', 'contractor_employee.employee_id')
+      ->leftJoin('positions', 'positions.position_id', '=', 'contractor_employee.position_id')
+      ->leftJoin('employment_status', 'employment_status.employ_stat_id', '=', 'contractor_employee.status_of_employment_id')
+      ->select(
         'contractor_employee.contractor_employee_id as contractor_employee_id',
         //User
         'employees.first_name as first_name',
@@ -41,8 +48,50 @@ class EmployeeQuery
       ->where('contractor_employee.project_id', $id)
       ->orderBy('employees.first_name', 'asc')
       ->get();
-    
+
     return $rows;
 
-    }  
+  }
+
+
+  //Nature of Employment
+
+  public function nature_inside($id, $project_id)
+  {
+    $rows = DB::connection($this->conn)->table('project_employee as project_employee')
+    ->leftJoin('employees', 'employees.employee_id', '=', 'project_employee.employee_id')
+      ->select(
+
+        //Employee
+        'project_employee.nature_of_employment as nature_of_employment',
+        DB::raw('COUNT(project_employee.nature_of_employment) as count_nature'),
+      )
+      ->where('employees.city', $this->default_city)
+      ->where('project_employee.project_monitoring_id', $id)
+      ->where('project_employee.project_id', $project_id)
+      ->groupBy('project_employee.nature_of_employment')
+      ->get();
+    return $rows;
+  }
+
+  public function nature_outside($id, $project_id)
+  {
+    $rows = DB::connection($this->conn)->table('project_employee as project_employee')
+    ->leftJoin('employees', 'employees.employee_id', '=', 'project_employee.employee_id')
+      ->select(
+
+        //Employee
+        'project_employee.nature_of_employment as nature_of_employment',
+        DB::raw('COUNT(project_employee.nature_of_employment) as count_nature'),
+      )
+      ->where('employees.city', '!=',$this->default_city)
+      ->where('project_employee.project_monitoring_id', $id)
+      ->where('project_employee.project_id', $project_id)
+      ->groupBy('project_employee.nature_of_employment')
+      ->get();
+    return $rows;
+  }
+
+
+
 }

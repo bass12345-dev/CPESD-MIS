@@ -31,6 +31,9 @@
                     data: 'project_monitoring_id'
                 },
                 {
+                    data : 'i'
+                },
+                {
                     data: 'project_title'
                 },
                 {
