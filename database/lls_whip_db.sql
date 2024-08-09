@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 08, 2024 at 05:13 PM
+-- Generation Time: Aug 09, 2024 at 10:46 AM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.20
 
@@ -103,7 +103,8 @@ INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`
 (17, 'Johnny', NULL, 'Luste', NULL, 'Misamis Occidental', '1004200000', 'City of Tangub', '1004215000', NULL, NULL, NULL, 'male', NULL, '2024-08-02', '2024-08-08 04:57:40'),
 (18, 'Noel', NULL, 'Maturan', NULL, 'Misamis Occidental', '1004200000', 'Tudela', '1004216000', NULL, NULL, NULL, 'male', NULL, '2024-08-01', '2024-08-08 04:58:14'),
 (19, 'Nemecio', NULL, 'Mintang', NULL, 'Misamis Occidental', '1004200000', 'Clarin', '1004205000', NULL, NULL, NULL, 'male', NULL, '2024-08-08', '2024-08-08 04:59:09'),
-(20, 'Roy', NULL, 'Paculba', NULL, 'Misamis Occidental', '1004200000', 'Clarin', '1004205000', NULL, NULL, NULL, 'male', NULL, '2024-08-01', '2024-08-08 05:00:07');
+(20, 'Roy', NULL, 'Paculba', NULL, 'Misamis Occidental', '1004200000', 'Clarin', '1004205000', NULL, NULL, NULL, 'male', NULL, '2024-08-01', '2024-08-08 05:00:07'),
+(21, 'sample', NULL, 'dasdsad', NULL, 'Misamis Occidental', '1004200000', 'City of Oroquieta', '1004209000', 'Lamac Lower', '1004209015', NULL, 'male', NULL, '2024-08-08', '2024-08-09 10:39:58');
 
 -- --------------------------------------------------------
 
@@ -116,6 +117,15 @@ CREATE TABLE `employment_status` (
   `status` varchar(255) NOT NULL,
   `created_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `employment_status`
+--
+
+INSERT INTO `employment_status` (`employment_status_id`, `status`, `created_on`) VALUES
+(4, 'Resigned', '2024-08-09 04:31:06'),
+(5, 'Terminated', '2024-08-09 04:31:18'),
+(6, 'Active', '2024-08-09 04:31:22');
 
 -- --------------------------------------------------------
 
@@ -252,11 +262,32 @@ CREATE TABLE `project_employee` (
   `position_id` int NOT NULL,
   `nature_of_employment` varchar(255) NOT NULL,
   `status_of_employment_id` int NOT NULL,
-  `start_date` date NOT NULL,
-  `date_end` date DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   `level_of_employment` set('rank_and_file','managerial','proprietor') NOT NULL,
+  `project_monitoring_id` int NOT NULL,
   `created_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `project_employee`
+--
+
+INSERT INTO `project_employee` (`project_employee_id`, `project_id`, `employee_id`, `position_id`, `nature_of_employment`, `status_of_employment_id`, `start_date`, `end_date`, `level_of_employment`, `project_monitoring_id`, `created_on`) VALUES
+(7, 10, 14, 4, 'skilled', 6, NULL, NULL, 'rank_and_file', 6, '2024-08-09 08:59:16'),
+(10, 10, 6, 7, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:10:20'),
+(11, 10, 7, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:10:35'),
+(12, 10, 8, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:11:33'),
+(13, 10, 9, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:11:50'),
+(14, 10, 10, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:03'),
+(15, 10, 11, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:30'),
+(16, 10, 12, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:45'),
+(17, 10, 13, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:58'),
+(18, 10, 14, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:13:14'),
+(19, 10, 15, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:13:51'),
+(20, 10, 16, 6, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:14:24'),
+(21, 10, 17, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:14:57'),
+(23, 10, 19, 4, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:15:28');
 
 -- --------------------------------------------------------
 
@@ -268,7 +299,7 @@ CREATE TABLE `project_monitoring` (
   `project_monitoring_id` int NOT NULL,
   `project_id` int NOT NULL,
   `added_by` int NOT NULL,
-  `date_of_monitoring` datetime NOT NULL,
+  `date_of_monitoring` date NOT NULL,
   `specific_activity` text NOT NULL,
   `annotations` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `monitoring_status` set('pending','approved') NOT NULL,
@@ -281,7 +312,8 @@ CREATE TABLE `project_monitoring` (
 --
 
 INSERT INTO `project_monitoring` (`project_monitoring_id`, `project_id`, `added_by`, `date_of_monitoring`, `specific_activity`, `annotations`, `monitoring_status`, `remarks`, `created_on`) VALUES
-(4, 10, 9, '2024-08-08 00:00:00', 'asdsadsad', 'adasd', 'pending', NULL, '2024-08-08 14:59:36');
+(6, 10, 9, '2024-08-10', 'asdsa asdsadsadasd asdsad asdasd', 'sadsad sadsad', 'pending', NULL, '2024-08-09 03:25:13'),
+(7, 10, 9, '2024-08-09', 'asdsa asdsad', 'asdasdsad', 'pending', NULL, '2024-08-09 05:50:35');
 
 -- --------------------------------------------------------
 
@@ -412,13 +444,13 @@ ALTER TABLE `contractors`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `employment_status`
 --
 ALTER TABLE `employment_status`
-  MODIFY `employment_status_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `employment_status_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `establishments`
@@ -460,13 +492,13 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `project_employee`
 --
 ALTER TABLE `project_employee`
-  MODIFY `project_employee_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `project_employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `project_monitoring`
 --
 ALTER TABLE `project_monitoring`
-  MODIFY `project_monitoring_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `project_monitoring_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `project_monitoring_employee`

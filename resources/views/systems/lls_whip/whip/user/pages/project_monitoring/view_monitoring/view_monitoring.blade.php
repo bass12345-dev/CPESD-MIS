@@ -6,6 +6,7 @@
         <div class="row">
             @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.monitoring_information')
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <button class="btn btn-warning refresh-data">Refresh</button>
                 <div class="row">
                     @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.nature_chart')
                 </div>
@@ -317,7 +318,11 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
+            beforeSend :function(){
+                $('.submit-loader').removeClass('hidden');
+            },
             success: function (data) {
+                $('.submit-loader').addClass('hidden');
                 try {
                     new Chart(document.getElementById("inside-skilled-chart"), {
                         type: 'pie',
@@ -338,7 +343,7 @@
             },
             error: function (xhr, status, error) {
 
-                toast_message_error('Gender Pie Chart is not displaying... Please Reload the Page')
+                toast_message_error('Nature of Employment Pie Chart is not displaying... Please Reload the Page')
 
             },
         });
@@ -356,13 +361,16 @@
                 project_id: project_id
             },
             dataType: 'json',
+            beforeSend :function(){
+                $('.submit-loader').removeClass('hidden');
+            },
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
             success: function (data) {
-                
+                $('.submit-loader').addClass('hidden');
                 try {
-                    new Chart(document.getElementById("outside-skilled-chart"), {
+                    new Chart(document.getElementsByClassName("outside-skilled-chart"), {
                         type: 'pie',
                         data: {
                             labels: data.label,
@@ -381,11 +389,18 @@
             },
             error: function (xhr, status, error) {
 
-                toast_message_error('Gender Pie Chart is not displaying... Please Reload the Page')
+                toast_message_error('Nature of Employment Pie Chart is not displaying... Please Reload the Page')
 
             },
         });
     }
+    $(document).on('click','button.refresh-data', function(){
+        setTimeout(() => {
+            load_skilled_outside_chart();
+            load_skilled_inside_chart();
+        }, 1000);
+       
+    })
     load_skilled_outside_chart();
     load_skilled_inside_chart();
 </script>

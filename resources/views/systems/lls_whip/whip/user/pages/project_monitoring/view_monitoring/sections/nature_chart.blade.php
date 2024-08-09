@@ -3,6 +3,7 @@
         <div class="row">
             <h4 class="text-center">Skilled Inside Oroquieta</h4>
         </div>
+        @include('components.lls.hamster_loader')
         <canvas id="inside-skilled-chart"></canvas>
     </div>
 </div>
@@ -11,6 +12,7 @@
         <div class="row">
             <h4 class="text-center">Skilled Outside Oroquieta</h4>
         </div>
-        <canvas id="outside-skilled-chart"></canvas>
+        @include('components.lls.hamster_loader')
+        <canvas id="outside-skilled-chart" class="outside-skilled-chart"></canvas>
     </div>
 </div>
