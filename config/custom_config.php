@@ -58,5 +58,16 @@ return [
         "Victoria",
         "Villaflor" 
     ],
+
+    'whip_nature_of_employment' => [
+        'skilled',
+        'unskilled',
+    ],
+
+    'level_of_employment' => [
+        'rank_and_file',
+        'managerial',
+        'proprietor',
+    ],
 ];
 

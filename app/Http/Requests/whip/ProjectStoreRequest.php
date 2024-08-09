@@ -21,7 +21,7 @@ class ProjectStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        $default_connection = config('app._database.lls_whip');
+        $default_connection = config('custom_config.database.lls_whip');
         return [
                 'contractor_id'         => 'required|string|min:1',
                 'contractor'            => 'required|string|min:1',

@@ -37,6 +37,9 @@
                     data: 'contractor'
                 },
                 {
+                    data: 'address'
+                },
+                {
                     data: 'date_of_monitoring'
                 },
                 {
@@ -60,7 +63,7 @@
                     targets: 1,
                     data: null,
                     render: function(data, type, row) {
-                        return '<a href="' + base_url + '/user/whip/project-monitoring-info/' + row.project_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
+                        return '<a href="' + base_url + '/user/whip/project-monitoring-info/' + row.project_monitoring_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
                     }
                 },
                 {
