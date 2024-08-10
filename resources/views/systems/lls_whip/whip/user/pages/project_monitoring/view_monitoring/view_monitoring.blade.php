@@ -7,11 +7,15 @@
             @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.monitoring_information')
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <button class="btn btn-warning refresh-data">Refresh</button>
+                <a href="{{url('/user/whip/monitoring-report/'.$row->project_monitoring_id)}}" class="btn btn-success generate-report">Generate Report</a>
                 <div class="row">
                     @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.nature_chart')
                 </div>
                 <div class="row">
                     @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.count_nature_table')
+                </div>
+                <div class="row">
+                    @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.percentage')
                 </div>
 
             </div>
@@ -411,11 +415,27 @@
             success: function (data) {
                 var table = $('#nature_table');
                 let total = 0;
+                let skilled_percentage = 0;
+                let unskilled_percentage = 0;
+                let arr = [];
                 $.each(data, function(index,row){
                     table.find('.' + row.nature_of_employment).html(row.count_nature);
                     total += row.count_nature;
+                    let obj = {
+                        'count' : row.count_nature,
+                        'name' : row.nature_of_employment,
+                    }
+                    arr.push(obj);
+                    
                 });
+                
+              
+                $.map( arr, function( val, i ) {
+                   $('.total_'+val.name).html(parseFloat(val.count / total * 100).toFixed(2)+' %');
+                });
+              
                 table.find('.total_workers').html(total);
+
             
             },
             error: function (xhr, status, error){
@@ -426,6 +446,7 @@
         });
 
     }
+
     $(document).on('click','button.refresh-data', function(){
         chart_inside.destroy();
         chart_outside.destroy();

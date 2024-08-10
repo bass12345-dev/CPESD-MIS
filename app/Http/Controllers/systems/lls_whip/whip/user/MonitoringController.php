@@ -64,6 +64,18 @@ class MonitoringController extends Controller
        
     }
 
+    public function view_monitoring_report($id){
+        $count = $this->projectQuery->get_monitoring_information(array('project_monitoring_id' => $id));
+        if($count->count() > 0 ){
+            $row                = $count->first();
+            $data['title']      = $row->project_title;
+            $data['row']        = $row;
+            return view('systems.lls_whip.whip.user.pages.project_monitoring.report.report')->with($data);
+        }else {
+            echo '404';
+        }
+    }
+
 
     //CREATE
     public function insert_project_monitoring(Request $request){

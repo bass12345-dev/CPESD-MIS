@@ -51,3 +51,18 @@
 <link href="{{asset('assets/css/yearpicker.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/additional_css.css')}}">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/hamster.css')}}">
+<style>
+	.text-bold {
+		font-weight: 700;
+	}
+
+
+	#report-information td {
+		padding: 0; margin:0;
+	}
+	#report-information .label1{
+		width: 15%;
+	
+		
+	}
+</style>

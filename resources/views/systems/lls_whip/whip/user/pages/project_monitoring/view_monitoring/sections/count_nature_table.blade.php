@@ -11,9 +11,9 @@
                     <th>Over All Total Workers</th>
                 </tr>
                 <tr>
-                    <td class="text-center skilled"></td>
-                    <td class="text-center unskilled"></td>
-                    <td class="text-center total_workers"></td>
+                    <td class="text-center skilled text-bold"></td>
+                    <td class="text-center unskilled text-bold"></td>
+                    <td class="text-center total_workers text-bold"></td>
                 </tr>
             </thead>
         </table>
