@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class PositionsController extends Controller
 {
-    //
+    public function index(){
+        $data['title'] = 'Position List';
+        return view('systems.lls_whip.lls.both.positions.lists')->with($data);
+    }
 }

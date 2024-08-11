@@ -51,6 +51,14 @@ Route::middleware([SessionGuard::class, AdminCheck::class])->prefix('/admin/sysm
 Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
    //LLS
       //Dashboard
+      Route::get("/lls/dashboard",[ App\Http\Controllers\systems\lls_whip\lls\user\DashboardController::class, 'index']);
+      //Establishments
+         Route::get("/lls/add-new-establishment",[ App\Http\Controllers\systems\lls_whip\lls\both\EstablishmentsController::class, 'add_new_establishments']);
+         Route::get("/lls/establishments-list",[ App\Http\Controllers\systems\lls_whip\lls\both\EstablishmentsController::class, 'establishments_list']);
+      //Positions
+         Route::get("/lls/establishments-positions",[ App\Http\Controllers\systems\lls_whip\lls\both\PositionsController::class, 'index']);
+   //WHIP
+      //Dashboard
          Route::get("/whip/dashboard",[ App\Http\Controllers\systems\lls_whip\whip\user\DashboardController::class, 'index']);
       //Employees Record
          Route::get("/whip/employees-record",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'index']);
@@ -70,8 +78,12 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::get("/whip/whip-positions",[ App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'index']);
       });
 
-//USER ACTION WHIP
+//USER ACTION LLS_WHIP
 Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function () {
+   //LLS
+
+
+   //WHIP
       //Employees Record
          Route::get("/g-a-em",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'get_all_employees']);
          Route::post("/i-e",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'insert_employee']);
@@ -110,8 +122,10 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
 
 
 
-//ADMIN VIEW WHIP
+//ADMIN VIEW LLS_WHIP
 Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->group(function () {
+   //LLS
+
    //WHIP
       //Dashboard
          Route::get("/whip/dashboard",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'index']);
@@ -135,6 +149,10 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
 
 // ADMIN ACTION LLS WHIP
 Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function () {
+   //LLS 
+
+
+
 
    // WHIP
      
