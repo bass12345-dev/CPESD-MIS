@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 09, 2024 at 10:46 AM
+-- Generation Time: Aug 11, 2024 at 11:21 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.20
 
@@ -104,7 +104,8 @@ INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`
 (18, 'Noel', NULL, 'Maturan', NULL, 'Misamis Occidental', '1004200000', 'Tudela', '1004216000', NULL, NULL, NULL, 'male', NULL, '2024-08-01', '2024-08-08 04:58:14'),
 (19, 'Nemecio', NULL, 'Mintang', NULL, 'Misamis Occidental', '1004200000', 'Clarin', '1004205000', NULL, NULL, NULL, 'male', NULL, '2024-08-08', '2024-08-08 04:59:09'),
 (20, 'Roy', NULL, 'Paculba', NULL, 'Misamis Occidental', '1004200000', 'Clarin', '1004205000', NULL, NULL, NULL, 'male', NULL, '2024-08-01', '2024-08-08 05:00:07'),
-(21, 'sample', NULL, 'dasdsad', NULL, 'Misamis Occidental', '1004200000', 'City of Oroquieta', '1004209000', 'Lamac Lower', '1004209015', NULL, 'male', NULL, '2024-08-08', '2024-08-09 10:39:58');
+(21, 'sample', NULL, 'dasdsad', NULL, 'Misamis Occidental', '1004200000', 'City of Oroquieta', '1004209000', 'Lamac Lower', '1004209015', NULL, 'male', NULL, '2024-08-08', '2024-08-09 10:39:58'),
+(22, 'Greg', NULL, 'Rodinas', NULL, 'Misamis Occidental', '1004200000', 'Sinacaban', '1004214000', NULL, NULL, NULL, 'male', NULL, '2024-08-05', '2024-08-11 04:56:27');
 
 -- --------------------------------------------------------
 
@@ -247,7 +248,8 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`project_id`, `contractor_id`, `project_title`, `project_nature_id`, `project_cost`, `barangay`, `street`, `date_started`, `date_completed`, `project_status`, `created_on`) VALUES
-(10, 5, 'MULTI PURPOSE BUILDING OROQUIETA CITY', 1, 123213213, 'Langcangan Proper', NULL, '2024-08-08', NULL, 'ongoing', '2024-08-08 14:59:04');
+(10, 5, 'MULTI PURPOSE BUILDING OROQUIETA CITY', 1, 123213213, 'Langcangan Proper', NULL, '2024-08-08', NULL, 'ongoing', '2024-08-08 14:59:04'),
+(11, 2, 'Making Brgy Hall', 2, 21321321, 'Lamac Upper', NULL, '2024-08-10', NULL, 'ongoing', '2024-08-09 16:14:11');
 
 -- --------------------------------------------------------
 
@@ -274,20 +276,23 @@ CREATE TABLE `project_employee` (
 --
 
 INSERT INTO `project_employee` (`project_employee_id`, `project_id`, `employee_id`, `position_id`, `nature_of_employment`, `status_of_employment_id`, `start_date`, `end_date`, `level_of_employment`, `project_monitoring_id`, `created_on`) VALUES
-(7, 10, 14, 4, 'skilled', 6, NULL, NULL, 'rank_and_file', 6, '2024-08-09 08:59:16'),
-(10, 10, 6, 7, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:10:20'),
-(11, 10, 7, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:10:35'),
-(12, 10, 8, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:11:33'),
-(13, 10, 9, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:11:50'),
-(14, 10, 10, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:03'),
-(15, 10, 11, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:30'),
-(16, 10, 12, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:45'),
-(17, 10, 13, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:12:58'),
-(18, 10, 14, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:13:14'),
-(19, 10, 15, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:13:51'),
-(20, 10, 16, 6, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:14:24'),
-(21, 10, 17, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:14:57'),
-(23, 10, 19, 4, 'skilled', 6, NULL, NULL, 'rank_and_file', 7, '2024-08-09 09:15:28');
+(42, 10, 5, 5, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:51:40'),
+(43, 10, 6, 7, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:51:56'),
+(44, 10, 7, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:52:12'),
+(45, 10, 8, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:52:34'),
+(46, 10, 9, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:52:47'),
+(47, 10, 10, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:53:00'),
+(48, 10, 11, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:53:17'),
+(49, 10, 12, 8, 'skilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:53:31'),
+(50, 10, 13, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:53:45'),
+(51, 10, 14, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:54:14'),
+(52, 10, 15, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:54:25'),
+(53, 10, 16, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:54:35'),
+(54, 10, 17, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:54:44'),
+(55, 10, 18, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:55:14'),
+(56, 10, 19, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:55:29'),
+(57, 10, 20, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:55:43'),
+(58, 10, 22, 4, 'unskilled', 6, NULL, NULL, 'rank_and_file', 12, '2024-08-11 04:56:43');
 
 -- --------------------------------------------------------
 
@@ -312,8 +317,7 @@ CREATE TABLE `project_monitoring` (
 --
 
 INSERT INTO `project_monitoring` (`project_monitoring_id`, `project_id`, `added_by`, `date_of_monitoring`, `specific_activity`, `annotations`, `monitoring_status`, `remarks`, `created_on`) VALUES
-(6, 10, 9, '2024-08-10', 'asdsa asdsadsadasd asdsad asdasd', 'sadsad sadsad', 'pending', NULL, '2024-08-09 03:25:13'),
-(7, 10, 9, '2024-08-09', 'asdsa asdsad', 'asdasdsad', 'pending', NULL, '2024-08-09 05:50:35');
+(12, 10, 9, '2024-08-11', 'Excavating', NULL, 'pending', NULL, '2024-08-11 04:43:20');
 
 -- --------------------------------------------------------
 
@@ -444,7 +448,7 @@ ALTER TABLE `contractors`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `employment_status`
@@ -486,19 +490,19 @@ ALTER TABLE `positions`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `project_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `project_employee`
 --
 ALTER TABLE `project_employee`
-  MODIFY `project_employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `project_employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `project_monitoring`
 --
 ALTER TABLE `project_monitoring`
-  MODIFY `project_monitoring_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `project_monitoring_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `project_monitoring_employee`
