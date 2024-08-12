@@ -14,7 +14,7 @@
 <body>
     <div class="header-top-area">
         <div class="greetings">
-            <h3>Welcome {{session('user_type') == 'user' ? 'User' : 'Administrator  '}}!</h3>
+            <h3>Welcome {{session('name') }}!</h3>
         </div>
         <div class="cpesd">
             <h1>CPESD MIS</h1>

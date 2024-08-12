@@ -16,4 +16,22 @@
 </div>
 @endsection
 @section('js')
+@include('systems.lls_whip.includes.custom_js.position_js')
+<script>
+    $(document).ready(function () {
+        var url = "/user/act/lls/a-p";
+        table = position_table(url);
+    });
+
+    $('#add_update_form').on('submit', function (e) {
+        e.preventDefault();
+        $(this).find('button').prop('disabled', true);
+        $(this).find('button').html('<span class="loader"></span>')
+        var url = '/user/act/lls/i-u-p';
+        let form = $(this);
+        add_update_ajax(url, form, table);
+
+    });
+
+</script>
 @endsection

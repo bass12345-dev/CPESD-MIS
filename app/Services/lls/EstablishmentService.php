@@ -18,7 +18,7 @@ class EstablishmentService
     protected $survey_table;
     protected $default_city;
     public function __construct(CustomRepository $customRepository, EmployeeQuery $employeeQuery){
-        $this->conn                 = config('app._database.lls_whip');
+        $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->establishments_table = 'establishments';
         $this->survey_table         = 'survey';
@@ -45,7 +45,8 @@ class EstablishmentService
             'telephone_number'       => $row['telephone_number'],
             'email_address'          => $row['email_address'],
             'created_on'             => Carbon::now()->format('Y-m-d H:i:s'),
-            'status'                 => 'active'
+            'status'                 => 'active',
+            'added_by'               => session('user_id')
         );
         $user = $this->customRepository->insert_item($this->conn,$this->establishments_table,$items);
         return $user;
@@ -58,7 +59,6 @@ class EstablishmentService
         $where = array('establishment_id' => $row->input('establishment_id'));
 
         $items = array(
-            'establishment_code'     => $row->input('establishment_code'),
             'establishment_name'     => $row->input('establishment_name'),
             'authorized_personnel'   => $row->input('authorized_personnel'),
             'position'               => $row->input('position'),

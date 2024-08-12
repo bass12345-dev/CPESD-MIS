@@ -29,7 +29,52 @@ class PositionsController extends Controller
 
 
     //CREATE
-    public function insert_update_position(Request $request){
+    public function insert_update_position_lls(Request $request){
+
+        $items = array(
+            'position'      => $request->input('position'),
+            'type'          => 'lls'
+        );
+        if(empty($request->input('position_id'))){
+            $items["created_on"] = Carbon::now()->format('Y-m-d H:i:s');
+            $insert = $this->customRepository->insert_item($this->conn,$this->position_table,$items);
+            if ($insert) {
+            // Registration successful
+            return response()->json([
+                'message' => 'Position Added Successfully', 
+                'response' => true
+            ], 201);
+
+            }else {
+                    return response()->json([
+                        'message' => 'Something Wrong', 
+                        'response' => false
+                    ], 422);
+                }
+                    
+        }else {
+
+            $where = array('position_id' => $request->input('position_id'));
+            $update = $this->customRepository->update_item($this->conn,$this->position_table,$where,$items);
+            if ($update) {
+            // Registration successful
+            return response()->json([
+                'message' => 'Position Updated Successfully', 
+                'response' => true
+            ], 201);
+
+            }else {
+                    return response()->json([
+                        'message' => 'Something Wrong', 
+                        'response' => false
+                    ], 422);
+                }
+            
+        }
+  
+    }
+
+    public function insert_update_position_whip(Request $request){
 
         $items = array(
             'position'      => $request->input('position'),
@@ -74,7 +119,19 @@ class PositionsController extends Controller
   
     }
     //READ
-    public function get_all_positions(){
+    public function get_all_lls_positions(){
+        $es = $this->customRepository->q_get_where_order($this->conn,$this->position_table,array('type' => 'lls'),$this->order_by_key,$this->order_by_asc)->get();
+        $items = [];
+        foreach ($es as $row) {
+           $items[] = array(
+                    'position_id'     => $row->position_id,
+                    'position'        => $row->position,
+                    'created'         => date('M d Y - h:i a', strtotime($row->created_on)),
+           );
+        }
+        return response()->json($items);
+    }
+    public function get_all_whip_positions(){
         $es = $this->customRepository->q_get_where_order($this->conn,$this->position_table,array('type' => 'whip'),$this->order_by_key,$this->order_by_asc)->get();
         $items = [];
         foreach ($es as $row) {

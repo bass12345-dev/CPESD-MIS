@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2024 at 11:21 PM
+-- Generation Time: Aug 12, 2024 at 04:27 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.20
 
@@ -150,6 +150,13 @@ CREATE TABLE `establishments` (
   `created_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `establishments`
+--
+
+INSERT INTO `establishments` (`establishment_id`, `establishment_code`, `establishment_name`, `contact_number`, `telephone_number`, `barangay`, `street`, `email_address`, `authorized_personnel`, `position`, `status`, `added_by`, `created_on`) VALUES
+(3, 'ES-001', '1st Valley Bank Inc.', '09178498326', '531 8326', 'Poblacion 1', 'Enanoria Bldg.,Sen. Jose  Oz. St.', 'oroquieta@1stvalleybank.com', 'Ray C. Adala', 'Branch Manager', 'active', 9, '2024-08-12 14:10:54');
+
 -- --------------------------------------------------------
 
 --
@@ -221,7 +228,10 @@ INSERT INTO `positions` (`position_id`, `position`, `type`, `created_on`) VALUES
 (5, 'Foreman', 'whip', '2024-08-07 06:01:28'),
 (6, 'Watchman', 'whip', '2024-08-07 06:02:03'),
 (7, 'Timekeeper', 'whip', '2024-08-07 06:02:07'),
-(8, 'Mason', 'whip', '2024-08-07 06:02:13');
+(8, 'Mason', 'whip', '2024-08-07 06:02:13'),
+(11, 'Saleslady', 'lls', '2024-08-12 12:25:46'),
+(12, 'Sales Clerk', 'lls', '2024-08-12 12:26:06'),
+(13, 'Cashier', 'lls', '2024-08-12 12:26:11');
 
 -- --------------------------------------------------------
 
@@ -460,7 +470,7 @@ ALTER TABLE `employment_status`
 -- AUTO_INCREMENT for table `establishments`
 --
 ALTER TABLE `establishments`
-  MODIFY `establishment_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `establishment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `establishment_employee`
@@ -484,7 +494,7 @@ ALTER TABLE `establishment_monitoring_employee`
 -- AUTO_INCREMENT for table `positions`
 --
 ALTER TABLE `positions`
-  MODIFY `position_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `position_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `projects`

@@ -41,11 +41,12 @@ class EmployeeController extends Controller
         $data['title'] = 'Employees Records';
         $segments = $request->segments();
         if($segments[1] == 'lls') {
-            // return view('systems.lls_whip.lls.employees_records.lists.lists')->with($data);
+            return view('systems.lls_whip.lls.both.employees.lists')->with($data);
         }else if($segments[1] == 'whip') {
             return view('systems.lls_whip.whip.both.employees.lists')->with($data);
         }
     }
+
 
     // CREATE
 

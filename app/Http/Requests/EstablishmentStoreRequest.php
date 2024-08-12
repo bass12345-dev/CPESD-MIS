@@ -21,7 +21,7 @@ class EstablishmentStoreRequest extends FormRequest
      */
     public function rules()
     {
-        $default_connection = config('app._database.lls_whip');
+        $default_connection = config('custom_config.database.lls_whip');
         return [
                 'establishment_code'    => 'required|digits between:3,200|unique:'.$default_connection.'.establishments',
                 'establishment_name'    => 'required|string|min:1',

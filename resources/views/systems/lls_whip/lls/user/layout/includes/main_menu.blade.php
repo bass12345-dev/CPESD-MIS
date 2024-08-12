@@ -8,11 +8,11 @@
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboard' ? 'active' : '' ?>" href="#Home" class="active"><i class="notika-icon notika-house"></i>
                                 Home</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-establishment' || $segments[2] == 'establishments-list'  ? 'active' : '' ?>" href="#mailbox"><i class="fas fa-building"></i>Establishments</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-establishment' || $segments[2] == 'establishments-list'  || $segments[2] == 'establishment' ? 'active' : '' ?>" href="#mailbox"><i class="fas fa-building"></i>Establishments</a>
                         </li>
                         <li><a data-toggle="tab" href="#positions" class="<?= $segments[2] == 'establishments-positions' ? 'active' : '' ?>"><i class="fas fa-users"></i>Positions</a>
                         </li>
-                        <li><a data-toggle="tab" href="#employees"><i class="fas fa-users"></i>Employees Record</a>
+                        <li><a data-toggle="tab" href="#employees" class="<?= $segments[2] == 'employees-record' ? 'active' : '' ?>"><i class="fas fa-users"></i>Employees Record</a>
                         </li>
                        
                     </ul>
@@ -37,15 +37,15 @@
                             </ul>
                         </div>
                         <div id="positions" class="tab-pane in  <?= $segments[2] == 'establishments-positions' ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
-                            <ul class="notika-main-menu-dropdown active">
+                            <ul class="notika-main-menu-dropdown ">
                                 <li><a href="{{url('user/lls/establishments-positions')}}" class="<?= $segments[2] == 'establishments-positions' ? 'active' : '' ?>">Manage Positions</a>
                                 </li>
 
                             </ul>
                         </div>
-                        <div id="employees" class="tab-pane in  notika-tab-menu-bg animated flipInX">
-                            <ul class="notika-main-menu-dropdown active">
-                                <li><a href="{{url('admin/lls/employees-record')}}">Manage Employees Record</a>
+                        <div id="employees" class="tab-pane in <?= $segments[2] == 'employees-record' ? 'active' : '' ?>  notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li><a href="{{url('user/lls/employees-record')}}" class="<?= $segments[2] == 'employees-record' ? 'active' : '' ?>">Manage Employees Record</a>
                                 </li>
 
                             </ul>
