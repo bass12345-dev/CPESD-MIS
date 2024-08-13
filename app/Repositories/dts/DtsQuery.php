@@ -175,6 +175,88 @@ class DtsQuery
 
     }
 
+
+    //Forwarded Documents
+
+    public static function get_forwarded_documents(){
+        $row = DB::table('dts.history as history')
+             ->leftJoin('dts.documents as documents', 'documents.tracking_number', '=', 'history.t_number')
+             ->leftJoin('cpesd_mis_users_db.users as users', 'users.user_id', '=', 'history.user2')
+             ->leftJoin('dts.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
+             ->select(  //Document
+                        'documents.tracking_number as tracking_number',
+                        'documents.doc_status as doc_status' ,
+                        'documents.document_name as document_name',
+                        'documents.document_id as document_id',
+                        //Documen Type
+                        'document_types.type_name as type_name',
+                        //History
+                        'history.release_date as release_date',
+                        'history.history_id as history_id',
+                        'history.remarks as remarks',
+                        'history.to_receiver as final_receiver',
+                        //User
+                        'users.user_id as user_id',
+                        'users.user_type as user_type',
+                        'users.first_name as first_name', 
+                        'users.middle_name as middle_name', 
+                        'users.last_name as last_name', 
+                        'users.extension as extension',
+                        DB::Raw("CONCAT(
+                                        users.first_name, ' ', 
+                                        users.middle_name , ' ', 
+                                        users.last_name,' ',
+                                        users.extension) as name"))
+             ->where('user1', session('_id'))
+             ->where('doc_status'  ,'!=', 'cancelled')
+             ->where('received_status', NULL)
+             ->where('status', 'torec')
+             ->where('release_status',NULL )
+             ->orderBy('tracking_number', 'desc')->get();
+
+        return $row;
+    }
+
+    //Outgoing Controller
+
+    public static function get_outgoing_documents(){
+        $row = DB::table('dts.outgoing_documents as outgoing_documents')
+             ->leftJoin('dts.documents as documents', 'documents.document_id', '=', 'outgoing_documents.doc_id')
+             ->leftJoin('cpesd_mis_users_db.users as users', 'users.user_id', '=', 'outgoing_documents.user_id')
+             ->leftJoin('dts.offices as offices', 'offices.office_id', '=', 'outgoing_documents.off_id')
+             ->leftJoin('dts.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
+             ->select(  //Document
+                        'documents.tracking_number as tracking_number',
+                        'documents.doc_status as doc_status' ,
+                        'documents.document_name as document_name',
+                        'documents.document_id as document_id',
+                        //Documen Type
+                        'document_types.type_name as type_name',
+                        //Outgoing
+                        'outgoing_documents.remarks as remarks',
+                        'outgoing_documents.outgoing_date as outgoing_date',
+                        'outgoing_documents.doc_id as doc_id',
+                        'outgoing_documents.outgoing_id as outgoing_id',
+                        //Office
+                        'offices.office as office',
+                        'offices.office_id as office_id',
+                        //User
+                        'users.user_id as user_id',
+                        'users.user_type as user_type',
+                        'users.first_name as first_name', 
+                        'users.middle_name as middle_name', 
+                        'users.last_name as last_name', 
+                        'users.extension as extension',
+             )
+             ->where('outgoing_documents.user_id', session('_id'))
+             ->where('outgoing_documents.status'  ,'=', 'pending')
+              ->orderBy('documents.tracking_number', 'desc')
+             ->get();
+            
+
+        return $row;
+    }
+
     //Documents Limit 10
     
     public function get_all_documents_with_limit($limit){

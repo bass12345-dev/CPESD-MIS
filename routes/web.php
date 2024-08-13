@@ -94,6 +94,10 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::get("/dts/incoming",[ App\Http\Controllers\systems\dts\user\IncomingController::class, 'index']);
          //Received
          Route::get("/dts/received",[ App\Http\Controllers\systems\dts\user\ReceivedController::class, 'index']);
+         //Forwarded
+         Route::get("/dts/forwarded",[ App\Http\Controllers\systems\dts\user\ForwardedController::class, 'index']);
+         //Outgoing
+         Route::get("/dts/outgoing",[ App\Http\Controllers\systems\dts\user\OutgoingController::class, 'index']);
 
 });
 
@@ -152,6 +156,10 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::post('dts/receive-documents', [App\Http\Controllers\systems\dts\user\IncomingController::class, 'receive_documents']);
       //Recieved Documents
          Route::get('dts/received-documents', [App\Http\Controllers\systems\dts\user\ReceivedController::class, 'get_received_documents']);
+      //Forwarded Documents
+         Route::get('dts/forwarded-documents', [App\Http\Controllers\systems\dts\user\ForwardedController::class, 'get_forwarded_documents']);
+       //Forwarded Documents
+         Route::get('dts/outgoing-documents', [App\Http\Controllers\systems\dts\user\OutgoingController::class, 'get_outgoing_documents']);
 });
 
 
