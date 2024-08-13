@@ -19,8 +19,8 @@ class DashboardService
     protected $dtsQuery;
 
     public function __construct(CustomRepository $customRepository,DtsQuery $dtsQuery ){
-        $this->conn                 = config('app._database.dts');
-        $this->conn_user            = config('app._database.users');
+        $this->conn                 = config('custom_config.database.dts');
+        $this->conn_user            = config('custom_config.database.users');
         $this->customRepository     = $customRepository;
         $this->dtsQuery             = $dtsQuery;
         $this->documents_table      = 'documents';

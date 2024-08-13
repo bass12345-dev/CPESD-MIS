@@ -87,7 +87,7 @@ class ProjectsController extends Controller
                         'contractor'        => $row->contractor_name,
                         'project_location'  => $row->barangay.' , '.$row->street,
                         'date_started'      => Carbon::parse($row->date_started)->format('M d Y') ,
-                        'monitoring_count'  => $row->monitoring_count,
+                        // 'monitoring_count'  => $row->monitoring_count,
                         'project_nature'    => $row->project_nature
             );
         }

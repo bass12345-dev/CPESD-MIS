@@ -1,10 +1,11 @@
 @extends('system_management.layout.system_master')
 @section('title', $title)
 @section('content')
-@include('system.dts.includes.title')
+@include('global_includes.title')
 @include('system_management.contents.manage_users.sections.table')
 @endsection
 @section('js')
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
    table = $("#datatables").DataTable({

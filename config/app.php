@@ -107,14 +107,7 @@ return [
     ],
 
 
-    '_systems' => [
-        ['pmas','PMAS'],
-        ['rfa','RFA'],
-        ['watchlisted','Watchlisted'],
-        ['dts','Document Tracking System'],
-        ['lls','Labor Localization'],
-        ['whip','WHIP']
-    ],
+
 
 
 

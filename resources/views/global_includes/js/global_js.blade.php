@@ -1,6 +1,7 @@
 <script>
     var base_url = '<?php echo url(''); ?>';
     var table;
+    var table_image_loader = '<img class="top-logo mt-4" src="{{asset("assets/img/dts/peso_logo.png")}}">';
 
     function loader() {
 

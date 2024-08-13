@@ -49,7 +49,7 @@
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.4/dist/sweetalert2.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/yearpicker@0.2.0/lib/YearPicker.min.css" rel="stylesheet">
 <link href="{{asset('assets/css/yearpicker.css')}}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('lls_assets/css/additional_css.css')}}">
+<link rel="stylesheet" href="{{ asset('lls_assets/css/additional.css')}}">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/hamster.css')}}">
 <style>
 	.text-bold {

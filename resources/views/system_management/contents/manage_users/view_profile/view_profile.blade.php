@@ -1,7 +1,7 @@
 @extends('system_management.layout.system_master')
 @section('title', $title)
 @section('content')
-@include('system.dts.includes.title')
+@include('global_includes.title')
 <div class="row">
    <div class="col-6 col-md-6">
         @include('system_management.contents.manage_users.view_profile.sections.user_information')
@@ -29,11 +29,41 @@
 	};
 
 	$(this).find('button').attr('disabled',true);
-	http_post_i_u(data,url,table);
-	$('#program_form').find('button').attr('disabled',false);
-	setTimeout(reload_page, 2000)
+	$.ajax({
+            url: base_url + '/admin/sysm/act/a-s',
+            method: 'POST',
+            data: data,
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            beforeSend: function () {
+                $('button.submit').prop('disabled', true);
+                $('button.submit').html('<span class="loader"></span>')
+            },
+            success: function (data) {
+                if (data.response) {
+                    toast_message_success(data.message);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }
+            },
+            error: function (err) {
+                toast_message_error('Server Error');
+                // setTimeout(() => {
+                //     location.reload();
+                // }, 1500);
+            }
+
+
+        });
+
 
 });
+
+
+
 </script>
 
 @endsection

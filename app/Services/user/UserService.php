@@ -123,7 +123,7 @@ class UserService
 
     public function get_systems(array $row_sys){
 
-            $systems =  config('app._systems');
+            $systems =  config('custom_config._systems');
             $system_array = [];
             $system_names = [];
             foreach ($systems as $key) {

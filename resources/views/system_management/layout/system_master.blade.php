@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	@include('system.global_includes.meta')
-	@include('system.dts.includes.css')
+	@include('global_includes.meta')
+	@include('systems.dts.includes.css')
 </head>
 <body>
 	<div class="wrapper">
@@ -17,8 +17,10 @@
 		</div>
 	</div>
 </body>
-@include('system.dts.includes.js')
-@include('system.global_includes.js')
-
+@include('global_includes.js.global_js')
+@include('systems.dts.includes.js')
+@include('global_includes.js.custom_js.datatable_settings')
+@include('global_includes.js.custom_js.alert_loader')
 @yield('js')
+
 </html>
