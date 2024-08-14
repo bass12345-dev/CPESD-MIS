@@ -241,5 +241,18 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
       //Analytics
          Route::post("/dts/d-t-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_document_types_analytics']);
          Route::post("/dts/p-m-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_per_month_analytics']);
-    
-});
+      //All Documents
+         Route::get("/dts/all-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'get_all_documents']);
+      //Offices
+         Route::get("/dts/all-offices",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'get_all_offices']);
+         Route::post("/dts/i-u-o",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'insert_update_office']);
+         Route::post("/dts/d-o",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'delete_office']);
+      //Document Types
+         Route::get("/dts/types",[ App\Http\Controllers\systems\dts\admin\DocumentTypesController::class, 'get_document_types']);
+         Route::post("/dts/i-u-t",[ App\Http\Controllers\systems\dts\admin\DocumentTypesController::class, 'insert_update']);
+         Route::post("/dts/d-t",[ App\Http\Controllers\systems\dts\admin\DocumentTypesController::class, 'delete']);
+      //Final Actions
+         Route::get("/dts/final-actions",[ App\Http\Controllers\systems\dts\admin\FinalActionsController::class, 'get_final_actions']);
+         Route::post("/dts/i-u-f",[ App\Http\Controllers\systems\dts\admin\FinalActionsController::class, 'insert_update']);
+         Route::post("/dts/d-f",[ App\Http\Controllers\systems\dts\admin\FinalActionsController::class, 'delete']);
+});      

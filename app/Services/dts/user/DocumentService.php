@@ -24,7 +24,7 @@ class DocumentService
     protected $customService;
     protected $actionLogService;
 
-    public function __construct(CustomRepository $customRepository, DtsQuery $dtsQuery, CustomService $customService, ActionLogService $actionLogService)
+    public function __construct(CustomRepository $customRepository, DtsQuery $dtsQuery, CustomService $customService, ActionLogService $actionLogService,)
     {
         $this->conn                 = config('custom_config.database.dts');
         $this->conn_user            = config('custom_config.database.users');
@@ -46,7 +46,7 @@ class DocumentService
         foreach ($rows as  $key) {
 
             $delete_button = $this->customRepository->q_get_where($this->conn, array('t_number' => $key->tracking_number), $this->history_table)->count() > 1 ? true : false;
-            $status = $this->check_status($key->doc_status);
+            $status = $this->customService->check_status($key->doc_status);
 
             $items[] = array(
                 'number'            => $i++,
@@ -163,32 +163,7 @@ class DocumentService
 
 
 
-    public function check_status($doc_status)
-    {
-        $status = '';
-
-        switch ($doc_status) {
-            case 'completed':
-                $status = '<span class="badge p-2 bg-success">Completed</span>';
-                break;
-            case 'pending':
-                $status = '<span class="badge p-2 bg-danger">Pending</span>';
-                break;
-
-            case 'cancelled':
-                $status = '<span class="badge p-2 bg-warning">Canceled</span>';
-                break;
-
-            case 'outgoing':
-                $status = '<span class="badge p-2 bg-secondary">Outgoing</span>';
-                break;
-            default:
-                # code...
-                break;
-        }
-
-        return $status;
-    }
+    
 
     private function document_data($where)
     {

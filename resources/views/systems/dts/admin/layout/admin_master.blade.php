@@ -23,5 +23,6 @@
 @include('systems.dts.includes.custom_js.dts_scripts')
 @include('global_includes.js.custom_js.datatable_settings')
 @include('global_includes.js.custom_js.alert_loader')
+@include('global_includes.js.custom_js._ajax')
 
 </html>

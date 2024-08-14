@@ -34,4 +34,32 @@ class CustomService
         return $tracking_number;
 
     }
+
+    public function check_status($doc_status)
+    {
+        $status = '';
+
+        switch ($doc_status) {
+            case 'completed':
+                $status = '<span class="badge p-2 bg-success">Completed</span>';
+                break;
+            case 'pending':
+                $status = '<span class="badge p-2 bg-danger">Pending</span>';
+                break;
+
+            case 'cancelled':
+                $status = '<span class="badge p-2 bg-warning">Canceled</span>';
+                break;
+
+            case 'outgoing':
+                $status = '<span class="badge p-2 bg-secondary">Outgoing</span>';
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $status;
+    }
+
 }
