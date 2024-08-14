@@ -49,7 +49,7 @@ class DashboardService
                 'cancelled'         => $this->customRepository->q_get_where($this->conn,array('doc_status' => 'cancelled','u_id'=> $id),$this->documents_table)->count(),
                 'encoded_outgoing'  => $this->customRepository->q_get_where($this->conn,array('doc_status' => 'outgoing','u_id'=> $id),$this->documents_table)->count(),
                 'outgoing'          => $outgoing,
-                'added_today'       => $this->dtsQuery->added_document_date_now($this->conn,$date_now),
+                'added_today'       => $this->dtsQuery->added_document_date_now($date_now),
                
         );
 
@@ -64,11 +64,11 @@ class DashboardService
         //store results
         $result = array();
         foreach($users as $row){
-            $query_history =  $this->dtsQuery->count_forwarded_documents($this->conn,$row->user_id);
+            $query_history =  $this->dtsQuery->count_forwarded_documents($row->user_id);
             if($query_history->count() > 0){
                 array_push($result,$row->first_name.' - '.$query_history->count().' Document/s');
             }
-            $query_history1 =  $this->dtsQuery->count_forwarded_documents_final($this->conn,$row->user_id);
+            $query_history1 =  $this->dtsQuery->count_forwarded_documents_final($row->user_id);
             if($query_history1->count() > 0){
                 array_push($result,'Final Receiver'.' - '.$query_history1->count().' Document/s');
             }

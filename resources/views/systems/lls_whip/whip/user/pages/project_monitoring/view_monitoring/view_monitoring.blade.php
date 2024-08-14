@@ -30,8 +30,10 @@
 @endsection
 @section('js')
 @include('systems.lls_whip.includes.custom_js.typeahead_search_employee')
+
 <script>
-    var information_table = $('#table-information');
+   
+   var information_table = $('#table-information');
     $(document).on('click', 'button.edit-information', function () {
 
         information_table.find('textarea').removeClass('hidden');
@@ -55,7 +57,6 @@
     $(document).ready(function () {
         $('button.edit-information').prop('disabled', false);
     });
-
     $(document).on('click', 'button.submit', function () {
         let form = {
             project_monitoring_id: $('input[name=project_monitoring_id]').val(),

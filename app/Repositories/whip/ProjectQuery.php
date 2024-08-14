@@ -25,7 +25,7 @@ class ProjectQuery
         return $rows;
     }
 
-
+    //All Projects
     public function QueryAllProjects(){
 
       $rows = DB::connection($this->conn)->table('projects as projects')
@@ -61,7 +61,7 @@ class ProjectQuery
     }
 
 
-
+    //User Project Information
     public function get_user_monitoring(){
 
         $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
@@ -97,7 +97,7 @@ class ProjectQuery
   
       }
 
-
+    //Project Monitoring Information
     public function get_monitoring_information($where){
 
       $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
@@ -134,7 +134,7 @@ class ProjectQuery
     }
 
 
-
+    //Project Employee
     public function get_project_employee($id){
 
       $rows = DB::connection($this->conn)->table('project_employee as project_employee')
@@ -173,6 +173,32 @@ class ProjectQuery
         ->orderBy('first_name', 'desc')
         ->get();
         return $rows;
+
+
+    }
+
+    public function query_contractor_projects($id){
+
+      $rows = DB::connection($this->conn)->table('projects as projects')
+      ->leftJoin('project_nature', 'project_nature.project_nature_id', '=', 'projects.project_nature_id')
+      ->select(   
+        //Project Nature
+        'project_nature.project_nature as project_nature', 
+        //Projects
+        'projects.project_id as project_id',
+        'projects.project_title as project_title',
+        'projects.street as street',
+        'projects.barangay as barangay',
+        'projects.project_cost as project_cost',
+        'projects.project_status as project_status',
+        'projects.date_started as date_started',         
+        'projects.date_completed as date_completed'         
+      )
+      ->where('contractor_id',$id)
+      ->orderBy('date_started', 'desc')
+      ->get();
+
+      return $rows;
 
 
     }

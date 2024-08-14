@@ -62,8 +62,8 @@
             </li>
      
 
-            <li class="sidebar-item <?= $segments[2] == 'track' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="{{url('/user/dts/track')}}">
+            <li class="sidebar-item <?= $segments[2] == 'search-docs' ? 'active' : '' ?>">
+                <a class="sidebar-link" href="{{url('/user/dts/search-docs')}}">
                     <i class="align-middle" data-feather="search"></i> <span class="align-middle">Search Documents</span>
                 </a>
             </li>

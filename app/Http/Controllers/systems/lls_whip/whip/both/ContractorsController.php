@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\whip\ContractorStoreRequest;
 use App\Repositories\CustomRepository;
 use App\Repositories\whip\ContractorQuery;
+use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
 use App\Services\whip\ContractorsService;
+use Carbon\Carbon;
 
 class ContractorsController extends Controller
 {
@@ -16,17 +18,23 @@ class ContractorsController extends Controller
     protected $customService;
     protected $customRepository;
     protected $Contractorquery;
+    protected $projectQuery;
     protected $conn;
     protected $contractors_table;
+    protected $projects_table;
     protected $order_by_asc = 'asc';
+
+    protected $order_by_desc = 'desc';
     protected $order_by_key = 'contractor_id';
-    public function __construct(CustomRepository $customRepository, ContractorsService $contractorService, ContractorQuery $contractorQuery, CustomService $customService){
+    public function __construct(CustomRepository $customRepository, ContractorsService $contractorService, ContractorQuery $contractorQuery, CustomService $customService, ProjectQuery $projectQuery){
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->contractorService    = $contractorService;
         $this->customService        = $customService;
         $this->contractors_table    = 'contractors';
+        $this->projects_table       = 'projects';
         $this->Contractorquery      = $contractorQuery;
+        $this->projectQuery         = $projectQuery;
     }
     public function add_new_contractor(){
         $data['title'] = 'Add New Contractor';
@@ -36,6 +44,13 @@ class ContractorsController extends Controller
     public function contractors_list(){
         $data['title'] = 'Contractors List';
         return view('systems.lls_whip.whip.both.contractors.lists.lists')->with($data);
+    }
+
+    public function contractor_information($id){
+        $row            = $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id),$this->contractors_table)->first();
+        $data['title']  = $row->contractor_name;
+        $data['row']    = $row;
+        return view('systems.lls_whip.whip.both.contractors.view.view')->with($data);
     }
 
     //CREATE
@@ -75,6 +90,29 @@ class ContractorsController extends Controller
         }
 
         return response()->json($items);
+    }
+
+    public function get_contractor_projects(Request $request){
+        $id = $request->input('id');
+        $projects = $this->projectQuery->query_contractor_projects($id);
+        $items = [];
+        $i = 1;
+        foreach ($projects as $row) {
+            $items[] = array(
+                'i'                 => $i++,
+                'project_id'        => $row->project_id,
+                'project_title'     => $row->project_title,
+                'project_cost'      => $row->project_cost,
+                'project_status'    => $row->project_status,
+                'project_location'  => $row->barangay.' , '.$row->street,
+                'date_started'      => Carbon::parse($row->date_started)->format('M d Y') ,
+                'date_completed'    => $row->date_completed == NULL ? ' - ' :  Carbon::parse($row->date_completed)->format('M d Y') ,
+                'project_nature'    => $row->project_nature
+            );
+        }
+
+        return response()->json($items);
+
     }
     //UPDATE
     //DELETE

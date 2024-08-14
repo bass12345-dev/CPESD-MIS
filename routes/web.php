@@ -69,6 +69,7 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
       //Contractors
          Route::get("/whip/add-new-contractor",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'add_new_contractor']);
          Route::get("/whip/contractors-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractors_list']);
+         Route::get("/whip/contractor-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractor_information']);
       //Projects
          Route::get("/whip/add-new-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'add_new_project']);
          Route::get("/whip/projects-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'projects_list']);
@@ -98,6 +99,10 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::get("/dts/forwarded",[ App\Http\Controllers\systems\dts\user\ForwardedController::class, 'index']);
          //Outgoing
          Route::get("/dts/outgoing",[ App\Http\Controllers\systems\dts\user\OutgoingController::class, 'index']);
+         //Action Logs
+         Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\user\ActionLogsController::class, 'index']);
+         //Search Documents
+         Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
 
 });
 
@@ -123,6 +128,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::get("/whip/g-a-c",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'get_all_contractors']);
          Route::post("/whip/d-c",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'delete_contractors']);
          Route::get("/whip/search-query",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'search_query']);  
+         Route::post("/whip/g-c-p",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'get_contractor_projects']);  
       //Projects
          Route::post("/whip/insert-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'insert_project']);
          Route::get("/whip/g-a-p",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'get_all_projects']);
@@ -160,6 +166,8 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::get('dts/forwarded-documents', [App\Http\Controllers\systems\dts\user\ForwardedController::class, 'get_forwarded_documents']);
        //Forwarded Documents
          Route::get('dts/outgoing-documents', [App\Http\Controllers\systems\dts\user\OutgoingController::class, 'get_outgoing_documents']);
+      //Action Logs
+         Route::get('dts/action-logs', [App\Http\Controllers\systems\dts\user\ActionLogsController::class, 'get_action_logs']);
 });
 
 
