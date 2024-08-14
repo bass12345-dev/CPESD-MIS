@@ -176,7 +176,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
 Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->group(function () {
    //LLS
 
-   //WHIP
+   //ADMIN WHIP
       //Dashboard
          Route::get("/whip/dashboard",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'index']);
       //Employees Record
@@ -193,7 +193,33 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          Route::get("/whip/employment-status",[ App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'index']);
       //Project Nature
           Route::get("/whip/project-nature",[ App\Http\Controllers\systems\lls_whip\whip\admin\ProjectNatureController::class, 'index']);
-   
+    
+                                             //DOCUMENT TRACKING SYSTEM//
+      //ADMIN DTS
+         //Dashboard
+         Route::get("/dts/dashboard",[ App\Http\Controllers\systems\dts\admin\DashboardController::class, 'index']);
+         Route::get("/dts/analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'index']);
+         //All Documents
+         Route::get("/dts/all-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'index']);
+         //Manage Offices
+         Route::get("/dts/offices",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'index']);
+         //Document Types
+         Route::get("/dts/doc-types",[ App\Http\Controllers\systems\dts\admin\DocumentTypesController::class, 'index']);
+         //Final Actions
+         Route::get("/dts/final-actions",[ App\Http\Controllers\systems\dts\admin\FinalActionsController::class, 'index']);
+         //Manage Staff
+         Route::get("/dts/manage-staff",[ App\Http\Controllers\systems\dts\admin\StaffController::class, 'index']);
+         //Manage Users
+         Route::get("/dts/manage-users",[ App\Http\Controllers\systems\dts\admin\UsersController::class, 'index']);
+         //Logged In History
+         Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'index']);
+         //Action Logs
+         Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\admin\ActionLogsController::class, 'index']);
+          //Action Logs
+          Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
+
+
+
 });
 
 
@@ -201,20 +227,19 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
 Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function () {
    //LLS 
 
-
-
-
    // WHIP
-     
       //Project Nature
          Route::post("/whip/i-u-p-n",[App\Http\Controllers\systems\lls_whip\whip\admin\ProjectNatureController::class, 'insert_update_nature']);
          Route::get("/whip/a-p-n",[App\Http\Controllers\systems\lls_whip\whip\admin\ProjectNatureController::class, 'get_all_project_nature']);
          Route::post("/whip/d-p-n",[App\Http\Controllers\systems\lls_whip\whip\admin\ProjectNatureController::class, 'delete_project_nature']);
 
-   //Employment Status
-      Route::get("/a-e-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'get_all_status']);
-      Route::post("/i-u-e-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'insert_update_status']);
-      Route::post("/d-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'delete_status']);
-
+      //Employment Status
+         Route::get("/a-e-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'get_all_status']);
+         Route::post("/i-u-e-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'insert_update_status']);
+         Route::post("/d-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'delete_status']);
+   // DTS
+      //Analytics
+         Route::post("/dts/d-t-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_document_types_analytics']);
+         Route::post("/dts/p-m-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_per_month_analytics']);
     
 });

@@ -26,7 +26,7 @@ class DtsQuery
 
         $rows = DB::table($this->dts_table_name.'.documents as documents')
             ->leftjoin($this->users_table_name.'.users as users', 'users.user_id', '=', 'documents.u_id')
-            ->leftJoin('dts.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
+            ->leftJoin($this->dts_table_name.'.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
             ->select(   //Documents
                 'documents.created as created',
                 'documents.tracking_number as tracking_number',

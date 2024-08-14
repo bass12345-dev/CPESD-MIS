@@ -8,7 +8,7 @@
     </a>
     
     <div class="dropdown-menu dropdown-menu-end">
-        <a class="dropdown-item text-primary"  href="{{url('/dts/user/my-profile?u_id='.session('_id'))}}">My Profile</a>
+       
         <a class="dropdown-item text-danger" href="{{url('/home')}}">Back to Home</a>
     </div>
 </li>

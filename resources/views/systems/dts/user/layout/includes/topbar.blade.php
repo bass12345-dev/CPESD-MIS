@@ -10,7 +10,7 @@
             <?php
             if (session('user_type') == 'admin' || session('is_oic') == 'yes') {
                 echo "<li class='nav-item '>
-							<a href='" . url("/dts/admin/dashboard") . "' class='btn btn-danger'>Admin Panel</a>
+							<a href='" . url("/admin/dts/dashboard") . "' class='btn btn-danger'>Admin Panel</a>
 						</li>";
             }
 
@@ -18,7 +18,7 @@
             if (session('is_receiver') == 'yes') {
 
                 echo '<li class="nav-item ">
-							<a href="' . url("/dts/receiver/dashboard") . '" class="btn btn-success">Final Receiver\'s Panel  <span class="badge bg-danger to_receive">0</span></a>
+							<a href="' . url("/receiver/dts/dashboard") . '" class="btn btn-success">Final Receiver\'s Panel  <span class="badge bg-danger to_receive">0</span></a>
 						</li>';
             }
             ?>
