@@ -44,6 +44,14 @@ class MonitoringController extends Controller
         return view('systems.lls_whip.whip.admin.pages.project_monitoring.pending_list.lists')->with($data);
     }
 
+    public function approved_project_monitoring_view()
+    {
+        $data['title'] = 'Approved Project Monitoring';
+        return view('systems.lls_whip.whip.admin.pages.project_monitoring.approved_list.lists')->with($data);
+    }
+
+    
+
     public function approved_monitoring(Request $request)
     {
         $id = $request->input('id');
