@@ -4,10 +4,12 @@ namespace App\Http\Controllers\systems\lls_whip\whip\user;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\whip\ProjectEmployeeStoreRequest;
+use App\Services\whip\user\MonitoringService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Repositories\CustomRepository;
 use App\Repositories\whip\EmployeeQuery;
+use App\Repositories\whip\MonitoringQuery;
 use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
 use App\Services\whip\ProjectsService;
@@ -16,21 +18,25 @@ class MonitoringController extends Controller
 {   
     protected $conn;
     protected $customRepository;
+    protected $monitoringQuery;
     protected $customService;
     protected $projectsService;
+    protected $monitoringService;
     protected $projectQuery;
     protected $employeeQuery;
     protected $monitoring_table;
     protected $position_table;
     protected $employment_status_table;
     protected $project_employee_table;
-    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery ,CustomService $customService, ProjectsService $projectsService){
+    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery ,CustomService $customService, ProjectsService $projectsService,MonitoringQuery $monitoringQuery ,MonitoringService $monitoringService){
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->customService        = $customService;
-        $this->projectsService     = $projectsService;
+        $this->monitoringService    = $monitoringService;
+        $this->projectsService      = $projectsService;
         $this->projectQuery         = $projectQuery;
         $this->employeeQuery        = $employeeQuery;
+        $this->monitoringQuery      = $monitoringQuery;
         $this->monitoring_table     = 'project_monitoring';
         $this->position_table       = 'positions';
         $this->employment_status_table = 'employment_status';
@@ -118,7 +124,8 @@ class MonitoringController extends Controller
             'start_date'                    => NULL,
             'end_date'                      => NULL,
             'level_of_employment'           => $request->input('employment_level'),
-            'project_monitoring_id'         => $request->input('project_monitoring_id'), 
+            'project_monitoring_id'         => $request->input('project_monitoring_id'),
+            'location_status'               => $request->input('location_status'),
         );
 
         if(empty($request->input('project_employee_id'))){
@@ -138,29 +145,7 @@ class MonitoringController extends Controller
     }
 
     //READ
-    public function get_user_project_monitoring(){
-
-        $contractors = $this->projectQuery->get_pending_monitoring();
-        $items = [];
-        $i = 1;
-        foreach ($contractors as $row) {
-           $items[] = array(
-                    'i'                             => $i++,
-                    'project_monitoring_id'         => $row->project_monitoring_id,
-                    'project_title'                 => $row->project_title,
-                    'date_of_monitoring'            => date('M d Y ', strtotime($row->date_of_monitoring)),
-                    'specific_activity'             => $row->specific_activity,
-                    'monitoring_status'             => $row->monitoring_status,
-                    'contractor'                    => $row->contractor_name,
-                    'address'                       => $row->barangay.' '.$row->street
-                   
-           );
-        }
-
-        return response()->json($items);
-    }
-
-
+   
     public function get_all_project_employee(Request $request){
         $id = $request->input('id');
        $items = $this->projectQuery->get_project_employee($id);
@@ -181,12 +166,55 @@ class MonitoringController extends Controller
                     'start_date'            =>  $row->start_date == NULL ? '-' :  Carbon::parse($row->start_date)->format('M Y'),
                     'end_date'              => $row->end_date == NULL ? '-' :  Carbon::parse($row->end_date)->format('M Y'),
                     'level_of_employment'   => $row->level_of_employment,
-                    'gender'                => $row->gender
+                    'gender'                => $row->gender,
+                    'location_status'       => $row->location_status
            );
         }
         return response()->json($data);
     }
 
+
+    public function get_pending_project_monitoring(){
+       
+        if(session('user_type') == 'user'){
+            $items = $this->monitoringQuery->get_user_pending_monitoring();
+        }else if(session('user_type') == 'admin'){
+            $items = $this->monitoringQuery->get_admin_pending_monitoring();
+        }
+
+        
+        $data = [];
+        $i = 1;
+        foreach ($items as $row) {
+           $data[] = array(
+                    'i'                             => $i++,
+                    'project_monitoring_id'         => $row->project_monitoring_id,
+                    'project_title'                 => $row->project_title,
+                    'date_of_monitoring'            => date('M d Y ', strtotime($row->date_of_monitoring)),
+                    'specific_activity'             => $row->specific_activity,
+                    'monitoring_status'             => $row->monitoring_status,
+                    'contractor'                    => $row->contractor_name,
+                    'address'                       => $row->barangay.' '.$row->street,
+                    'person_responsible'            => $this->customService->user_full_name($row)
+                   
+           );
+        }
+
+        return response()->json($data);
+    }
+
+
+    public function get_approved_project_monitoring(){
+        $month = '';
+        $year = '';
+        if(isset($_GET['date'])){
+            $month =   date('m', strtotime($_GET['date']));
+            $year =   date('Y', strtotime($_GET['date']));
+        }
+        
+        $data = $this->monitoringService->get_approved_monitoring($month,$year);
+        return response()->json($data);
+    }
 
     //Reports
 

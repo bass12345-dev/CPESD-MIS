@@ -136,7 +136,8 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::get("/whip/search-project",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'search_project']);
       //Projects Monitoring
          Route::post("/whip/i-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'insert_project_monitoring']);
-         Route::get("/whip/g-u-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'get_user_project_monitoring']);
+         Route::get("/whip/g-u-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'get_pending_project_monitoring']);
+         Route::get("/whip/g-a-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'get_approved_project_monitoring']);
          Route::post("/whip/u-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'update_project_monitoring']);
          Route::post("/whip/d-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'delete_project_monitoring']);
          Route::post("/whip/i-u-p-e",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'insert_update_project_employee']);
@@ -242,6 +243,7 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
 
       //Project Monitoring
          Route::post("/whip/a-m",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'approved_monitoring']);
+         Route::post("/whip/g-a-m",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'get_approved_monitoring']);
    // DTS
       //Analytics
          Route::post("/dts/d-t-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_document_types_analytics']);

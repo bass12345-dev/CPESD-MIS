@@ -83,7 +83,7 @@ class AddDocumentController extends Controller
         #define tracking number variable
         $tracking_number = '';
         #count documents added in database
-        $verify = DB::table(env('DB_DATABASE_DTS').'.documents')->count();
+        $verify = $this->customRepository->q_get($this->conn,$this->documents_table)->count();
         #get current year
         $current_year = Carbon::now()->format('Y');
         #ymd format = Year Month Day
@@ -94,7 +94,8 @@ class AddDocumentController extends Controller
         #check if there is document added in database
         if($verify) {
             #get last added in database
-            $last_created = date('Y', strtotime( DB::table(env('DB_DATABASE_DTS').'.'.$this->documents_table)->orderBy('created', 'desc')->first()->created));
+            $last_created = date('Y', strtotime( $this->customRepository->q_get_order($this->conn,$this->documents_table,'created','desc')->first()->created));
+                
              #current year is greater than the last year added
             if($current_year > $last_created )
                 {      
@@ -103,7 +104,7 @@ class AddDocumentController extends Controller
                 #current year is less than the last year added
                 }else if ($current_year < $last_created) {
                     #get last created and then add 1
-                    $tracking_number = DB::table(env('DB_DATABASE_DTS').'.'.$this->documents_table)
+                    $tracking_number = DB::connection($this->conn)->table($this->documents_table)
                                         ->whereRaw("YEAR(documents.created) = '".Carbon::now()->format('Y-m-d')."' ")
                                         ->orderBy('created', 'desc')
                                         ->first()->tracking_number +  1;
@@ -123,7 +124,7 @@ class AddDocumentController extends Controller
 
     function last_digits() { 
 
-        $number = DB::table(env('DB_DATABASE_DTS').'.'.$this->documents_table)
+    $number = DB::connection($this->conn)->table($this->documents_table)
                     ->whereRaw("YEAR(documents.created) = '".Carbon::now()
                     ->format('Y')."' ")
                     ->orderBy('created', 'desc')

@@ -28,7 +28,8 @@
 
                     return [{
                         'employee_id': row.employee_id,
-                        'full_name': full_name
+                        'full_name': full_name,
+                        'full_address' : row.full_address
                     }];
                 }));
             },
@@ -50,5 +51,7 @@
 }).bind('typeahead:selected', function(obj, data, name) {
     $('input[name="employee_id"]').val(data.employee_id);
     $('input[name="employee"]').val(data.full_name);
+    $('input[name="address"]').val(data.full_address);
+
 });
 </script>

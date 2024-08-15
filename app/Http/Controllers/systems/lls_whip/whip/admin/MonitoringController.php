@@ -10,6 +10,7 @@ use App\Repositories\CustomRepository;
 use App\Repositories\whip\EmployeeQuery;
 use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
+use App\Services\whip\admin\MonitoringService;
 use App\Services\whip\ProjectsService;
 
 class MonitoringController extends Controller
@@ -46,17 +47,20 @@ class MonitoringController extends Controller
 
     public function approved_project_monitoring_view()
     {
-        $data['title'] = 'Approved Project Monitoring';
+        $data['title']              = 'Approved Project Monitoring';
+        $data['current']            = Carbon::now()->year.'-'.Carbon::now()->month;
         return view('systems.lls_whip.whip.admin.pages.project_monitoring.approved_list.lists')->with($data);
     }
 
-    
-
+    //CREATE
+    //READ
+   
+    //UPDATE
     public function approved_monitoring(Request $request)
     {
         $id = $request->input('id');
         $where = array('project_monitoring_id' => $id);
-        $items = array('monitoring_status' => 'approved');
+        $items = array('monitoring_status' => 'approved', 'approved_date' => Carbon::now()->format('Y-m-d H:i:s'));
         $update = $this->customRepository->update_item($this->conn, $this->monitoring_table, $where, $items);
         if ($update) {
             // Registration successful
@@ -71,4 +75,7 @@ class MonitoringController extends Controller
             ], 422);
         }
     }
+    //DELETE
+
+    
 }

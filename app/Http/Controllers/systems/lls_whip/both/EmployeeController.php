@@ -132,7 +132,7 @@ class EmployeeController extends Controller
     
     public function search_employee(){
         $q = trim($_GET['key']);
-        $emp = $this->employeeQuery->q_search($this->conn,$q);
+        $emp = $this->employeeQuery->q_search($q);
         $data = [];
         foreach ($emp as $row) {
             $data[] = array(
@@ -140,7 +140,8 @@ class EmployeeController extends Controller
                 'first_name'    => $row->first_name,
                 'middle_name'   => $row->middle_name == null ? ' ' : $row->middle_name,
                 'last_name'     => $row->last_name,
-                'extension'     => $row->extension == null ? ' ' : $row->extension
+                'extension'     => $row->extension == null ? ' ' : $row->extension,
+                'full_address'  => $this->customService->full_address($row)
             );
         }
         return response()->json($data);

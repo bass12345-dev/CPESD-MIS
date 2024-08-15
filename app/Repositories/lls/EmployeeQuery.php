@@ -6,9 +6,14 @@ use Illuminate\Support\Facades\DB;
 
 class EmployeeQuery
 {
-  public function q_search($conn, $search)
+  protected $conn;
+
+  public function __construct(){
+    $this->conn = config('custom_config.database.lls_whip');
+  }
+  public function q_search($search)
   {
-    $rows = DB::connection($conn)->table('employees as employees')
+    $rows = DB::connection($this->conn)->table('employees as employees')
       ->select(
         //Employee
         'employees.employee_id as employee_id',
@@ -16,6 +21,10 @@ class EmployeeQuery
         'employees.middle_name as middle_name',
         'employees.last_name as last_name',
         'employees.extension as extension',
+        'employees.province as province',
+        'employees.city as city',
+        'employees.barangay as barangay',
+        'employees.street as street',
       )
       ->where(DB::raw("concat(employees.first_name,' ', employees.last_name)"), 'LIKE', "%" . $search . "%")
       ->orderBy('employees.first_name', 'asc')->get();

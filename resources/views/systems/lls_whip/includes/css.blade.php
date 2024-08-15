@@ -52,6 +52,7 @@
 <link rel="stylesheet" href="{{ asset('lls_assets/css/additional.css')}}">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/messages.css')}}">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/hamster.css')}}">
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
 <style>
 	.text-bold {
 		font-weight: 700;
@@ -67,6 +68,14 @@
 		
 	}
 
+	.d-flex {
+		display: flex;
+		width: 50%;
+	}
+
+	.d-flex #calendar {
+		width: 250px;
+	}
 
 	
 </style>

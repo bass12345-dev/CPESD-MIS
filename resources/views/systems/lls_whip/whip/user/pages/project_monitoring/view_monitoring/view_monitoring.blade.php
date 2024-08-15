@@ -113,15 +113,6 @@
             _updatetAjax(url, form, table);
 
         }
-
-        // setTimeout(() => {
-
-        //     load_positions_chart();
-        //     load_gender_outside_chart();
-        //     load_gender_inside_chart();
-        // }, 1000);
-
-
     });
 
     $(document).on('click', 'button.add-employee', function () {
@@ -191,6 +182,9 @@
             {
                 data: null
             },
+            {
+                data: null
+            },
             ],
             'select': {
                 'style': 'multi',
@@ -234,13 +228,24 @@
                 }
             },
             {
-                targets: -2,
+                targets: -3,
                 data: null,
                 orderable: false,
                 className: 'text-center',
                 render: function (data, type, row) {
                     var result = row.level_of_employment.replaceAll('_', ' ');
                     return capitalizeFirstLetter(result);
+
+                }
+            },
+
+            {
+                targets: -2,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return capitalizeFirstLetter(row.location_status);
 
                 }
             },
@@ -263,6 +268,8 @@
                                 data-start="' + row.start_date + '"\
                                 data-end="' + row.end_date + '"\
                                 data-level="' + row.level_of_employment + '"\
+                                data-address = "' + row.full_address + '"\
+                                data-location-status = "' + row.location_status + '"\
                                 ><i class="fas fa-pen"></i></button> </div>\
                                 </div>\
                                 ';
@@ -286,6 +293,8 @@
         $('select[name=position]').val($(this).data('position'));
         $('select[name=employment_status]').val(status);
         $('select[name=employment_level]').val($(this).data('level'));
+        $('input[name=address]').val($(this).data('address'));
+        $('select[name=location_status]').val($(this).data('location-status'));
     });
 
     $('button#multi-delete').on('click', function () {

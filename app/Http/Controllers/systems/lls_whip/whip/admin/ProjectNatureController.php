@@ -79,7 +79,7 @@ class ProjectNatureController extends Controller
            $items[] = array(
                     'project_nature_id'     => $row->project_nature_id,
                     'project_nature'        => $row->project_nature,
-                    'created'         => date('M d Y - h:i a', strtotime($row->created_on)),
+                    'created'         =>    date('M d Y - h:i a', strtotime($row->created_on)),
            );
         }
         return response()->json($items);

@@ -6,8 +6,7 @@
                     <div class="data-table-list">
                         <div class="basic-tb-hd">
                             <h2>{{$title}}</h2>
-                            <button class="btn btn-danger multi-delete" id="multi-delete" >Delete</button>
-                            <button class="btn btn-primary multi-delete" onclick="reload()" >Reload</button>
+                            @include('components.dts.filter_by_month')
                         </div>
                         <div class="table-responsive">
                             <table id="data-table-basic" class="table table-striped">
@@ -20,7 +19,8 @@
                                         <th>Address</th>
                                         <th>Date Of Monitoring</th>
                                         <th>Specific Activity</th>
-                                        <th>Status</th>
+                                        <th>Person Responsible</th>
+                                      
                                     </tr>
                                 </thead>
                             </table>

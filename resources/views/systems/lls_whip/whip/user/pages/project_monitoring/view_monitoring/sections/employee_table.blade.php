@@ -22,6 +22,7 @@
                                         <th>Nature of Employment</th>
                                         <th>Status Of Employment</th>
                                         <th>Level Of Employment</th>
+                                        <th>Location Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

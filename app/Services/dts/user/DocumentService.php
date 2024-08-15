@@ -89,85 +89,81 @@ class DocumentService
             'doc_status'        => 'pending',
             'destination_type'  => $request->input('type'),
             'origin'            => $request->input('origin'),
-        );
+        );  
 
         $count = $this->customRepository->q_get_where($this->conn, array('tracking_number' => $items['tracking_number']), $this->documents_table)->count();
-
         if ($count == 0) {
-
-            $add = $this->customRepository->insert_item($this->conn, $this->documents_table, $items);
+            $add = DB::connection($this->conn)->table('documents')->insertGetId($items);
             if ($add) {
-
-                $row        = $this->document_data(array('tracking_number' => $items['tracking_number']));
-
+                $row = $this->customRepository->q_get_where($this->conn, array('document_id' => $add),$this->documents_table)->first();
                 $items1 = array(
-                    't_number'          => $row->tracking_number,
-                    'user1'             => $row->u_id,
-                    'office1'           => $row->offi_id,
-                    'user2'             => $row->u_id,
-                    'office2'           => $row->offi_id,
-                    'status'            => 'received',
-                    'received_status'   => '1',
-                    'received_date'     => Carbon::now()->format('Y-m-d H:i:s'),
-                    'release_status'    => NULL,
-                    'to_receiver'       => 'no',
-                    'release_date'      => NULL,
+                    't_number'              => $row->tracking_number,
+                    'user1'                 => $row->u_id,
+                    'office1'               => $row->offi_id,
+                    'user2'                 => $row->u_id,
+                    'office2'               => $row->offi_id,
+                    'status'                => 'received',
+                    'received_status'       => '1',
+                    'received_date'         => Carbon::now()->format('Y-m-d H:i:s'),
+                    'release_status'        => NULL,
+                    'to_receiver'           => 'no',
+                    'release_date'          => NULL,
                 );
-                $add1 = $this->customRepository->insert_item($this->conn, $this->history_table, $items1);
-
-                if (true) {
-                    $this->actionLogService->dts_add_action('Added Document No. ' . $row->tracking_number, $user_type, $row->document_id);
+                $add1 = $this->customRepository->insert_item($this->conn,$this->history_table, $items1);
+                if ($add1) {
+                    // // $this->create_qr_code($items['tracking_number']);
+                    // ActionLogsController::dts_add_action($action = 'Added Document No. ' . $row->tracking_number, $user_type = 'user', $_id = $row->document_id);
                     $data = array('id' => $row->document_id, 'message' => 'Added Successfully', 'response' => true);
                 } else {
 
                     $data = array('message' => 'Something Wrong', 'response' => false);
                 }
-            } else {
+
+            }else {
 
                 $data = array('message' => 'Something Wrong', 'response' => false);
             }
-        } else {
+
+        }else {
             $data = array('message' => 'Tracking Number is Existing', 'response' => false);
         }
 
         return $data;
+
+
+        
     }
 
     //RECEIVED PROCESS
-    public function received_process($history_id, $tracking_number, $user_type)
-    {
+    // public function received_process($history_id, $tracking_number, $user_type)
+    // {
 
-        $to_update = array(
+    //     $to_update = array(
 
-            'status'                => 'received',
-            'received_status'       => 1,
-            'received_date'         => Carbon::now()->format('Y-m-d H:i:s'),
-        );
+    //         'status'                => 'received',
+    //         'received_status'       => 1,
+    //         'received_date'         => Carbon::now()->format('Y-m-d H:i:s'),
+    //     );
 
-        $r = $this->document_data(array('tracking_number' => $tracking_number));
+    //     $r = 
 
-        if ($r->doc_status != 'cancelled') {
+    //     if ($r->doc_status != 'cancelled') {
 
-            $update_receive = $this->customRepository->update_item($this->conn,$this->history_table, array('history_id' => $history_id), $to_update);
-            if ($update_receive) {
-                $this->actionLogService->dts_add_action('Received Document No. ' . $tracking_number, $user_type, $r->document_id);
-                $data = array('message' => 'Received Succesfully', 'id' => $history_id, 'tracking_number' => $tracking_number, 'response' => true);
-            } else {
-                $data = array('message' => 'Something Wrong', 'response' => false);
-            }
-        } else {
-            $data = array('message' => 'This Document is cancelled', 'response' => false);
-        }
-        return $data;
-    }
+    //         $update_receive = $this->customRepository->update_item($this->conn,$this->history_table, array('history_id' => $history_id), $to_update);
+    //         if ($update_receive) {
+    //             $this->actionLogService->dts_add_action('Received Document No. ' . $tracking_number, $user_type, $r->document_id);
+    //             $data = array('message' => 'Received Succesfully', 'id' => $history_id, 'tracking_number' => $tracking_number, 'response' => true);
+    //         } else {
+    //             $data = array('message' => 'Something Wrong', 'response' => false);
+    //         }
+    //     } else {
+    //         $data = array('message' => 'This Document is cancelled', 'response' => false);
+    //     }
+    //     return $data;
+    // }
 
 
 
     
 
-    private function document_data($where)
-    {
-        $item =  $this->customRepository->q_get_where($this->conn, $where, $this->documents_table)->first();
-        return $item;
-    }
 }

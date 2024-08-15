@@ -19,6 +19,7 @@
                                         <th>Address</th>
                                         <th>Date Of Monitoring</th>
                                         <th>Specific Activity</th>
+                                        <th>Person Responsible</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>

@@ -9,13 +9,13 @@
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-contractor' || $segments[2] == 'contractors-list' ? 'active' : '' ?>" href="#mailbox1"><i class="notika-icon notika-mail"></i>Contractors</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'pending-monitoring' || $segments[2] == 'projects-list' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'pending-monitoring' || $segments[2] == 'projects-list' || $segments[2] == 'approved-monitoring' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'project-nature' ? 'active' : '' ?>" href="#project_nature"><i class="notika-icon notika-mail"></i>Project Nature</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'whip-positions' ? 'active' : '' ?>" href="#positions"><i class="notika-icon notika-mail"></i>Positions</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#status"><i class="notika-icon notika-mail"></i>Employment Status</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'employment-status' ? 'active' : '' ?>" href="#status"><i class="notika-icon notika-mail"></i>Employment Status</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'employees-record' ? 'active' : '' ?>" href="#employees"><i class="notika-icon notika-mail"></i>Employees Record</a>
                         </li>
@@ -43,7 +43,7 @@
 
                             </ul>
                         </div>
-                        <div id="all_projects" class="tab-pane <?= $segments[2] == 'pending-monitoring' || $segments[2] == 'projects-list'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
+                        <div id="all_projects" class="tab-pane <?= $segments[2] == 'pending-monitoring' || $segments[2] == 'projects-list' || $segments[2] == 'approved-monitoring'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
                                 
                                 <li><a href="{{url('admin/whip/projects-list')}}" class="<?= $segments[2] == 'projects-list' ? 'active' : '' ?>">Projects List</a>

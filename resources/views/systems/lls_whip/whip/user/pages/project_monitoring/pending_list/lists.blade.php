@@ -48,6 +48,9 @@
                 data: 'specific_activity'
             },
             {
+                data: 'person_responsible'
+            },
+            {
                 data: 'monitoring_status'
             },
 

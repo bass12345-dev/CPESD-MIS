@@ -61,42 +61,7 @@ class ProjectQuery
     }
 
 
-    //User Project Information
-    public function get_pending_monitoring(){
-
-        $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
-          ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
-          ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
-          ->select(   
-                    //Contractors
-                    'contractors.contractor_id as contractor_id', 
-                    'contractors.contractor_name as contractor_name',
-                    'contractors.status as contractor_status' ,
-                    
-                    //Project Monitoring
-                    'project_monitoring.date_of_monitoring as date_of_monitoring',
-                    'project_monitoring.specific_activity as specific_activity',
-                    'project_monitoring.monitoring_status as monitoring_status',
-                    'project_monitoring.project_monitoring_id as project_monitoring_id',
-
-                    //Projects
-                    'projects.project_id as project_id',
-                    'projects.project_title as project_title',
-                    'projects.street as street',
-                    'projects.barangay as barangay',
-                    'projects.project_cost as project_cost',
-                    'projects.project_status as project_status',
-                    'projects.date_started as date_started'         
-
-        )
-        ->where('contractors.status', 'active')
-        ->where('project_monitoring.monitoring_status', 'pending')
-        ->orderBy('project_monitoring_id', 'desc')
-        ->get();
-       
-        return $rows;
-  
-      }
+    
 
     //Project Monitoring Information
     public function get_monitoring_information($where){
@@ -165,7 +130,8 @@ class ProjectQuery
             'project_employee.nature_of_employment as nature_of_employment',
             'project_employee.start_date as start_date',
             'project_employee.end_date as end_date',
-            'project_employee.level_of_employment as level_of_employment'
+            'project_employee.level_of_employment as level_of_employment',
+            'project_employee.location_status as location_status'
 
                     
 

@@ -72,3 +72,4 @@
 <script src="https://cdn.jsdelivr.net/npm/js-loading-overlay@1.1.0/dist/js-loading-overlay.min.js"></script>
 <script src="{{asset('assets/js/yearpicker.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://jsuites.net/v4/jsuites.js"></script>
