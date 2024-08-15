@@ -140,7 +140,7 @@ class MonitoringController extends Controller
     //READ
     public function get_user_project_monitoring(){
 
-        $contractors = $this->projectQuery->get_user_monitoring();
+        $contractors = $this->projectQuery->get_pending_monitoring();
         $items = [];
         $i = 1;
         foreach ($contractors as $row) {

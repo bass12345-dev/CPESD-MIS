@@ -185,8 +185,9 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          Route::get("/whip/add-new-contractor",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'add_new_contractor']);
          Route::get("/whip/contractors-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractors_list']);
       //Projects
-         Route::get("/whip/add-new-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'add_new_project']);
+         // Route::get("/whip/add-new-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'add_new_project']);
          Route::get("/whip/projects-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'projects_list']);
+         Route::get("/whip/pending-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'pending_project_monitoring_view']);
       //Positions
          Route::get("/whip/whip-positions",[ App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'index']);
       //Employment Status
@@ -237,6 +238,9 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
          Route::get("/a-e-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'get_all_status']);
          Route::post("/i-u-e-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'insert_update_status']);
          Route::post("/d-s",[App\Http\Controllers\systems\lls_whip\both\EmploymentStatusController::class, 'delete_status']);
+
+      //Project Monitoring
+         Route::post("/whip/a-m",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'approved_monitoring']);
    // DTS
       //Analytics
          Route::post("/dts/d-t-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_document_types_analytics']);
@@ -256,10 +260,11 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
          Route::post("/dts/i-u-f",[ App\Http\Controllers\systems\dts\admin\FinalActionsController::class, 'insert_update']);
          Route::post("/dts/d-f",[ App\Http\Controllers\systems\dts\admin\FinalActionsController::class, 'delete']);
       
+      //Manage Users
+         Route::get("/dts/all-users",[ App\Http\Controllers\systems\dts\admin\UsersController::class, 'get_all_users']);
 
-
-
-
+      //Logged in History
+         Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'get_logged_in_history']);
       //Action Logs
-      Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\admin\ActionLogsController::class, 'get_action_logs']);
+         Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\admin\ActionLogsController::class, 'get_action_logs']);
 });      

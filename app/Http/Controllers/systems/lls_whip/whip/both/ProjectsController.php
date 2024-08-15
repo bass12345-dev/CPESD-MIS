@@ -28,6 +28,7 @@ class ProjectsController extends Controller
     protected $order_by_key = 'project_id';
     protected $position_table;
     protected $nature_table;
+    protected $project_monitoring_table;
 
     public function __construct(CustomRepository $customRepository, ProjectsService $projectService, ContractorsService $contractorsService, ContractorQuery $Contractorquery, ProjectQuery $projectQuery,CustomService $customService){
         $this->conn                 = config('custom_config.database.lls_whip');
@@ -40,6 +41,7 @@ class ProjectsController extends Controller
         $this->position_table       = 'positions';
         $this->status_table         = 'employment_status';
         $this->nature_table         = 'project_nature';
+        $this->project_monitoring_table = 'project_monitoring';
         $this->Contractorquery      = $Contractorquery;
     }
 
@@ -87,13 +89,15 @@ class ProjectsController extends Controller
                         'contractor'        => $row->contractor_name,
                         'project_location'  => $row->barangay.' , '.$row->street,
                         'date_started'      => Carbon::parse($row->date_started)->format('M d Y') ,
-                        'monitoring_count'  => $row->monitoring_count,
+                        'monitoring_count'  => $this->customRepository->q_get_where($this->conn,array('project_id' => $row->project_id),$this->project_monitoring_table)->count(),
                         'project_nature'    => $row->project_nature
             );
         }
         return response()->json($items);
 
     }
+
+
     //UPDATE
     //DELETE
     public function delete_projects(Request $request){

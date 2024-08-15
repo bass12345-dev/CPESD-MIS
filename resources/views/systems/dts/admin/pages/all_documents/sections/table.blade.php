@@ -1,7 +1,7 @@
 <div class="card flex-fill ">
     @include('components.dts.filter_by_month')
    <div class="card-header">
-      <h5 class="card-title mb-2">Documents</h5>
+     
       <button class="btn btn-danger" id="delete"> Delete</button>
       <button class="btn btn-warning" id="cancel"> Cancel</button>
       <button class="btn btn-primary" id="print_slips1"> Print Tracking Slip</button>

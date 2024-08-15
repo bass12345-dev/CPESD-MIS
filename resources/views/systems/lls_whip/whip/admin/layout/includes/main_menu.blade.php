@@ -9,7 +9,7 @@
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-contractor' || $segments[2] == 'contractors-list' ? 'active' : '' ?>" href="#mailbox1"><i class="notika-icon notika-mail"></i>Contractors</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'pending-monitoring' || $segments[2] == 'projects-list' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'project-nature' ? 'active' : '' ?>" href="#project_nature"><i class="notika-icon notika-mail"></i>Project Nature</a>
                         </li>
@@ -43,10 +43,9 @@
 
                             </ul>
                         </div>
-                        <div id="all_projects" class="tab-pane <?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
+                        <div id="all_projects" class="tab-pane <?= $segments[2] == 'pending-monitoring' || $segments[2] == 'projects-list'  ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
-                                <li><a href="{{url('admin/whip/add-new-project')}}" class="<?= $segments[2] == 'add-new-project' ? 'active' : '' ?>">Add New</a>
-                                </li>
+                                
                                 <li><a href="{{url('admin/whip/projects-list')}}" class="<?= $segments[2] == 'projects-list' ? 'active' : '' ?>">Projects List</a>
                                 </li>
                                 <li><a href="{{url('admin/whip/pending-monitoring')}}" class="<?= $segments[2] == 'pending-monitoring' ? 'active' : '' ?>">Pending Monitoring</a>

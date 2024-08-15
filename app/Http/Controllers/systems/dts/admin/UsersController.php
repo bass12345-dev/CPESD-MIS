@@ -5,18 +5,19 @@ namespace App\Http\Controllers\systems\dts\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\CustomRepository;
-use App\Services\dts\admin\DashboardService;
+use App\Services\CustomService;
+
 use Carbon\Carbon;
 
 class UsersController extends Controller
 {
     protected $conn;
     protected $customRepository;
-    protected $dashboardService;
-    public function __construct(CustomRepository $customRepository, DashboardService $dashboardService){
-        $this->conn                 = config('custom_config.database.dts');
+    protected $customService;
+    public function __construct(CustomRepository $customRepository, CustomService $customService){
+        $this->conn                 = config('custom_config.database.users');
         $this->customRepository     = $customRepository;
-        $this->dashboardService     = $dashboardService;
+        $this->customService       = $customService;
      
     }
     public function index(){
@@ -24,6 +25,24 @@ class UsersController extends Controller
         return view('systems.dts.admin.pages.manage_users.manage_users')->with($data);
     }
 
+    public function get_all_users(){
+        $items    = $this->customRepository->q_get_where($this->conn,array('user_type' => 'user'),'users')->get();
+        $i        = 1;
+        foreach ($items as $value => $key) {
+            $data[] = array(
+                'number'                => $i++,
+                'user_id'               => $key->user_id,
+                'name'                  => $this->customService->user_full_name($key),
+                'username'              => $key->username,
+                'address'               => $key->address,
+                'email_address'         => $key->email_address,
+                'contact_number'        => $key->contact_number,
+                'user_status'           => $key->user_status,
+                'created'               => date('M d Y h:i A', strtotime($key->user_created))
+            );
+        }
+        return response()->json($data);
+    }
     
 
 
