@@ -36,48 +36,31 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
                                         <i class="notika-icon notika-edit"></i>
                                     </div>
                                     <div class="nk-int-st">
-                                        <textarea class="form-control" placeholder="Specific Activity"
+                                        <textarea rows="6" class="form-control" placeholder="Specific Activity"
                                             name="specific_activity" required></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
                                         <i class="notika-icon notika-support"></i>
                                     </div>
                                     <div class="nk-int-st">
-                                        <textarea class="form-control" placeholder="Annotations"
+                                        <textarea rows="6" class="form-control" placeholder="Annotations"
                                             name="annotations"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row">
-                            <div style="text-align: center; margin-top: 20px;">
-                                <h1>Workers</h1>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group ic-cmp-int">
-                                    <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-support"></i>
-                                    </div>
-                                    <div class="nk-int-st">
-                                        <input type="text" class="form-control" name="employee"
-                                            placeholder="Seach Employee/Workers">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            </div>
-                        </div> -->
-
                         <div class="form-example-int mg-t-15">
                             <button type="submit" class="btn btn-primary notika-btn-success">Submit</button>
                         </div>

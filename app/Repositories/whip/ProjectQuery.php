@@ -31,9 +31,8 @@ class ProjectQuery
       $rows = DB::connection($this->conn)->table('projects as projects')
         ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
         ->leftJoin('project_nature', 'project_nature.project_nature_id', '=', 'projects.project_nature_id')
-        ->leftJoin('project_monitoring', 'project_monitoring.project_id', '=', 'projects.project_id')
         ->select(   
-                  // DB::raw('COUNT(project_monitoring.project_id) as monitoring_count'),
+                  
                   //Contractors
                   'contractors.contractor_id as contractor_id', 
                   'contractors.contractor_name as contractor_name',
@@ -51,8 +50,6 @@ class ProjectQuery
 
       )
       ->where('contractors.status', 'active')
-      // ->groupBy('project_monitoring.project_id')
-      // ->groupBy('projects.project_id')
       ->orderBy('projects.project_id', 'desc')
       ->get();
      

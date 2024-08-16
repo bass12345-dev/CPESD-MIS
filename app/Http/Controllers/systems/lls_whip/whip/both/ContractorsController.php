@@ -9,6 +9,7 @@ use App\Repositories\CustomRepository;
 use App\Repositories\whip\ContractorQuery;
 use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
+use App\Services\user\UserService;
 use App\Services\whip\ContractorsService;
 use Carbon\Carbon;
 
@@ -16,6 +17,7 @@ class ContractorsController extends Controller
 {
     protected $contractorService;
     protected $customService;
+    protected $userService;
     protected $customRepository;
     protected $Contractorquery;
     protected $projectQuery;
@@ -23,10 +25,9 @@ class ContractorsController extends Controller
     protected $contractors_table;
     protected $projects_table;
     protected $order_by_asc = 'asc';
-
     protected $order_by_desc = 'desc';
     protected $order_by_key = 'contractor_id';
-    public function __construct(CustomRepository $customRepository, ContractorsService $contractorService, ContractorQuery $contractorQuery, CustomService $customService, ProjectQuery $projectQuery){
+    public function __construct(CustomRepository $customRepository, UserService $userService,ContractorsService $contractorService, ContractorQuery $contractorQuery, CustomService $customService, ProjectQuery $projectQuery){
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->contractorService    = $contractorService;
@@ -35,6 +36,7 @@ class ContractorsController extends Controller
         $this->projects_table       = 'projects';
         $this->Contractorquery      = $contractorQuery;
         $this->projectQuery         = $projectQuery;
+        $this->userService          = $userService;
     }
     public function add_new_contractor(){
         $data['title'] = 'Add New Contractor';
@@ -80,7 +82,7 @@ class ContractorsController extends Controller
                     'contractor_id'         => $row->contractor_id,
                     'contractor_name'       => $row->contractor_name,
                     'proprietor'            => $row->proprietor,
-                    'full_address'          => $this->customService->full_address($row),
+                    'full_address'          => $this->userService->full_address($row),
                     'phone_number'          => $row->phone_number,
                     'phone_number_owner'    => $row->phone_number_owner,
                     'telephone_number'      => $row->telephone_number,
