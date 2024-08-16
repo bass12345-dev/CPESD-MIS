@@ -154,21 +154,33 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
    //DTS
       //My Documents
          Route::post("/dts/g-m-d",[App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'get_my_documents']);
+         Route::post("/dts/update-document",[App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'update_document']);
       //Add Document
          Route::get("/dts/g-l-d",[App\Http\Controllers\systems\dts\user\AddDocumentController::class, 'get_documents_limit']);
          Route::get("/dts/g-t-n",[App\Http\Controllers\systems\dts\user\AddDocumentController::class, 'get_last_tracking_number']);
          Route::post("/dts/i-d",[App\Http\Controllers\systems\dts\user\AddDocumentController::class, 'insert_document']);
       //Incoming Documents
          Route::get('/dts/incoming-documents', [App\Http\Controllers\systems\dts\user\IncomingController::class, 'get_incoming_documents']);
-         Route::post('dts/receive-documents', [App\Http\Controllers\systems\dts\user\IncomingController::class, 'receive_documents']);
+         Route::post('/dts/receive-documents', [App\Http\Controllers\systems\dts\user\IncomingController::class, 'receive_documents']);
+         
       //Recieved Documents
-         Route::get('dts/received-documents', [App\Http\Controllers\systems\dts\user\ReceivedController::class, 'get_received_documents']);
+         Route::get('/dts/received-documents', [App\Http\Controllers\systems\dts\user\ReceivedController::class, 'get_received_documents']);
+         Route::post('/dts/forward-documents', [App\Http\Controllers\systems\dts\user\ReceivedController::class, 'forward_documents']);
+         Route::post('/dts/receive-errors', [App\Http\Controllers\systems\dts\user\ReceivedController::class, 'received_errors']);
       //Forwarded Documents
-         Route::get('dts/forwarded-documents', [App\Http\Controllers\systems\dts\user\ForwardedController::class, 'get_forwarded_documents']);
-       //Forwarded Documents
-         Route::get('dts/outgoing-documents', [App\Http\Controllers\systems\dts\user\OutgoingController::class, 'get_outgoing_documents']);
+         Route::get('/dts/forwarded-documents', [App\Http\Controllers\systems\dts\user\ForwardedController::class, 'get_forwarded_documents']);
+         Route::post('/dts/update-remarks', [App\Http\Controllers\systems\dts\user\ForwardedController::class, 'update_remarks']);
+         Route::post('/dts/update-forwarded', [App\Http\Controllers\systems\dts\user\ForwardedController::class, 'update_forwarded']);
+       //Outgoing Documents
+         Route::get('/dts/outgoing-documents', [App\Http\Controllers\systems\dts\user\OutgoingController::class, 'get_outgoing_documents']);
+         Route::post('/dts/outgoing-documents', [App\Http\Controllers\systems\dts\user\OutgoingController::class, 'outgoing_documents']);
+         Route::post('/dts/r-f-o', [App\Http\Controllers\systems\dts\user\OutgoingController::class, 'received_from_outgoing']);
+         Route::post('/dts/u-o-d', [App\Http\Controllers\systems\dts\user\OutgoingController::class, 'update_outgoing_documents']);
       //Action Logs
-         Route::get('dts/action-logs', [App\Http\Controllers\systems\dts\user\ActionLogsController::class, 'get_action_logs']);
+         Route::get('/dts/action-logs', [App\Http\Controllers\systems\dts\user\ActionLogsController::class, 'get_action_logs']);
+
+      //Complete Documents
+         Route::post('/dts/complete-docs', [App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'complete_documents']);
 });
 
 
@@ -250,6 +262,7 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
          Route::post("/dts/p-m-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_per_month_analytics']);
       //All Documents
          Route::get("/dts/all-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'get_all_documents']);
+         Route::post("/dts/delete-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'delete_documents']);
       //Offices
          Route::get("/dts/all-offices",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'get_all_offices']);
          Route::post("/dts/i-u-o",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'insert_update_office']);

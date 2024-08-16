@@ -79,4 +79,67 @@ class DocumentService
     }
 
 
+     //Complete Documents
+     public function complete_process($remarks,$final_action,$history_id,$tracking_number,$user_type){
+
+        $hs                 = $this->customRepository->q_get_where_order($this->conn,$this->history_table,array('history_id' => $history_id),'history_id','desc')->first();
+        $user_row           = $this->customRepository->q_get_where($this->conn_user, array('user_id' => session('user_id')),'users')->first();
+
+        if($user_row->user_id == 8 || $user_row->user_id == 13){
+
+        $where              = array('history_id' => $history_id);
+        $data               = array(
+                            'status'            => 'received',
+                            'received_status'   => 1,
+                            'received_date'     =>  $hs->received_date == NULL ?   Carbon::now()->format('Y-m-d H:i:s') : $hs->received_date,
+                            'release_status'    => 1,
+                            'release_date'      =>  $hs->release_date == NULL ?   Carbon::now()->format('Y-m-d H:i:s')  : $hs->release_date,
+        );
+        $update             = $this->customRepository->update_item($this->conn,$this->history_table,$where,$data);
+
+        if($update){
+
+        $info = array(
+            't_number'              => $tracking_number,
+            'user1'                 => $user_row->user_id,
+            'office1'               => $user_row->off_id,
+            'user2'                 => $user_row->user_id,
+            'office2'               => $user_row->off_id,
+            'received_status'       => 1,
+            'received_date'         => Carbon::now()->format('Y-m-d H:i:s') ,
+            'release_status'        => NULL,
+            'to_receiver'           => 'no',
+            'release_date'          => Carbon::now()->format('Y-m-d H:i:s') ,
+            'status'                => 'completed',
+            'final_action_taken'    => $final_action,
+            'remarks'               => $remarks
+
+        );
+
+        $add1 = $this->customRepository->insert_item($this->conn,$this->history_table, $info);
+
+        if ($add1) {
+            // $query_row      = $this->customRepository->q_get_where($this->conn,array('tracking_number'=> $tracking_number),$this->documents_table)->first();
+            $this->customRepository->update_item($this->conn,$this->documents_table,array('tracking_number' =>  $tracking_number), array('doc_status' => 'completed','completed_on'=> Carbon::now()->format('Y-m-d H:i:s')));
+            // $this->actionLogService->dts_add_action('Completed Document No. '.$query_row->tracking_number,$user_type,$query_row->document_id);
+            $data = array('message' => 'Completed Succesfully', 'response' => true);
+        } else {
+
+            $data = array('message' => 'Something Wrong', 'response' => false);
+
+        }
+
+        }else {
+            $data = array('message' => 'Something Wrong', 'response' => false);
+        }
+
+    }else {
+        $data = array('message' => 'Sorry !!!! You are not Authorized to use this action', 'response' => false);
+    }
+
+
+        return $data;
+    }
+
+
 }

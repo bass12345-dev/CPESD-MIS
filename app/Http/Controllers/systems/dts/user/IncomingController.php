@@ -23,6 +23,28 @@ class IncomingController extends Controller
         return view('systems.dts.user.pages.incoming.incoming')->with($data);
     }
 
+    
+
+    
+    
+    //CREATE
+    public function receive_documents(Request $request)
+    {
+        $items = $request->input('id')['items'];
+        if (is_array($items)) {
+
+            foreach ($items as $row) {
+                $x = explode('-', $row);
+                $history_id = $x[0];
+                $tracking_number = $x[1];
+                $resp = $this->documentService->received_process($history_id,$tracking_number,$this->user_type); 
+            }
+        } else {
+            $resp = array('message' => 'Error', 'response' => false);
+        }
+        return response()->json($resp);
+    }
+    //READ
     public function get_incoming_documents(){
 
         $data = [];
@@ -51,23 +73,7 @@ class IncomingController extends Controller
 
     }
 
-
-    public function receive_documents(Request $request)
-    {
-        $items = $request->input('id')['items'];
-        if (is_array($items)) {
-
-            foreach ($items as $row) {
-                $x = explode('-', $row);
-                $history_id = $x[0];
-                $tracking_number = $x[1];
-                $resp = $this->documentService->received_process($history_id,$tracking_number,$this->user_type); 
-            }
-        } else {
-            $resp = array('message' => 'Error', 'response' => false);
-        }
-        return response()->json($resp);
-    }
-
+    //UPDATE
+    //DELETE
 
 }

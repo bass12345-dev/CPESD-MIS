@@ -29,7 +29,26 @@ class AllDocumentsController extends Controller
     }
 
     //CREATE
+    public function complete_documents(Request $request){
+
+        $items           = $request->input('c_t_number');
+        $remarks         = $request->input('remarks2');
+        $final_action    = $request->input('final_action_taken');
+        $array           = explode(',',$items);
+        $user_type       = 'user';
         
+        foreach ($array as $row) {
+
+            $x                  = explode('-', $row);
+            $history_id         = $x[0];
+            $tracking_number    = $x[1];
+            $resp               = $this->documentService->complete_process($remarks,$final_action,$history_id,$tracking_number,$user_type);
+           
+        }
+
+        return response()->json($resp);
+
+    }
     //READ
     public function get_all_documents(){
 
@@ -46,6 +65,29 @@ class AllDocumentsController extends Controller
     }
     //UPDATE
     //DELETE
+    public function delete_documents(Request $request){
+        
+        $id = $request->input('id')['id'];
+        if (is_array($id)) {
+            foreach ($id as $row) {
+                $delete                   = $this->customRepository->q_get_where($this->conn,array('document_id' => $row),'documents');
+                $tracking_number          = $delete->first()->tracking_number;
+                $document_id =              $delete->first()->document_id;
+                $delete->delete();
+                // ActionLogsController::dts_add_action($action = 'Deleted Document No. '.$tracking_number,$user_type='user',$_id = $document_id);
+                $this->customRepository->delete_item($this->conn,'history', array('t_number' => $tracking_number));
+                $this->customRepository->delete_item($this->conn,'outgoing_documents', array('doc_id' => $document_id));
+            }
+
+            $data = array('message' => 'Deleted Succesfully', 'response' => true);
+        } else {
+            $data = array('message' => 'Error', 'response' => false);
+        }
+
+
+
+        return response()->json($data);
+    }
 
 
 

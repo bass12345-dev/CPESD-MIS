@@ -1,4 +1,5 @@
 <div class="card flex-fill p-3">
+@include('components.dts.filter_by_month')
     <div class="card-header">
         <h5 class="card-title mb-0">Action Logs</h5>
     </div>

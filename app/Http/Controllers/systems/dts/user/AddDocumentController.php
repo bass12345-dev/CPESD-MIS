@@ -7,6 +7,7 @@ use App\Repositories\CustomRepository;
 use App\Repositories\dts\DtsQuery;
 use App\Services\CustomService;
 use App\Services\dts\user\DocumentService;
+use App\Services\user\UserService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -25,12 +26,14 @@ class AddDocumentController extends Controller
     protected $document_types_table;
     protected $documents_table;
     protected $user_type;
-    public function __construct(CustomRepository $customRepository, DtsQuery $dtsQuery, CustomService $customService,DocumentService $documentService){
+    protected $userService;
+    public function __construct(CustomRepository $customRepository, DtsQuery $dtsQuery, CustomService $customService,DocumentService $documentService,UserService $userService){
         $this->conn                 = config('custom_config.database.dts');
         $this->conn_user            = config('custom_config.database.users');
         $this->customRepository     = $customRepository;
         $this->customService        = $customService;
         $this->documentService      = $documentService;
+        $this->userService          = $userService;
         $this->dtsQuery             = $dtsQuery;
         $this->user_table           = 'users';
         $this->office_table         = 'offices';
@@ -64,7 +67,7 @@ class AddDocumentController extends Controller
                 'number'            => $i++,
                 'document_name'     => $key->document_name,
                 'document_number'   => $key->tracking_number,
-                'name'              => $key->name
+                'name'              => $this->userService->user_full_name($key)
                 
             );
         }      

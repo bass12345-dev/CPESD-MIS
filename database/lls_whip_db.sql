@@ -45,7 +45,7 @@ CREATE TABLE `contractors` (
   `status` set('active','inactive') NOT NULL,
   `added_by` int NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contractors`
@@ -68,10 +68,10 @@ CREATE TABLE `employees` (
   `employee_id` int NOT NULL,
   `first_name` varchar(150) NOT NULL,
   `middle_name` varchar(150) DEFAULT NULL,
-  `last_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `extension` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `last_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `extension` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `province` varchar(255) NOT NULL,
-  `province_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `province_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `city` varchar(255) NOT NULL,
   `city_code` varchar(255) NOT NULL,
   `barangay` varchar(255) DEFAULT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `employees` (
   `contact_number` varchar(15) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employees`
@@ -117,7 +117,7 @@ CREATE TABLE `employment_status` (
   `employment_status_id` int NOT NULL,
   `status` varchar(255) NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employment_status`
@@ -148,7 +148,7 @@ CREATE TABLE `establishments` (
   `status` set('active','inactive') NOT NULL,
   `added_by` int NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `establishments`
@@ -174,7 +174,7 @@ CREATE TABLE `establishment_employee` (
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -191,7 +191,7 @@ CREATE TABLE `establishment_monitoring` (
   `remarks` text,
   `monitoring_status` set('pending','approved') DEFAULT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -204,7 +204,7 @@ CREATE TABLE `establishment_monitoring_employee` (
   `establishment_monitoring_id` int NOT NULL,
   `employee_id` int NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -217,7 +217,7 @@ CREATE TABLE `positions` (
   `position` varchar(255) NOT NULL,
   `type` set('lls','whip') NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `positions`
@@ -246,12 +246,12 @@ CREATE TABLE `projects` (
   `project_nature_id` int NOT NULL,
   `project_cost` bigint NOT NULL,
   `barangay` varchar(255) NOT NULL,
-  `street` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `street` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `date_started` date NOT NULL,
   `date_completed` date DEFAULT NULL,
   `project_status` set('ongoing','completed') NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `projects`
@@ -280,7 +280,7 @@ CREATE TABLE `project_employee` (
   `project_monitoring_id` int NOT NULL,
   `location_status` set('near','far') NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -294,12 +294,12 @@ CREATE TABLE `project_monitoring` (
   `added_by` int NOT NULL,
   `date_of_monitoring` date NOT NULL,
   `specific_activity` text NOT NULL,
-  `annotations` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `annotations` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `monitoring_status` set('pending','approved') NOT NULL,
   `approved_date` datetime DEFAULT NULL,
-  `remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -312,7 +312,7 @@ CREATE TABLE `project_monitoring_employee` (
   `project_monitoring_id` int NOT NULL,
   `employee_id` int NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -322,9 +322,9 @@ CREATE TABLE `project_monitoring_employee` (
 
 CREATE TABLE `project_nature` (
   `project_nature_id` int NOT NULL,
-  `project_nature` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `project_nature` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project_nature`

@@ -133,10 +133,31 @@ class UserService
              array_push($system_names,$key[1]);
             }
             $d = array_map(null,$row_sys, $system_array, $system_names);
-            return $d;
-          
-    
-         
+            return $d;     
+    }
+
+    public  function user_data($user_id){
+        $user_row  = $this->customRepository->q_get_where($this->conn,array('user_id' => $user_id),$this->user_table)->first();
+        return $user_row;
+    }
+
+    public function full_address($row)
+    {
+        return $row->street . ' ' .  $row->barangay . ' ' . $row->city . ' ' . $row->province;
+    }
+    public function user_full_name($key){
+
+        return $key->first_name . ' ' . $key->middle_name . ' ' . $key->last_name . ' ' . $key->extension;
+
+    }
+
+
+    //DTS
+    public function get_receiver()
+    {
+
+        $items = $this->customRepository->q_get_where($this->conn, array('user_status' => 'active', 'is_receiver' => 'yes'),$this->user_table)->first();
+        return $items;
     }
     
 }

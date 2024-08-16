@@ -9,6 +9,7 @@ use App\Repositories\CustomRepository;
 use App\Repositories\lls\EmployeeQuery;
 use App\Services\CustomService;
 use App\Services\lls\EstablishmentService;
+use App\Services\user\UserService;
 use Carbon\Carbon;
 
 class EmployeeController extends Controller
@@ -25,11 +26,13 @@ class EmployeeController extends Controller
     protected $order_by_key = 'estab_emp_id';
     protected $default_city_code;
     protected $default_city_name;
-    public function __construct(CustomRepository $customRepository, EmployeeQuery $employeeQuery, CustomService $customService, EstablishmentService $establishmentService){
+    protected $userService;
+    public function __construct(CustomRepository $customRepository, EmployeeQuery $employeeQuery, CustomService $customService, EstablishmentService $establishmentService, UserService $userService){
         $this->customRepository     = $customRepository;
         $this->employeeQuery        = $employeeQuery;
         $this->customService        = $customService;
         $this->establishmentService = $establishmentService;
+        $this->userService          = $userService;
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->employee_table       = 'employees';
         $this->est_employee_table   = 'establishment_employee';
@@ -97,8 +100,8 @@ class EmployeeController extends Controller
            $items[] = array(
                     'employee_id'           => $row->employee_id,
                     'gender'                => $row->gender,
-                    'full_name'             => $this->customService->user_full_name($row),
-                    'full_address'          => $this->customService->full_address($row),
+                    'full_name'             => $this->userService->user_full_name($row),
+                    'full_address'          => $this->userService->full_address($row),
                     'contact_number'        => $row->contact_number,
                     'birthdate'            => date('M d Y', strtotime($row->birthdate)),
                     'created'               => date('M d Y - h:i a', strtotime($row->created_on)),
@@ -141,7 +144,7 @@ class EmployeeController extends Controller
                 'middle_name'   => $row->middle_name == null ? ' ' : $row->middle_name,
                 'last_name'     => $row->last_name,
                 'extension'     => $row->extension == null ? ' ' : $row->extension,
-                'full_address'  => $this->customService->full_address($row)
+                'full_address'  => $this->userService->full_address($row)
             );
         }
         return response()->json($data);

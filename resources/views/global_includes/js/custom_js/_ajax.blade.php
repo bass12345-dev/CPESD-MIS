@@ -104,8 +104,10 @@
                     success: function (data) {
                         JsLoadingOverlay.hide();
                         if (data.response) {
-                            toast_message_error(data.message)
-                            table.ajax.reload();
+                            toast_message_success(data.message)
+                            if (table != null) {
+                                table.ajax.reload();
+                            }
                         } else {
                             toast_message_error('Something Wrong')
                         }

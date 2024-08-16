@@ -8,6 +8,9 @@
         @include('systems.dts.user.pages.received.sections.table')
    </div>
 </div>
+@include('systems.dts.user.pages.received.modal.forward_modal')
+@include('systems.dts.user.pages.received.modal.outgoing_modal')
+@include('systems.dts.user.pages.received.offcanvas.complete_modal')
 
 @endsection
 @section('js')
@@ -62,6 +65,152 @@ document.addEventListener("DOMContentLoaded", function () {
             return '<a href="' + base_url + '/dts/user/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + '">' + row.document_name + '</a>';
          }
       }]
+   });
+});
+
+$(document).on('click', 'button#multiple_forward', function(){
+   let array = get_select_items_datatable();
+   let html = '';
+   if (array.length > 0) {
+      $('#forward_modal').modal('show');
+      $('input[name=history_track1]').val(array);
+      array.forEach(element => {
+         const myArray = element.split("-");
+         const first = myArray[0];
+         const second = myArray[1];
+         html += '<li class="text-danger h3">' + second + '</li>';
+      });
+      $('.display_tracking_number').html(html);
+   } else {
+      toast_message_error('Please Select at least One')
+   }
+});
+$('#forward_form2').on('submit', function (e) {
+   e.preventDefault();
+   var form = $(this).serialize();
+   Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Foward Document"
+   }).then((result) => {
+      if (result.isConfirmed) {
+         $(this).find('button').prop('disabled', true);
+         $(this).find('button').html('<div class="spinner-border text-info" role="status"><span class="sr-only">Loading...</span></div>');
+         var url = '/user/act/dts/forward-documents';
+         let form = $(this);
+         _insertAjax(url, form, table);
+         $('#forward_modal').modal('hide');
+         $('#forward_form2')[0].reset();
+      }
+   });
+});
+
+
+$(document).on('click', 'button#received_error', function(){
+   selected_items = get_select_items_datatable();
+   if (selected_items.length == 0) {
+      toast_message_error('Please Select at least One')
+   } else {
+      var url = '/user/act/dts/receive-errors';
+      let form = {
+         items: selected_items
+      };
+      delete_item(form, url, button_text = 'Submit', text = 'The documents that you\'ve selected will be back to incoming section',table);
+   }
+});
+
+
+$(document).on('click', 'button#outgoing', function(){
+   let array = get_select_items_datatable();
+   let html = '';
+   if (array.length > 0) {
+      $('#outgoing_modal').modal('show');
+      $('input[name=history_track2]').val(array);
+      array.forEach(element => {
+         const myArray = element.split("-");
+         const first = myArray[0];
+         const second = myArray[1];
+         html += '<li class="text-danger h3">' + second + '</li>';
+      });
+      $('.display_tracking_number1').html(html);
+   } else {
+      toast_message_error('Please Select at least One')
+   }
+});
+
+$('#outgoing_form').on('submit', function (e) {
+   e.preventDefault();
+   var form = $(this).serialize();
+   Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Submit"
+   }).then((result) => {
+      if (result.isConfirmed) {
+         $(this).find('button').prop('disabled', true);
+         $(this).find('button').html('<div class="spinner-border text-info" role="status"><span class="sr-only">Loading...</span></div>');
+         var url = '/user/act/dts/outgoing-documents';
+         let form = $(this);
+         _insertAjax(url, form, table);
+         $('#outgoing_modal').modal('hide');
+         $('#outgoing_form')[0].reset();
+      }
+   });
+});
+
+var myOffcanvas = document.getElementById('offcanvasExample1');
+var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+
+
+$(document).on('click', 'button#complete', function(){
+   let array = get_select_items_datatable();
+   let html = '';
+   
+   if (array.length > 0) {
+      bsOffcanvas.show();
+      $('input[name=c_t_number]').val(array);
+      array.forEach(element => {
+         const myArray = element.split("-");
+         const first = myArray[0];
+         const second = myArray[1];
+         html += '<li class="text-danger h3">' + second + '</li>';
+      });
+      $('.display_tracking_number2').html(html);
+   } else {
+      alert('Please Select at least one');
+   }
+});
+
+
+$('#complete_form').on('submit', function (e) {
+   e.preventDefault();
+   // 
+   var form = $(this).serialize();
+   Swal.fire({
+      title: "Are you sure?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Complete Document"
+   }).then((result) => {
+      if (result.isConfirmed) {
+         $(this).find('button').prop('disabled', true);
+         $(this).find('button').html('<div class="spinner-border text-info" role="status"><span class="sr-only">Loading...</span></div>');
+         let form = $(this);
+         var url = '/user/act/dts/complete-docs';
+         _insertAjax(url, form, table);
+         bsOffcanvas.hide();        
+      }
    });
 });
 </script>

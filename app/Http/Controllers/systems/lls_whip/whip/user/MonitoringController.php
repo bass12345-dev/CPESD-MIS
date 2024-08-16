@@ -12,6 +12,7 @@ use App\Repositories\whip\EmployeeQuery;
 use App\Repositories\whip\MonitoringQuery;
 use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
+use App\Services\user\UserService;
 use App\Services\whip\ProjectsService;
 
 class MonitoringController extends Controller
@@ -22,13 +23,14 @@ class MonitoringController extends Controller
     protected $customService;
     protected $projectsService;
     protected $monitoringService;
+    protected $userService;
     protected $projectQuery;
     protected $employeeQuery;
     protected $monitoring_table;
     protected $position_table;
     protected $employment_status_table;
     protected $project_employee_table;
-    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery ,CustomService $customService, ProjectsService $projectsService,MonitoringQuery $monitoringQuery ,MonitoringService $monitoringService){
+    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery ,CustomService $customService, ProjectsService $projectsService,MonitoringQuery $monitoringQuery ,MonitoringService $monitoringService, UserService $userService){
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->customService        = $customService;
@@ -37,6 +39,7 @@ class MonitoringController extends Controller
         $this->projectQuery         = $projectQuery;
         $this->employeeQuery        = $employeeQuery;
         $this->monitoringQuery      = $monitoringQuery;
+        $this->userService          = $userService;
         $this->monitoring_table     = 'project_monitoring';
         $this->position_table       = 'positions';
         $this->employment_status_table = 'employment_status';
@@ -156,8 +159,8 @@ class MonitoringController extends Controller
                     'i'                => $i++,
                     'project_employee_id'   => $row->project_employee_id,
                     'employee_id'           => $row->employee_id,
-                    'full_name'             => $this->customService->user_full_name($row),
-                    'full_address'          => $this->customService->full_address($row),
+                    'full_name'             => $this->userService->user_full_name($row),
+                    'full_address'          => $this->userService->full_address($row),
                     'position'              => $row->position,
                     'position_id'           => $row->position_id,
                     'nature_of_employment'  => $row->nature_of_employment,
@@ -195,7 +198,7 @@ class MonitoringController extends Controller
                     'monitoring_status'             => $row->monitoring_status,
                     'contractor'                    => $row->contractor_name,
                     'address'                       => $row->barangay.' '.$row->street,
-                    'person_responsible'            => $this->customService->user_full_name($row)
+                    'person_responsible'            => $this->userService->user_full_name($row)
                    
            );
         }

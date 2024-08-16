@@ -26,6 +26,7 @@ class ActionLogsController extends Controller
     public function index(){
         $data['title']              = 'Action Logs';
         $data['current']            = Carbon::now()->year.'-'.Carbon::now()->month;
+        
         return view('systems.dts.admin.pages.action_logs.action_logs')->with($data);
     }
 

@@ -122,6 +122,18 @@ class DtsQuery
         return $rows;
     }
 
+
+    //Document Data
+    public function get_document_data($tn){
+        $row =DB::connection($this->conn_dts)->table('documents')
+        ->where('tracking_number', $tn)
+        ->leftJoin('document_types', 'document_types.type_id', '=', 'documents.doc_type')
+        ->leftJoin('users', 'users.user_id', '=', 'documents.u_id')
+        ->leftJoin('offices', 'offices.office_id', '=', 'documents.origin')
+        ->first();
+        return $row;
+    }
+
     //IncomingDocuments
 
     public function get_incoming_documents()
@@ -306,6 +318,59 @@ class DtsQuery
         ->orderBy('action_logs.action_datetime', 'desc')
         ->get();
         return $row;
+    }
+
+    // User Action Logs
+    public function QueryActionLogs(){
+        $row = DB::table($this->dts_table_name.'.action_logs')
+        ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'action_logs.user_id')
+        ->leftJoin($this->dts_table_name.'.documents', 'documents.document_id', '=', 'action_logs._id')
+        ->select(   //history
+  
+          'action_logs.action_datetime as action_datetime',
+          'action_logs.action as action',
+          'action_logs.user_type as user_type',
+          'action_logs._id as _id',
+          //Documents
+          'documents.tracking_number as tracking_number',
+          //User
+          'users.first_name as first_name',
+          'users.middle_name as middle_name',
+          'users.last_name as last_name',
+          'users.extension as extension',
+        )
+        ->where('action_logs.web_type', 'dts')
+        ->where('action_logs.user_id',session('user_id'))
+        ->orderBy('action_logs.action_datetime', 'desc')
+        ->get();
+      return $row;
+
+    }
+    public function QueryActionLogsPerMonth($month, $year){
+        $row = DB::table($this->dts_table_name.'.action_logs')
+        ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'action_logs.user_id')
+        ->leftJoin($this->dts_table_name.'.documents', 'documents.document_id', '=', 'action_logs._id')
+        ->select(   //history
+  
+          'action_logs.action_datetime as action_datetime',
+          'action_logs.action as action',
+          'action_logs.user_type as user_type',
+          'action_logs._id as _id',
+          //Documents
+          'documents.tracking_number as tracking_number',
+          //User
+          'users.first_name as first_name',
+          'users.middle_name as middle_name',
+          'users.last_name as last_name',
+          'users.extension as extension',
+        )
+        ->where('action_logs.web_type', 'dts')
+        ->whereMonth('action_logs.action_datetime', '=', $month)
+        ->whereYear('action_logs.action_datetime', '=', $year)
+        ->where('action_logs.user_id',session('user_id'))
+        ->orderBy('action_logs.action_datetime', 'desc')
+        ->get();
+      return $row;
     }
 
     //Documents Limit 10

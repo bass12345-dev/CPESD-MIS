@@ -30,29 +30,6 @@ class ActionLogService
         $this->customRepository->insert_item($this->conn,'action_logs', $items);
     }
 
-    // public function AllActionLogs($month,$year){
-
-    //    if($month == '' && $year == ''){
-    //         $items =  $this->adminRepository->get_actions_dts();
-    //    }else {
-    //         $items           =  $this->adminRepository->get_actions_dts_by_month($month,$year);
-    //    }
-    //    $i                    = 1;
-    //    $data = [];
-    //    foreach ($items as $value => $key) {
-    //     $data[] = array(
-    //         'number'            => $i++,
-    //         'name'              => $key->first_name . ' ' . $key->middle_name . ' ' . $key->last_name . ' ' . $key->extension,
-    //         'user_type'         => $key->user_type,
-    //         'tracking_number'   => $key->tracking_number,
-    //         'action'            => $key->action,
-    //         'action_datetime'   => date('M d Y h:i A', strtotime($key->action_datetime))
-            
-    //     );
-    // }
-
-    // return $data;
-
-    // }
+   
 
 }

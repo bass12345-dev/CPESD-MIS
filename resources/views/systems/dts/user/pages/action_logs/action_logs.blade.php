@@ -11,8 +11,14 @@
 
 @endsection
 @section('js')
+@include('global_includes.js.custom_js.select_by_month')
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    var search = function(month) {
+        var add_to_url = '';
+        if (month != null) {
+            add_to_url = '?date=' + month
+        }
+
         table = $("#datatables-buttons").DataTable({
             responsive: true,
             ordering: false,
@@ -24,15 +30,14 @@
             "dom": "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             buttons: datatables_buttons(),
             ajax: {
-                url: base_url + "/user/act/dts/action-logs",
+                url: base_url + "/user/act/dts/action-logs"+ add_to_url,
                 method: 'GET',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 },
                 dataSrc: ""
             },
-            columns: [
-                {
+            columns: [{
                     data: 'number',
                 },
                 {
@@ -43,11 +48,10 @@
                 },
 
             ],
-            columnDefs: [
-                {
+            columnDefs: [{
                     targets: 1,
                     data: null,
-                    render: function (data, type, row) {
+                    render: function(data, type, row) {
                         return '<a href="' + base_url + '/dts/user/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + ' ?>">' + row.action + '</a>';
                     }
                 },
@@ -56,8 +60,12 @@
 
             ]
         });
-    });
 
+    };
+
+    $(document).ready(function() {
+        search(month);
+    });
 </script>
 
 @endsection
