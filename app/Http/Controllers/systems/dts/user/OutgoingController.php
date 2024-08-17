@@ -82,7 +82,7 @@ class OutgoingController extends Controller
                 $where2 = array('outgoing_id' => $outgoing_id);
                 $update_outgoing = $this->customRepository->update_item($this->conn,'outgoing_documents',$where2,$outgoing_info);
                 $update_document = $this->customRepository->update_item($this->conn,'documents',$where1,$doc_info);
-                // ActionLogsController::dts_add_action($action = 'Received Document From Outgoing Document No. ' . $r->tracking_number, $user_type = 'user', $_id = $r->document_id);
+                $this->actionLogService->dts_add_action($action = 'Received Document From Outgoing Document No. ' . $r->tracking_number, $user_type = 'user', $_id = $r->document_id);
                 $resp = array('message' => 'Received Successfully', 'response' => true);
                 
             }

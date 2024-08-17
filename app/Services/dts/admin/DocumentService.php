@@ -7,7 +7,7 @@ use App\Repositories\dts\AdminDtsQuery;
 use App\Repositories\dts\DtsQuery;
 use App\Services\user\ActionLogService;
 use App\Services\CustomService;
-
+use App\Services\user\UserService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -24,14 +24,15 @@ class DocumentService
     protected $adminDtsQuery;
     protected $customService;
     protected $actionLogService;
-
-    public function __construct(CustomRepository $customRepository, AdminDtsQuery $adminDtsQuery, CustomService $customService, ActionLogService $actionLogService)
+    protected $userService;
+    public function __construct(CustomRepository $customRepository, AdminDtsQuery $adminDtsQuery, CustomService $customService, ActionLogService $actionLogService, UserService $userService)
     {
         $this->conn = config('custom_config.database.dts');
         $this->conn_user = config('custom_config.database.users');
         $this->customRepository = $customRepository;
         $this->customService = $customService;
         $this->actionLogService = $actionLogService;
+        $this->userService      = $userService;
         $this->adminDtsQuery = $adminDtsQuery;
         $this->documents_table = 'documents';
         $this->history_table = 'history';
@@ -57,20 +58,29 @@ class DocumentService
             $status = $this->customService->check_status($key->doc_status);
             $history = $this->customRepository->q_get_where_order($this->conn, $this->history_table, $where, 'history_id', 'desc');
             $is_existing = $history->count();
+            $origin = $key->origin == NULL ? '-' : $key->origin;
             $data[] = array(
-                'number' => $i++,
-                'tracking_number' => $key->tracking_number,
-                'document_name' => $key->document_name,
-                'type_name' => $key->type_name,
-                'created' => date('M d Y - h:i a', strtotime($key->created)),
-                'a' => $delete_button,
-                'document_id' => $key->document_id,
-                'history_id' => $is_existing == 0 ? '' : $history->first()->history_id,
-                'error' => $is_existing == 0 ? 'text-danger' : '',
-                'user_id' => $key->u_id,
-                'created_by' => $key->first_name . ' ' . $key->middle_name . ' ' . $key->last_name . ' ' . $key->extension,
-                'is' => $status,
-                'history_status' => $key->doc_status
+                'number'                => $i++,
+                'tracking_number'       => $key->tracking_number,
+                'document_name'         => $key->document_name,
+                'type_name'             => $key->type_name,
+                'created'               => date('M d Y - h:i a', strtotime($key->created)),
+                'a'                     => $delete_button,
+                'document_id'           => $key->document_id,
+                'history_id'            => $is_existing == 0 ? '' : $history->first()->history_id,
+                'error'                 => $is_existing == 0 ? 'text-danger' : '',
+                'user_id'               => $key->u_id,
+                'created_by'            => $this->userService->user_full_name($key),
+                'is'                    => $status,
+                'history_status'        => $key->doc_status,
+                'data'              => $key->document_name.','.
+                                    $key->tracking_number.','.
+                                    $key->type_name.','.
+                                    date('M d Y - h:i a', strtotime($key->created)).','.
+                                    $this->userService->user_full_name($key).','.
+                                    $key->type_name.','.
+                                    $origin.','.
+                                    $key->document_description
             );
         }
 

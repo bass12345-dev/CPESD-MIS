@@ -225,7 +225,7 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          //Manage Staff
          Route::get("/dts/manage-staff",[ App\Http\Controllers\systems\dts\admin\StaffController::class, 'index']);
          //Manage Users
-         Route::get("/dts/manage-users",[ App\Http\Controllers\systems\dts\admin\UsersController::class, 'index']);
+        
          //Logged In History
          Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'index']);
          //Action Logs
@@ -263,6 +263,8 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
       //All Documents
          Route::get("/dts/all-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'get_all_documents']);
          Route::post("/dts/delete-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'delete_documents']);
+         Route::post("/dts/cancel-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'cancel_documents']);
+         Route::post("/dts/revert-document",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'revert_document']);
       //Offices
          Route::get("/dts/all-offices",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'get_all_offices']);
          Route::post("/dts/i-u-o",[ App\Http\Controllers\systems\dts\admin\OfficesController::class, 'insert_update_office']);
@@ -278,6 +280,11 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
       
       //Manage Users
          Route::get("/dts/all-users",[ App\Http\Controllers\systems\dts\admin\UsersController::class, 'get_all_users']);
+         Route::get("/dts/g-c-r",[ App\Http\Controllers\systems\dts\admin\StaffController::class, 'get_current_receiver']);
+         Route::get("/dts/g-c-oic",[ App\Http\Controllers\systems\dts\admin\StaffController::class, 'get_current_oic']);
+
+         Route::post("/dts/update-receiver",[ App\Http\Controllers\systems\dts\admin\StaffController::class, 'update_receiver']);
+         Route::post("/dts/update-oic",[ App\Http\Controllers\systems\dts\admin\StaffController::class, 'update_oic']);
 
       //Logged in History
          Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'get_logged_in_history']);

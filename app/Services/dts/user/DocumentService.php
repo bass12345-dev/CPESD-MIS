@@ -49,7 +49,7 @@ class DocumentService
 
             $delete_button = $this->customRepository->q_get_where($this->conn, array('t_number' => $key->tracking_number), $this->history_table)->count() > 1 ? true : false;
             $status = $this->customService->check_status($key->doc_status);
-
+            $origin = $key->origin == NULL ? '-' : $key->origin;
             $items[] = array(
                 'number'            => $i++,
                 'tracking_number'   => $key->tracking_number,
@@ -66,8 +66,17 @@ class DocumentService
                 'name'              => $key->name,
                 'document_type_name' => $key->type_name,
                 'encoded_by'        => $this->userService->user_full_name($key),
-                'origin'            => $key->origin == NULL ? '-' : $key->origin,
-                'origin_id'         => $key->origin_id
+                'origin'            => $origin,
+                'origin_id'         => $key->origin_id,
+                'data'              => $key->document_name.','.
+                                       $key->tracking_number.','.
+                                       $key->type_name.','.
+                                       date('M d Y - h:i a', strtotime($key->d_created)).','.
+                                       $this->userService->user_full_name($key).','.
+                                       $key->doc_type.','.
+                                       $origin.','.
+                                       $key->document_description
+
             );
         }
 

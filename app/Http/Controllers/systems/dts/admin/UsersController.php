@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\CustomRepository;
 use App\Services\CustomService;
-
+use App\Services\user\UserService;
 use Carbon\Carbon;
 
 class UsersController extends Controller
@@ -14,10 +14,12 @@ class UsersController extends Controller
     protected $conn;
     protected $customRepository;
     protected $customService;
-    public function __construct(CustomRepository $customRepository, CustomService $customService){
+    protected $userService;
+    public function __construct(CustomRepository $customRepository, CustomService $customService, UserService $userService){
         $this->conn                 = config('custom_config.database.users');
         $this->customRepository     = $customRepository;
         $this->customService       = $customService;
+        $this->userService          = $userService;
      
     }
     public function index(){
@@ -32,7 +34,7 @@ class UsersController extends Controller
             $data[] = array(
                 'number'                => $i++,
                 'user_id'               => $key->user_id,
-                'name'                  => $this->customService->user_full_name($key),
+                'name'                  => $this->userService->user_full_name($key),
                 'username'              => $key->username,
                 'address'               => $key->address,
                 'email_address'         => $key->email_address,

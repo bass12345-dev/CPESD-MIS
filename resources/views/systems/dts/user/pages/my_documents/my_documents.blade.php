@@ -12,7 +12,7 @@
 @endsection
 @section('js')
 <script>
-   $(document).ready(function() {
+   $(document).ready(function () {
       table = $("#my_document_table").DataTable({
          responsive: true,
          ordering: false,
@@ -33,7 +33,7 @@
             dataSrc: ""
          },
          columns: [{
-            data: 'document_id'
+            data: 'data'
          }, {
             data: 'number'
          }, {
@@ -48,7 +48,7 @@
             data: 'is'
          }, {
             data: null
-         }, ],
+         },],
          'select': {
             'style': 'multi',
          },
@@ -60,7 +60,7 @@
          }, {
             targets: 3,
             data: null,
-            render: function(data, type, row) {
+            render: function (data, type, row) {
                return '<a href="' + base_url + '/dts/user/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + '">' + row.document_name + '</a>';
             }
          }, {
@@ -68,7 +68,7 @@
             data: null,
             orderable: false,
             className: 'text-center',
-            render: function(data, type, row) {
+            render: function (data, type, row) {
                return '<div class="btn-group dropstart"><i class="fa fa-ellipsis-v " class="dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false"></i><ul class="dropdown-menu"><li><a class="dropdown-item update_document" data-tracking-number="' + row.tracking_number + '" data-name            ="' + row.document_name + '"data-type            ="' + row.doc_type + '"data-description     ="' + row.description + '"data-destination     ="' + row.destination_type + '" data-origin          ="' + row.origin_id + '" href="javascript:;" class="" data-bs-toggle="modal" data-bs-target="#update_document">Update</a></li></ul></div>';
             }
          }]
@@ -76,7 +76,7 @@
    });
 
 
-   $(document).on('click', 'a.update_document', function(e) {
+   $(document).on('click', 'a.update_document', function (e) {
       $('input[name=t_number]').val($(this).data('tracking-number'));
       $('input[name=document_name]').val($(this).data('name'));
       $('select[name=document_type]').val($(this).data('type'));
@@ -84,7 +84,7 @@
       $('select[name=origin]').val($(this).data('origin'));
       $('select[name=type]').val($(this).data('destination'));
    });
-   $('#update_document_form').on('submit', function(e) {
+   $('#update_document_form').on('submit', function (e) {
       e.preventDefault();
       $(this).find('button').prop('disabled', true);
       $(this).find('button').html('<div class="spinner-border text-info" role="status"><span class="sr-only">Loading...</span></div>');
@@ -92,5 +92,9 @@
       let form = $(this);
       _updatetAjax(url, form, table);
    });
+
+
+   
 </script>
+@include('systems.dts.includes.custom_js.print_slip')
 @endsection

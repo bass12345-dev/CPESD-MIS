@@ -27,6 +27,7 @@ class AdminDtsQuery
     $rows = DB::table($this->dts_table_name . '.documents as documents')
       ->leftJoin($this->dts_table_name . '.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
       ->leftJoin($this->users_table_name . '.users as users', 'users.user_id', '=', 'documents.u_id')
+      
       ->select(   //Documents
         'documents.created as created',
         'documents.tracking_number as tracking_number',
@@ -36,6 +37,9 @@ class AdminDtsQuery
         'documents.doc_status as doc_status',
         'documents.u_id as u_id',
         'documents.destination_type as destination_type',
+        
+
+        
         //User
         'users.first_name as first_name',
         'users.middle_name as middle_name',
@@ -55,14 +59,18 @@ class AdminDtsQuery
     $rows = DB::table($this->dts_table_name . '.documents as documents')
       ->leftJoin($this->dts_table_name . '.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
       ->leftJoin($this->users_table_name . '.users as users', 'users.user_id', '=', 'documents.u_id')
+      
       ->select(   //Documents
         'documents.created as created',
         'documents.tracking_number as tracking_number',
         'documents.document_name as document_name',
         'documents.document_id as document_id',
         'documents.destination_type as destination_type',
+        
         //Document Types
         'document_types.type_name as type_name',
+
+       
         //User
         'users.first_name as first_name',
         'users.middle_name as middle_name',
@@ -124,6 +132,7 @@ class AdminDtsQuery
     $rows = DB::table($this->dts_table_name . '.documents as documents')
       ->leftJoin($this->dts_table_name . '.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
       ->leftJoin($this->users_table_name . '.users as users', 'users.user_id', '=', 'documents.u_id')
+      ->leftJoin($this->dts_table_name.'.offices as offices', 'offices.office_id', '=', 'documents.origin')
       ->select(    //Documents
         'documents.created as created',
         'documents.doc_status as doc_status',
@@ -132,8 +141,12 @@ class AdminDtsQuery
         'documents.document_id as document_id',
         'documents.doc_status as doc_status',
         'documents.u_id as u_id',
+        'documents.origin as origin_id',
+        'documents.document_description as document_description',
         //Document Types
         'document_types.type_name',
+
+        'offices.office as origin',
         //User
         'users.first_name as first_name',
         'users.middle_name as middle_name',
@@ -152,6 +165,9 @@ class AdminDtsQuery
     $rows = DB::table($this->dts_table_name . '.documents as documents')
       ->leftJoin($this->dts_table_name . '.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
       ->leftJoin($this->users_table_name . '.users as users', 'users.user_id', '=', 'documents.u_id')
+      ->leftJoin($this->dts_table_name.'.offices as offices', 'offices.office_id', '=', 'documents.origin')
+
+
       ->select(    //Documents
         'documents.created as created',
         'documents.doc_status as doc_status',
@@ -160,8 +176,12 @@ class AdminDtsQuery
         'documents.document_id as document_id',
         'documents.doc_status as doc_status',
         'documents.u_id as u_id',
+        'documents.document_description as document_description',
         //Document Types
         'document_types.type_name',
+        'documents.origin as origin_id',
+
+        'offices.office as origin',
         //User
         'users.first_name as first_name',
         'users.middle_name as middle_name',

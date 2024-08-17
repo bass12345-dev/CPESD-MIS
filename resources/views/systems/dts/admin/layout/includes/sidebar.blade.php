@@ -65,12 +65,12 @@
 
 
 
-            <li class="sidebar-item <?= $segments[2] == 'manage-users' ? 'active' : '' ?>">
+            <!-- <li class="sidebar-item <?= $segments[2] == 'manage-users' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="{{url('/admin/dts/manage-users')}}">
                     <i class="align-middle" data-feather="users"></i> <span class="align-middle">Manage Users</span>
                 </a>
             </li>
-
+ -->
 
 
             <li class="sidebar-item <?= $segments[2] == 'logged-in-history' ? 'active' : '' ?>">

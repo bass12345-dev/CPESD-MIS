@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
                              <i class="fa fa-ellipsis-v " class="dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false"></i>\
                              <ul class="dropdown-menu">\
                                   <li><a href="javascript:;" class="dropdown-item text-danger" data-id="'+ row.action_id + '" id="delete">Delete</a></li>\
-                                  <li><a href="javascript:;" id="update_office" class="dropdown-item text-primary" data-id="'+ row.action_id + '" data-name="' + row.action_name + '" >Update</a></li>\
+                                  <li><a href="javascript:;" id="update" class="dropdown-item text-primary" data-id="'+ row.action_id + '" data-name="' + row.action_name + '" >Update</a></li>\
                                 </ul>\
                            </div>';
                     }
@@ -68,22 +68,23 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    $(document).on('click', 'a#update_office', function () {
+    $(document).on('click', 'a#update', function () {
         var id = $(this).data('id');
         var name = $(this).data('name');
         $('input[name=id]').val(id);
         $('input[name=action]').val(name);
         $('#add_form').find('button.submit').text('Update');
         $('#add_form').find('button.cancel_update').attr('hidden', false);
-        $('.card-title').text('Update ' + office + ' Office');
+        $('#add_form').find('button.cancel_update').text('Cancel update');
+        $('.card-title').text('Update ' + name + ' Action');
     });
 
-    $('#add_office').find('button.cancel_update').on('click', function () {
+    $('#add_form').find('button.cancel_update').on('click', function () {
         $(this).attr('hidden', true);
         $('input[name=id]').val('');
         $('input[name=action]').val('');
         $('#add_form').find('button.submit').text('Submit');
-        $('.card-title').text('Add Office');
+        $('.card-title').text('Add Action');
     });
 
     $('#add_form').on('submit', function (e) {
@@ -96,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
             _insertAjax(url, form, table);
         } else {
             _updatetAjax(url, form, table);
+            $(this).find('button.cancel_update').prop('hidden',true)
         }
     });
 

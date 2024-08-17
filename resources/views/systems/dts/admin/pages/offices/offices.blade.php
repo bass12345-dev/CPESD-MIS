@@ -73,6 +73,7 @@
         $('input[name=office]').val(office);
         $('#add_office').find('button.submit').text('Update');
         $('#add_office').find('button.cancel_update').attr('hidden', false);
+        $('#add_office').find('button.cancel_update').text('Cancel update');
         $('.card-title').text('Update ' + office + ' Office');
     });
 
@@ -94,6 +95,7 @@
             _insertAjax(url, form, table);
         } else {
             _updatetAjax(url, form, table);
+            $(this).find('button.cancel_update').prop('hidden',true)
         }
     });
 

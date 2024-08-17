@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\CustomRepository;
 use App\Services\dts\admin\DocumentService;
+use App\Services\user\ActionLogService;
 use Carbon\Carbon;
 
 class AllDocumentsController extends Controller
@@ -13,11 +14,13 @@ class AllDocumentsController extends Controller
     protected $conn;
     protected $customRepository;
     protected $documentService;
+    protected $actionLogService;
     protected $final_actions_table;
-    public function __construct(CustomRepository $customRepository,DocumentService $documentService){
+    public function __construct(CustomRepository $customRepository,DocumentService $documentService, ActionLogService $actionLogService){
         $this->conn                 = config('custom_config.database.dts');
         $this->customRepository     = $customRepository;
         $this->documentService      = $documentService;
+        $this->actionLogService     = $actionLogService;
         $this->final_actions_table  = "final_actions";
      
     }
@@ -64,6 +67,41 @@ class AllDocumentsController extends Controller
 
     }
     //UPDATE
+    public function cancel_documents(Request $request){
+        
+        $id = $request->input('id')['id'];
+        $message = '';
+        $arr = array();
+        if (is_array($id)) {
+            foreach ($id as $row) {
+                $items = array(
+                    'doc_status'         => 'cancelled',
+                );
+
+                $check = $this->customRepository->q_get_where($this->conn,array('document_id' => $row),'documents')->first();
+                if($check->doc_status != 'completed'){
+                    $update = $this->customRepository->update_item($this->conn,'documents', array('document_id' => $row), $items);
+                    $this->actionLogService->dts_add_action('Canceled Document No. '.$check->tracking_number,'admin',$row);
+                }else {
+                    array_push($arr, $check->document_id);
+                }
+                
+                
+            }
+            
+            $message = count($arr) > 0 ? " Canceled Successfully | Some documents is cannot be cancelled because it's already completed or canceled already" : 'Canceled Succesfully';
+            
+
+            $data = array('message' => $message, 'response' => true);
+        } else {
+            $data = array('message' => 'Error', 'response' => false);
+        }
+
+
+
+        return response()->json($data);
+    }
+
     //DELETE
     public function delete_documents(Request $request){
         
@@ -87,6 +125,26 @@ class AllDocumentsController extends Controller
 
 
         return response()->json($data);
+    }
+
+    public function revert_document(Request $request){
+
+        $tracking_number = $request->input('t');
+        $items = array(
+            'doc_status'         => 'pending',
+        );
+        $update = $this->customRepository->update_item($this->conn,'documents', array('tracking_number' => $tracking_number), $items);
+        if ($update) {
+            $query_row = $this->customRepository->q_get_where($this->conn,array('tracking_number' => $tracking_number),'documents')->first();
+            $this->actionLogService->dts_add_action('Reverted Document No. '.$query_row->tracking_number,'admin',$query_row->document_id);
+            $update = $this->customRepository->update_item($this->conn,'documents', array('document_id' => $query_row->document_id), $items);
+            $data = array('message' => 'Reverted Succesfully', 'response' => true);
+        } else {
+
+            $data = array('message' => 'Something Wrong/No Changes Apply ', 'response' => false);
+        }
+        return response()->json($data);
+
     }
 
 
