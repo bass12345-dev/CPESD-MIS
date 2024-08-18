@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		@include('systems.dts.admin.layout.includes.sidebar')
+		@include('systems.dts.receiver.layout.includes.receiver_sidebar')
 		<div class="main">
 			@include('systems.dts.includes.components.topbar')
 			<main class="content">
@@ -24,5 +24,4 @@
 @include('global_includes.js.custom_js.datatable_settings')
 @include('global_includes.js.custom_js.alert_loader')
 @include('global_includes.js.custom_js._ajax')
-
 </html>

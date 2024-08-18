@@ -73,7 +73,7 @@ class DashboardService
         #store results
         $result = array();
         foreach($users as $row){
-            $query_history =  $this->customRepository->q_get_where_order($this->conn,$this->logged_in_history, array('user_id' => $row->user_id),'logged_in_history_id','desc');
+            $query_history =  $this->customRepository->q_get_where_order($this->conn_user,$this->logged_in_history, array('user_id' => $row->user_id),'logged_in_history_id','desc');
             if($query_history->count() > 0){
                 $get_history = $query_history->get()[0];
                 $date_now_              = new DateTime(Carbon::now()->format('Y-m-d H:i:s'));

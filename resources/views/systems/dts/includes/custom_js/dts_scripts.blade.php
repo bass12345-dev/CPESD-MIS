@@ -13,37 +13,25 @@
         }
     });
 
-    // function get_receiver_incoming() {
+    function get_receiver_incoming() {
 
-    //     $.ajax({
-    //         url: base_url + '/dts/us/g-r-i',
-    //         method: 'GET',
-    //         dataType: 'text',
-
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-    //         },
-    //         success: function(data) {
-
-    //             if (data) {
-    //                 $('span.to_receive').text(data)
-    //             }
-
-    //         },
-    //         error: function() {
-    //             alert('something Wrong');
-
-    //         }
-
-    //     });
-
-    // }
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", base_url + '/user/act/dts/receiver-incoming');
+        xhr.send();
+        xhr.responseType = "text";
+        xhr.onload = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            const data = xhr.response;
+            $('span.to_receive').text(data)
+        } else {
+            toast_message_error(`Error: ${xhr.status}`)
+        }
+        };
 
 
+    }
 
-
-    // // A $( document ).ready() block.
-    // $(document).ready(function() {
-    //     get_receiver_incoming();
-    // });
+    $(document).ready(function() {
+        get_receiver_incoming();
+    });
 </script>

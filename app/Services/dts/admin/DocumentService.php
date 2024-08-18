@@ -99,7 +99,7 @@ class DocumentService
         $hs                 = $this->customRepository->q_get_where_order($this->conn,$this->history_table,array('history_id' => $history_id),'history_id','desc')->first();
         $user_row           = $this->customRepository->q_get_where($this->conn_user, array('user_id' => session('user_id')),'users')->first();
 
-        if($user_row->user_id == 8 || $user_row->user_id == 13){
+        if($user_row->user_id == 8 || $user_row->user_id == 13 || $user_row->is_receiver === 'yes'){
 
         $where              = array('history_id' => $history_id);
         $data               = array(

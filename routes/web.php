@@ -47,7 +47,7 @@ Route::middleware([SessionGuard::class, AdminCheck::class])->prefix('/admin/sysm
             ////LABOR LOCALIZATION AND WHIP
 
 
-//USER VIEW WHIP
+//USER VIEW 
 Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
    //LLS
       //Dashboard
@@ -105,6 +105,7 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
 
 });
+
 
 //USER ACTION LLS_WHIP
 Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function () {
@@ -181,7 +182,28 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
 
       //Complete Documents
          Route::post('/dts/complete-docs', [App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'complete_documents']);
+      //Cancel Documents
          Route::post("/dts/cancel-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'cancel_documents']);
+
+      //Receiver
+         //Receiver Incoming
+            Route::get("/dts/receiver-incoming",[ App\Http\Controllers\systems\dts\receiver\IncomingController::class, 'get_receiver_incoming']);
+});
+
+
+Route::middleware([SessionGuard::class])->prefix('/receiver')->group(function () {
+
+    //Receiver View
+         //Dashboard
+         Route::get("/dts/dashboard",[ App\Http\Controllers\systems\dts\receiver\DashboardController::class, 'index']);
+         Route::get("/dts/incoming",[ App\Http\Controllers\systems\dts\receiver\IncomingController::class, 'index']);
+         // Route::get("/dts/received",[ App\Http\Controllers\systems\dts\receiver\ReceivedController::class, 'index']);
+
+   //Receiver Actions
+      //Incoming
+         Route::get("/act/dts/g-r-i-d",[ App\Http\Controllers\systems\dts\receiver\IncomingController::class, 'get_receiver_incoming_documents']);
+        
+
 });
 
 
