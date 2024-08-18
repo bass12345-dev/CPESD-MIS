@@ -197,11 +197,13 @@ Route::middleware([SessionGuard::class])->prefix('/receiver')->group(function ()
          //Dashboard
          Route::get("/dts/dashboard",[ App\Http\Controllers\systems\dts\receiver\DashboardController::class, 'index']);
          Route::get("/dts/incoming",[ App\Http\Controllers\systems\dts\receiver\IncomingController::class, 'index']);
+         Route::get("/dts/find-document",[ App\Http\Controllers\systems\dts\receiver\FindDocumentController::class, 'index']);
          // Route::get("/dts/received",[ App\Http\Controllers\systems\dts\receiver\ReceivedController::class, 'index']);
 
    //Receiver Actions
       //Incoming
          Route::get("/act/dts/g-r-i-d",[ App\Http\Controllers\systems\dts\receiver\IncomingController::class, 'get_receiver_incoming_documents']);
+         Route::get("/act/dts/search-documents",[ App\Http\Controllers\systems\dts\receiver\FindDocumentController::class, 'search_documents']);
         
 
 });

@@ -133,9 +133,9 @@ class DocumentService
         $add1 = $this->customRepository->insert_item($this->conn,$this->history_table, $info);
 
         if ($add1) {
-            // $query_row      = $this->customRepository->q_get_where($this->conn,array('tracking_number'=> $tracking_number),$this->documents_table)->first();
+            $query_row      = $this->customRepository->q_get_where($this->conn,array('tracking_number'=> $tracking_number),$this->documents_table)->first();
             $this->customRepository->update_item($this->conn,$this->documents_table,array('tracking_number' =>  $tracking_number), array('doc_status' => 'completed','completed_on'=> Carbon::now()->format('Y-m-d H:i:s')));
-            // $this->actionLogService->dts_add_action('Completed Document No. '.$query_row->tracking_number,$user_type,$query_row->document_id);
+            $this->actionLogService->dts_add_action('Completed Document No. '.$query_row->tracking_number,$user_type,$query_row->document_id);
             $data = array('message' => 'Completed Succesfully', 'response' => true);
         } else {
 

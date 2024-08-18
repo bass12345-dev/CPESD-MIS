@@ -22,6 +22,13 @@
 				</a>
 			</li>
 
+			<li class="sidebar-item <?= $segments[2] == 'find-document' ? 'active' : '' ?>">
+				<a class="sidebar-link" href="{{url('/receiver/dts/find-document')}}">
+					<i class="align-middle" data-feather="search"></i> <span class="align-middle">Find Document</span>
+				</a>
+			</li>
+
+
 			
 		</ul>
 	</div>
