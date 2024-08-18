@@ -228,7 +228,7 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          //Manage Users
         
          //Logged In History
-         Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'index']);
+         // Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'index']);
          //Action Logs
          Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\admin\ActionLogsController::class, 'index']);
           //Action Logs
@@ -288,7 +288,7 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
          Route::post("/dts/update-oic",[ App\Http\Controllers\systems\dts\admin\StaffController::class, 'update_oic']);
 
       //Logged in History
-         Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'get_logged_in_history']);
+         // Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'get_logged_in_history']);
       //Action Logs
          Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\admin\ActionLogsController::class, 'get_action_logs']);
 });      

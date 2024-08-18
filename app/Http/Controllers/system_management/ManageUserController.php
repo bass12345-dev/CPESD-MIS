@@ -39,7 +39,7 @@ class ManageUserController extends Controller
             $data[] = array(
                 'i'                     => $i++,
                 'user_id'               => $key->user_id,
-                'full_name'             => $this->customService->user_full_name($key),
+                'full_name'             => $this->userService->user_full_name($key),
                 'username'              => $key->username,
                 'address'               => $key->address,
                 'email_address'         => $key->email_address,

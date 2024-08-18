@@ -107,7 +107,7 @@ class AllDocumentsController extends Controller
                 $tracking_number          = $delete->first()->tracking_number;
                 $document_id =              $delete->first()->document_id;
                 $delete->delete();
-                // ActionLogsController::dts_add_action($action = 'Deleted Document No. '.$tracking_number,$user_type='user',$_id = $document_id);
+               $this->actionLogService->dts_add_action('Deleted Document No. '.$tracking_number,'admin',$document_id);
                 $this->customRepository->delete_item($this->conn,'history', array('t_number' => $tracking_number));
                 $this->customRepository->delete_item($this->conn,'outgoing_documents', array('doc_id' => $document_id));
             }

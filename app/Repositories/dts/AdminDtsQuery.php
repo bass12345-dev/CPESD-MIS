@@ -129,7 +129,7 @@ class AdminDtsQuery
   //All Documents
   public function QueryAllDocuments()
   {
-    $rows = DB::table($this->dts_table_name . '.documents as documents')
+    $rows = DB::connection($this->conn_dts)->table($this->dts_table_name . '.documents as documents')
       ->leftJoin($this->dts_table_name . '.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
       ->leftJoin($this->users_table_name . '.users as users', 'users.user_id', '=', 'documents.u_id')
       ->leftJoin($this->dts_table_name.'.offices as offices', 'offices.office_id', '=', 'documents.origin')
@@ -163,7 +163,7 @@ class AdminDtsQuery
   public function QueryDocumentsByMonth($month, $year)
   {
 
-    $rows = DB::table($this->dts_table_name . '.documents as documents')
+    $rows = DB::connection($this->conn_dts)->table($this->dts_table_name . '.documents as documents')
       ->leftJoin($this->dts_table_name . '.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
       ->leftJoin($this->users_table_name . '.users as users', 'users.user_id', '=', 'documents.u_id')
       ->leftJoin($this->dts_table_name.'.offices as offices', 'offices.office_id', '=', 'documents.origin')
@@ -202,7 +202,7 @@ class AdminDtsQuery
 
   public function QueryAllActionLogs()
   {
-    $row = DB::table($this->dts_table_name.'.action_logs')
+    $row =  DB::connection($this->conn_dts)->table($this->dts_table_name.'.action_logs')
       ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'action_logs.user_id')
       ->leftJoin($this->dts_table_name.'.documents', 'documents.document_id', '=', 'action_logs._id')
       ->select(   //history
@@ -227,7 +227,7 @@ class AdminDtsQuery
 
   public function QueryActionLogsPerMonth($month, $year)
   {
-    $row = DB::table($this->dts_table_name.'.action_logs')
+    $row =  DB::connection($this->conn_dts)->table($this->dts_table_name.'.action_logs')
       ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'action_logs.user_id')
       ->leftJoin($this->dts_table_name.'.documents', 'documents.document_id', '=', 'action_logs._id')
       ->select(   //history
@@ -254,7 +254,7 @@ class AdminDtsQuery
 
 
   public function QueryLoggedInHistory(){
-    $row = DB::table($this->dts_table_name.'.logged_in_history')
+    $row = DB::connection($this->conn_dts)->table($this->dts_table_name.'.logged_in_history')
       ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'logged_in_history.user_id')
       ->select(   //history
 
@@ -273,7 +273,7 @@ class AdminDtsQuery
   }
 
   public function QueryLoggedInHistoryByMonth($month, $year){
-    $row = DB::table($this->dts_table_name.'.logged_in_history')
+    $row =  DB::connection($this->conn_dts)->table($this->dts_table_name.'.logged_in_history')
       ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'logged_in_history.user_id')
       ->select(   //history
 

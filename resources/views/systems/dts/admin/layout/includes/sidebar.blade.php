@@ -73,12 +73,12 @@
  -->
 
 
-            <li class="sidebar-item <?= $segments[2] == 'logged-in-history' ? 'active' : '' ?>">
+            <!-- <li class="sidebar-item <?= $segments[2] == 'logged-in-history' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="{{url('/admin/dts/logged-in-history')}}">
                     <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Logged in
                         History</span>
                 </a>
-            </li>
+            </li> -->
 
             <li class="sidebar-item <?= $segments[2] == 'action-logs' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="{{url('/admin/dts/action-logs')}}">

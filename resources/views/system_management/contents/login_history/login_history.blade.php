@@ -1,7 +1,7 @@
 @extends('system_management.layout.system_master')
 @section('title', $title)
 @section('content')
-@include('system.dts.includes.title')
+@include('global_includes.title')
 @include('system_management.contents.login_history.sections.table')
 @endsection
 @section('js')

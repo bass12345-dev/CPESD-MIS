@@ -12,6 +12,7 @@ class UserService
 {
     
     protected $conn;
+    protected $conn_dts;
     protected $customRepository;
     protected $user_table;
     protected $login_history_table;
@@ -19,6 +20,7 @@ class UserService
 
     public function __construct(CustomRepository $customRepository, Request $request){
         $this->conn                 = config('app._database.users');
+        $this->conn_dts                 = config('app._database.dts');
         $this->customRepository     = $customRepository;
         $this->request              = $request;
         $this->user_table           = 'users';
@@ -53,8 +55,9 @@ class UserService
                                 'response' => true,
                                 'message' => 'Success'
                             ];
-                            $this->set_session($user_row);
                             $this->store_login_history($user_row);
+                            $this->set_session($user_row);
+                           
                         }else {
                             $response = [
                                 'response' => false,
@@ -116,7 +119,7 @@ class UserService
     private function store_login_history($user_row){
 
         $items = ['web_type'=> 'cpesd-mis','user_id'=>$user_row->user_id,'logged_in_date'=> Carbon::now()->format('Y-m-d H:i:s') ];
-        $this->customRepository->insert_item($this->conn,$this->login_history_table,$items);
+        $this->customRepository->insert_item($this->conn_dts,$this->login_history_table,$items);
     }
 
 
