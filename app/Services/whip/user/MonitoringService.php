@@ -5,6 +5,7 @@ namespace App\Services\whip\user;
 use App\Repositories\CustomRepository;
 use App\Repositories\whip\MonitoringQuery;
 use App\Services\CustomService;
+use App\Services\user\UserService;
 use Carbon\Carbon;
 
 class MonitoringService
@@ -16,12 +17,14 @@ class MonitoringService
     protected $customRepository;
     protected $contractors_table;
     protected $contractor_employee_table;
-    public function __construct(CustomRepository $customRepository, MonitoringQuery $monitoringQuery, CustomService $customService)
+    protected $userService;
+    public function __construct(CustomRepository $customRepository, MonitoringQuery $monitoringQuery, CustomService $customService, UserService $userService)
     {
         $this->conn                         = config('custom_config.database.lls_whip');
         $this->customRepository             = $customRepository;
         $this->monitoringQuery              = $monitoringQuery;
         $this->customService                = $customService;
+        $this->userService                  = $userService;
         $this->contractors_table            = 'contractors';
         $this->contractor_employee_table    = 'contractor_employee';
     }
@@ -46,7 +49,7 @@ class MonitoringService
                      'monitoring_status'             => $row->monitoring_status,
                      'contractor'                    => $row->contractor_name,
                      'address'                       => $row->barangay.' '.$row->street,
-                     'person_responsible'            => $this->customService->user_full_name($row)
+                     'person_responsible'            => $this->userService->user_full_name($row)
                     
             );
          }

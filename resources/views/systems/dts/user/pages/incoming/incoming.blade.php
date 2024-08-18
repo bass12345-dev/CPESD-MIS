@@ -30,7 +30,10 @@
             headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
-            dataSrc: ""
+            dataSrc: "",
+            error: function (xhr, textStatus, errorThrown) {
+                    toast_message_error('Documents is not displaying... Please Reload the Page Or Contact the developer')
+               }
          },
          columns: [{
             data: 'his+tn',
