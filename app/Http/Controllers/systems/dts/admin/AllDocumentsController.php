@@ -38,7 +38,7 @@ class AllDocumentsController extends Controller
         $remarks         = $request->input('remarks2');
         $final_action    = $request->input('final_action_taken');
         $array           = explode(',',$items);
-        $user_type       = 'user';
+        $user_type       = $request->input('user_type');
         
         foreach ($array as $row) {
 
@@ -52,6 +52,8 @@ class AllDocumentsController extends Controller
         return response()->json($resp);
 
     }
+
+
     //READ
     public function get_all_documents(){
 
@@ -68,38 +70,31 @@ class AllDocumentsController extends Controller
     }
     //UPDATE
     public function cancel_documents(Request $request){
-        
-        $id = $request->input('id')['id'];
-        $message = '';
-        $arr = array();
-        if (is_array($id)) {
-            foreach ($id as $row) {
-                $items = array(
-                    'doc_status'         => 'cancelled',
-                );
 
-                $check = $this->customRepository->q_get_where($this->conn,array('document_id' => $row),'documents')->first();
-                if($check->doc_status != 'completed'){
-                    $update = $this->customRepository->update_item($this->conn,'documents', array('document_id' => $row), $items);
-                    $this->actionLogService->dts_add_action('Canceled Document No. '.$check->tracking_number,'admin',$row);
-                }else {
-                    array_push($arr, $check->document_id);
-                }
-                
-                
-            }
-            
-            $message = count($arr) > 0 ? " Canceled Successfully | Some documents is cannot be cancelled because it's already completed or canceled already" : 'Canceled Succesfully';
-            
+        $ids            = $request->input('document_ids');
+        $reason         = $request->input('reason');
+        $id             = explode(",", $ids);
+        $message        = '';
+        $arr = [];
+        foreach ($id as $row) {
+            $items = array(
+                            'doc_status'         => 'cancelled',
+                            'note'               => $reason
+                        );
+            $check  = $this->customRepository->q_get_where($this->conn,array('document_id' => $row),'documents')->first();
+            if($check->doc_status != 'completed'){
+                            $this->customRepository->update_item($this->conn,'documents', array('document_id' => $row), $items);
+                            $this->actionLogService->dts_add_action('Canceled Document No. '.$check->tracking_number,'admin',$row);
+                        }else {
+                            array_push($arr, $check->document_id);
+                        }
 
-            $data = array('message' => $message, 'response' => true);
-        } else {
-            $data = array('message' => 'Error', 'response' => false);
         }
 
-
-
+        $message = count($arr) > 0 ? " Canceled Successfully | Some documents is cannot be cancelled because it's already completed or canceled already" : 'Canceled Succesfully';
+        $data = array('message' => $message, 'response' => true);
         return response()->json($data);
+
     }
 
     //DELETE

@@ -143,6 +143,7 @@ class AdminDtsQuery
         'documents.u_id as u_id',
         'documents.origin as origin_id',
         'documents.document_description as document_description',
+        'documents.destination_type as destination_type',
         //Document Types
         'document_types.type_name',
 
@@ -177,6 +178,7 @@ class AdminDtsQuery
         'documents.doc_status as doc_status',
         'documents.u_id as u_id',
         'documents.document_description as document_description',
+        'documents.destination_type as destination_type',
         //Document Types
         'document_types.type_name',
         'documents.origin as origin_id',

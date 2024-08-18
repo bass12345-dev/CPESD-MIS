@@ -181,6 +181,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
 
       //Complete Documents
          Route::post('/dts/complete-docs', [App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'complete_documents']);
+         Route::post("/dts/cancel-documents",[ App\Http\Controllers\systems\dts\admin\AllDocumentsController::class, 'cancel_documents']);
 });
 
 

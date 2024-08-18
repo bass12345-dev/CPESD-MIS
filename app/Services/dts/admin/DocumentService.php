@@ -59,6 +59,7 @@ class DocumentService
             $history = $this->customRepository->q_get_where_order($this->conn, $this->history_table, $where, 'history_id', 'desc');
             $is_existing = $history->count();
             $origin = $key->origin == NULL ? '-' : $key->origin;
+            $history_id = $is_existing == 0 ? '' : $history->first()->history_id;
             $data[] = array(
                 'number'                => $i++,
                 'tracking_number'       => $key->tracking_number,
@@ -67,20 +68,23 @@ class DocumentService
                 'created'               => date('M d Y - h:i a', strtotime($key->created)),
                 'a'                     => $delete_button,
                 'document_id'           => $key->document_id,
-                'history_id'            => $is_existing == 0 ? '' : $history->first()->history_id,
+                'history_id'            => $history_id,
                 'error'                 => $is_existing == 0 ? 'text-danger' : '',
                 'user_id'               => $key->u_id,
                 'created_by'            => $this->userService->user_full_name($key),
                 'is'                    => $status,
                 'history_status'        => $key->doc_status,
-                'data'              => $key->document_name.','.
-                                    $key->tracking_number.','.
-                                    $key->type_name.','.
-                                    date('M d Y - h:i a', strtotime($key->created)).','.
-                                    $this->userService->user_full_name($key).','.
-                                    $key->type_name.','.
-                                    $origin.','.
-                                    $key->document_description
+                'data'              =>  $key->document_name.','.
+                                        $key->tracking_number.','.
+                                        $key->type_name.','.
+                                        date('M d Y - h:i a', strtotime($key->created)).','.
+                                        $this->userService->user_full_name($key).','.
+                                        $key->destination_type.','.
+                                        $origin.','.
+                                        $key->document_description.','.
+                                        $key->document_id.','.
+                                        $history_id,
+
             );
         }
 

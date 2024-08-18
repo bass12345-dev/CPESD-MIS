@@ -93,8 +93,33 @@
       _updatetAjax(url, form, table);
    });
 
+   $(document).on('click', 'a#cancel_documents', function (e) {
 
-   
+      var rows_selected = get_select_items_datatable();
+      let html = '';
+      let arr = [];
+      
+      if (rows_selected.length == 0) {
+         toast_message_error('Please Select at least One')
+      } else {
+         $('#cancel_document_modal').modal('show');
+         $('input[name=user_type]').val('user');
+         rows_selected.forEach(element => {
+            const myArray = element.split(",");
+            const first = myArray[0];
+            const second = myArray[1];
+            arr.push(myArray[8]);
+            html += '<li class="text-danger h3">' + second + '</li>';
+         });
+
+         $('input[name=document_ids]').val(arr);
+         $('.display_tracking_number').html(html);
+      }
+   });
+
+
+
 </script>
+@include('systems.dts.includes.custom_js.cancel_action')
 @include('systems.dts.includes.custom_js.print_slip')
 @endsection

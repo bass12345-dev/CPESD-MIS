@@ -73,9 +73,11 @@ class DocumentService
                                        $key->type_name.','.
                                        date('M d Y - h:i a', strtotime($key->d_created)).','.
                                        $this->userService->user_full_name($key).','.
-                                       $key->doc_type.','.
+                                       $key->destination_type.','.
                                        $origin.','.
-                                       $key->document_description
+                                       $key->document_description.','.
+                                       $key->document_id
+                                       
 
             );
         }

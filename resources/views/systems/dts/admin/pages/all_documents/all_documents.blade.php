@@ -4,6 +4,7 @@
 @include('global_includes.title')
 @include('systems.dts.admin.pages.all_documents.sections.table')
 @include('systems.dts.includes.components.final_action_off_canvas')
+@include('systems.dts.user.pages.my_documents.modals.cancel_modal')
 @endsection
 @section('js')
 @include('global_includes.js.custom_js.select_by_month')
@@ -107,8 +108,7 @@
 
                   if (row.history_status != 'completed' && row.history_status == 'pending' && row.history_status != 'cancelled') {
                      html += '<li><a class="dropdown-item" id="forward_icon" href="#" data-history-id="' + row.history_id + '"\
-                  data-tracking-number="' + row.tracking_number + '" data-bs-toggle="offcanvas"\
-                  data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">Complete Document</a></li>';
+                  data-tracking-number="' + row.tracking_number + '" >Complete Document</a></li>';
                   }
 
                }
@@ -162,35 +162,92 @@
    });
 
    $('button#delete').on('click', function () {
-      var button_text = 'Delete selected items';
-      var text = 'Document History will be deleted also';
-      var url = '/admin/act/dts/delete-documents';
-      let items = get_select_items_datatable();
-      var data = {
-         id: items
-      };
 
-      if (items.length == 0) {
+
+      var rows_selected = table.column(0).checkboxes.selected();
+      if (rows_selected.length == 0) {
          toast_message_error('Please Select at least One')
       } else {
-         delete_item(data, url, button_text, text, table);
+         var button_text = 'Delete selected items';
+         var text = 'Document History will be deleted also';
+         var url = '/admin/act/dts/delete-documents';
+         let arr = [];
+         $.each(rows_selected, function (index, rowId) {
+            const myArray = rowId.split(",");
+            arr.push(myArray[8]);
+         });
+         var data = { id: arr };
+         delete_item(data, url, button_text, text = '', table);
       }
 
    });
 
 
 
-   $('button#cancel').on('click', function () {
+   $(document).on('click', 'a#cancel_documents', function (e) {
 
-      var button_text = 'Cancel selected items';
-      var url = '/admin/act/dts/cancel-documents';
-      var items = get_select_items_datatable();
-      var data = { id: items };
-      if (items.length == 0) {
+      var rows_selected = get_select_items_datatable();
+      let html = '';
+      let arr = [];
+
+      if (rows_selected.length == 0) {
          toast_message_error('Please Select at least One')
       } else {
-         delete_item(data, url, button_text, text = '', table);
+         $('#cancel_document_modal').modal('show');
+         $('input[name=user_type]').val('admin');
+         rows_selected.forEach(element => {
+            const myArray = element.split(",");
+            const first = myArray[0];
+            const second = myArray[1];
+            arr.push(myArray[8]);
+            html += '<li class="text-danger h3">' + second + '</li>';
+         });
+
+         $('input[name=document_ids]').val(arr);
+         $('.display_tracking_number').html(html);
       }
+   });
+
+
+
+
+   $(document).on('click', 'a#forward_icon', function () {
+      $('input[name=id]').val($(this).data('history-id'));
+      $('input[name=t_number]').val($(this).data('tracking-number'));
+      $('.offcanvas-title').text('Document #' + $(this).data('tracking-number'))
+   });
+
+   var myOffcanvas = document.getElementById('offcanvasExample1');
+   var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+
+   $(document).on('click', 'button#complete', function () {
+      let array = get_select_items_datatable();
+      let html = '';
+      let arr = [];
+      if (array.length > 0) {
+         bsOffcanvas.show();
+
+         $('input[name=user_type]').val('admin');
+         array.forEach(element => {
+            const myArray = element.split(",");
+            const first = myArray[0];
+            const second = myArray[1];
+            arr.push(myArray[9] + '-' + second);
+            
+            html += '<li class="text-danger h3">' + second + '</li>';
+         });
+         $('input[name=c_t_number]').val(arr);
+         $('.display_tracking_number2').html(html);
+      } else {
+         toast_message_error('Please Select at least One')
+      }
+   });
+
+
+   $(document).on('click', 'a#forward_icon', function () {
+      $('input[name=c_t_number]').val($(this).data('history-id') + '-' + $(this).data('tracking-number'));
+      $('.offcanvas-title').text('Document #' + $(this).data('tracking-number'))
+      bsOffcanvas.show();
    });
 
 
@@ -252,4 +309,6 @@
 
 </script>
 @include('systems.dts.includes.custom_js.print_slip')
+@include('systems.dts.includes.custom_js.complete_action')
+@include('systems.dts.includes.custom_js.cancel_action')
 @endsection
