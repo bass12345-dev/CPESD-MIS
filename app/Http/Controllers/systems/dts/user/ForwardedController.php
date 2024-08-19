@@ -45,8 +45,8 @@ class ForwardedController extends Controller
 
         $data = [];
         $i = 1;
-        $rows =  $this->dtsQuery->get_forwarded_documents();
-        foreach ($rows as $value => $key) {
+        $rows =  $this->dtsQuery->QueryForwardedDocuments();
+        foreach ($rows as $key) {
 
             $data[] = array(
                 'number'            => $i++,
@@ -56,7 +56,7 @@ class ForwardedController extends Controller
                 'type_name'         => $key->type_name,
                 'released_date'     => date('M d Y - h:i a', strtotime($key->release_date)),
                 'forward_to_id'     => $key->user_id,
-                'forwarded_to'      => $key->final_receiver == 'yes' ? '<span class="text-danger">To Final Receiver</span>' : $key->first_name . ' ' . $key->middle_name . ' ' . $key->last_name . ' ' . $key->extension,
+                'forwarded_to'      => $key->final_receiver == 'yes' ? '<span class="text-danger">To Final Receiver</span>' : $this->userService->user_full_name($key),
                 'document_id'       => $key->document_id,
                 'remarks'           => $key->remarks,
             );
@@ -80,14 +80,17 @@ class ForwardedController extends Controller
             $data = array('message' => 'Something Wrong | Remarks is not updated', 'response' => false);
         }
 
-        return $data;
+        return response()->json($data);
     }
     public function update_forwarded(Request $request)
     {
+       
         $id = $request->input('history_id');
         $tracking_number = $request->input('tracking_number');
-        $forward_to = $request->input('forward') == 'fr' ? $this->userService->get_receiver() : $request->input('forward');
+        $forward_to = $request->input('forward') == 'fr' ? $this->userService->get_receiver()->user_id : $request->input('forward');
         $is_yes = $request->input('forward') == 'fr' ? 'yes' : 'no';
+
+       
 
         $r = $this->customRepository->q_get_where($this->conn, array('tracking_number' => $tracking_number),'documents')->first();
         $user_row = $this->customRepository->q_get_where($this->conn_user, array('user_id' => $forward_to),'users')->first();
@@ -103,6 +106,6 @@ class ForwardedController extends Controller
             $data = array('message' => 'Something Wrong', 'response' => false);
         }
 
-        return $data;
+        return response()->json($data);
     }
 }

@@ -1,9 +1,8 @@
 <!-- Data Table area Start-->
 <div class="data-table-area">
     <div class="container">
-
         <div class="data-table-list">
-
+        <h1>Project/s</h1>
             <div class="table-responsive">
                 <table id="data-table-basic" class="table table-striped">
                     <thead>

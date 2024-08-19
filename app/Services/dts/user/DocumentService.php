@@ -9,6 +9,7 @@ use App\Services\CustomService;
 use App\Services\user\UserService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 class DocumentService
 {
@@ -307,6 +308,61 @@ class DocumentService
         );
         return $data;
     }
+
+    public function get_document_history($tn){
+
+        $history                    = $this->dtsQuery->get_document_history($tn);
+        $data                       = [];
+
+        foreach ($history->get() as $value => $row) {
+
+            $where1                 = array('user_id' => $row->user1);
+            $user1                  = $this->dtsQuery->history_user_data($where1);
+
+            $where2                 = array('user_id' => $row->user2);
+            $user2                  = $this->dtsQuery->history_user_data($where2);
+
+
+
+            $date1                  = new DateTime($row->received_date);
+            $date2                  = $row->release_date == NULL ? new DateTime($row->received_date) : new DateTime($row->release_date);
+            $interval               = $date1->diff($date2);
+
+
+
+            $min_ext                = $interval->i > 1 ? 'minutes' : 'minute';
+            $hour_ext               = $interval->h > 1 ? 'hours' : 'hour';
+            $days_ext               = $interval->d > 1 ? 'days' : 'day';
+            $month_ext              = $interval->m > 1 ? 'months' : 'month';
+
+
+            $display_month          = $interval->m == 0 ? ' ' : $interval->m . ' ' . $month_ext . ', ';
+            $display_day            = $interval->d == 0 ? ' ' : $interval->d . ' ' . $days_ext . ', ';
+            $display_hour           = $interval->h == 0 ? ' ' : $interval->h . ' ' . $hour_ext . ', ';
+            $display_min            = $interval->i == 0 ? ' ' : $interval->i . ' ' . $min_ext;
+
+            $user__2                = $user2[0]->is_receiver == 'yes' ? 'final' : $this->userService->user_full_name($user2[0]);
+
+
+            $data[] = array(
+
+                'user1'                 => $row->release_date != NULL ? $this->userService->user_full_name($user1[0]) : ' - ',
+                'office1'               => $user1[0]->office,
+                'user2'                 => $row->user2 != 0 ?  $user__2 : ' - ',
+                'office2'               => $row->user2 != 0 ? $user2[0]->office : ' - ',
+                'tracking_number'       => $row->t_number,
+                'date_released'         => $row->release_date != NULL ? date('M d Y', strtotime($row->release_date)) . ' - ' . date('h:i a', strtotime($row->release_date)) : ' - ',
+                'date_received'         => $row->received_date != NULL ? date('M d Y', strtotime($row->received_date)) . ' - ' . date('h:i a', strtotime($row->received_date)) : ' - ',
+                'duration'              => $row->received_date != NULL ? $display_month . ' ' . $display_day . ' ' . $display_hour . ' ' . $display_min : ' - ',
+                'remarks'               => empty($row->remarks) ? 'no remarks' : $row->remarks,
+                'final_action_taken'    => $row->action_name
+            );
+
+        }
+
+        return $data;
+    }
+
 
     public function document_data($where)
     {

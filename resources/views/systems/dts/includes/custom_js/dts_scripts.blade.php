@@ -34,4 +34,10 @@
     $(document).ready(function() {
         get_receiver_incoming();
     });
+
+    function view_document(row){
+        return '<a href="' + base_url + '/user/dts/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + '">' + row.document_name + '</a>';
+    }
+
+
 </script>

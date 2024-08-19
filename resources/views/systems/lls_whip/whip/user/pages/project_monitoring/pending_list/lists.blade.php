@@ -2,6 +2,7 @@
 @section('title', $title)
 @section('content')
 @include('systems.lls_whip.whip.user.pages.project_monitoring.pending_list.sections.table')
+@include('systems.lls_whip.whip.admin.pages.project_monitoring.pending_list.modals.chat_message')
 @endsection
 @section('js')
 <script>
@@ -53,6 +54,9 @@
             {
                 data: 'monitoring_status'
             },
+            {
+                data: null
+            },
 
             ],
             'select': {
@@ -71,6 +75,15 @@
                     return '<a href="' + base_url + '/user/whip/project-monitoring-info/' + row.project_monitoring_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
                 }
             },
+            {
+                    targets: -2,
+                    data: null,
+                    orderable: false,
+                    className: 'text-center',
+                    render: function(data, type, row) {
+                        return '<a href="javascript:;" data-toggle="modal" data-target="#chat_modal" style="font-size: 25px; " class=""><i class="fas fa-message"></i><span class="badge" style="margin-bottom: 28px;background-color: red;">42</span></a>';
+                    }
+                },
             {
                 targets: -1,
                 data: null,

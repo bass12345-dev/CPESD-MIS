@@ -55,7 +55,7 @@
                     targets: 1,
                     data: null,
                     render: function(data, type, row) {
-                        return '<a href="' + base_url + '/dts/user/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + ' ?>">' + row.action + '</a>';
+                        return '<a href="' + base_url + '/user/dts/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + ' ?>">' + row.action + '</a>';
                     }
                 },
 

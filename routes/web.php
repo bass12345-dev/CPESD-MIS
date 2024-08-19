@@ -73,10 +73,12 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
       //Projects
          Route::get("/whip/add-new-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'add_new_project']);
          Route::get("/whip/projects-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'projects_list']);
+         Route::get("/whip/project-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'project_information']);
       //Project Monitoring
          Route::get("/whip/add-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'add_monitoring_view']);
          Route::get("/whip/pending-projects-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'pending_project_monitoring_view']);
          Route::get("/whip/project-monitoring-info/{id}",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'project_monitoring_information']);
+         Route::get("/whip/approved-projects-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'approved_project_monitoring_view']);
          //Reports
          Route::get("/whip/monitoring-report/{id}",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'view_monitoring_report']);
       //Positions
@@ -103,6 +105,8 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\user\ActionLogsController::class, 'index']);
          //Search Documents
          Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
+         //View Document
+         Route::get("/dts/view",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'view_document']);
 
 });
 
@@ -135,6 +139,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::get("/whip/g-a-p",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'get_all_projects']);
          Route::post("/whip/d-p",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'delete_projects']);
          Route::get("/whip/search-project",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'search_project']);
+         Route::get("/whip/g-p-p-b/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'get_projects_per_barangay']);
       //Projects Monitoring
          Route::post("/whip/i-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'insert_project_monitoring']);
          Route::get("/whip/g-u-p-m",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'get_pending_project_monitoring']);
@@ -144,6 +149,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::post("/whip/i-u-p-e",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'insert_update_project_employee']);
          Route::post("/whip/g-a-p-e",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'get_all_project_employee']);
          Route::post("/whip/d-p-e",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'delete_project_employee']);
+         
          //Reports
             Route::post("/whip/g-n-e-i",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'get_nature_employee_inside']);
             Route::post("/whip/g-n-e-o",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'get_nature_employee_outside']);
@@ -188,6 +194,9 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
       //Receiver
          //Receiver Incoming
             Route::get("/dts/receiver-incoming",[ App\Http\Controllers\systems\dts\receiver\IncomingController::class, 'get_receiver_incoming']);
+      //Search 
+            Route::get("/dts/search",[ App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'search']);
+      
 });
 
 
@@ -222,11 +231,16 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
       //Contractors
          Route::get("/whip/add-new-contractor",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'add_new_contractor']);
          Route::get("/whip/contractors-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractors_list']);
+
+         Route::get("/whip/contractor-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractor_information']);
       //Projects
          // Route::get("/whip/add-new-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'add_new_project']);
          Route::get("/whip/projects-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'projects_list']);
          Route::get("/whip/pending-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'pending_project_monitoring_view']);
          Route::get("/whip/approved-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'approved_project_monitoring_view']);
+
+         Route::get("/whip/project-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'project_information']);
+         
       //Positions
          Route::get("/whip/whip-positions",[ App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'index']);
       //Employment Status
@@ -255,8 +269,10 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          // Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'index']);
          //Action Logs
          Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\admin\ActionLogsController::class, 'index']);
-          //Action Logs
-          Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
+         //Action Logs
+         Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
+         //View Document
+         Route::get("/dts/view",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'view_document']);
 
 
 

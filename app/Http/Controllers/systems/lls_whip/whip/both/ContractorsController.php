@@ -50,6 +50,8 @@ class ContractorsController extends Controller
 
     public function contractor_information($id){
         $row            = $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id),$this->contractors_table)->first();
+        $data['pending']= $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id,'project_status' => 'ongoing'),$this->projects_table)->count();
+        $data['completed']= $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id,'project_status' => 'completed'),$this->projects_table)->count();
         $data['title']  = $row->contractor_name;
         $data['row']    = $row;
         return view('systems.lls_whip.whip.both.contractors.view.view')->with($data);

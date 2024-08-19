@@ -52,7 +52,7 @@
                targets: 1,
                data: null,
                render: function(data, type, row) {
-                  return '<a href="' + base_url + '/dts/user/view?tn=' + row.document_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.document_number + ' ?>">' + row.document_name + '</a>';
+                  return view_document(row);
                }
             },
 

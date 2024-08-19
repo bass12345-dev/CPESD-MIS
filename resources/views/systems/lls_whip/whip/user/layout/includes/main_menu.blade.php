@@ -9,7 +9,7 @@
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-contractor' || $segments[2] == 'contractors-list' ? 'active' : '' ?>" href="#mailbox1"><i class="notika-icon notika-mail"></i>Contractors</a>
                         </li>
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' || $segments[2] == 'add-monitoring' || $segments[2] == 'pending-projects-monitoring' || $segments[2] == 'project-monitoring-info' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' || $segments[2] == 'add-monitoring' || $segments[2] == 'pending-projects-monitoring' || $segments[2] == 'project-monitoring-info' || $segments[2] == 'approved-projects-monitoring' ? 'active' : '' ?>" href="#all_projects"><i class="notika-icon notika-mail"></i>Projects</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'whip-positions' ? 'active' : '' ?>" href="#positions"><i class="notika-icon notika-mail"></i>Positions</a>
                         </li>
@@ -37,7 +37,7 @@
 
                             </ul>
                         </div>
-                        <div id="all_projects" class="tab-pane <?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' || $segments[2] == 'add-monitoring' || $segments[2] == 'pending-projects-monitoring'  ? 'active' : ''  ?> notika-tab-menu-bg animated flipInX">
+                        <div id="all_projects" class="tab-pane <?= $segments[2] == 'add-new-project' || $segments[2] == 'projects-list' || $segments[2] == 'add-monitoring' || $segments[2] == 'pending-projects-monitoring' || $segments[2] == 'approved-projects-monitoring'  ? 'active' : ''  ?> notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
                                 <li><a href="{{url('user/whip/add-new-project')}}" class="<?= $segments[2] == 'add-new-project' ? 'active' : '' ?>">Add New Project</a>
                                 </li>
@@ -47,7 +47,7 @@
                                 </li>
                                 <li><a href="{{url('user/whip/pending-projects-monitoring')}}" class="<?= $segments[2] == 'pending-projects-monitoring' ? 'active' : '' ?>">Pending Projects Monitoring</a>
                                 </li>
-                                <li><a href="{{url('user/whip/projects-monitoring')}}" class="<?= $segments[2] == 'projects-monitoring' ? 'active' : '' ?>">Approved Projects Monitoring</a>
+                                <li><a href="{{url('user/whip/approved-projects-monitoring')}}" class="<?= $segments[2] == 'approved-projects-monitoring' ? 'active' : '' ?>">Approved Projects Monitoring</a>
                                 </li>
                             </ul>
                         </div>

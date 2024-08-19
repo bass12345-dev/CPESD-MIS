@@ -52,8 +52,14 @@ class MonitoringController extends Controller
 
     public function pending_project_monitoring_view(){
         $data['title'] = 'Pending Project Monitoring';
-    return view('systems.lls_whip.whip.user.pages.project_monitoring.pending_list.lists')->with($data);
+        return view('systems.lls_whip.whip.user.pages.project_monitoring.pending_list.lists')->with($data);
     }  
+
+    public function approved_project_monitoring_view(){
+        $data['title'] = 'Approved Project Monitoring';
+        $data['current']            = Carbon::now()->year.'-'.Carbon::now()->month;
+        return view('systems.lls_whip.whip.user.pages.project_monitoring.approved_list.lists')->with($data);
+    }
     
     public function project_monitoring_information($id){
         

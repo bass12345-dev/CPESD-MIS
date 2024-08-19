@@ -64,9 +64,9 @@
          }, {
             targets: 3,
             data: null,
-            render: function (data, type, row) {
-               return '<a href="' + base_url + '/dts/user/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + ' ?>">' + row.document_name + '</a>';
-            }
+            render: function(data, type, row) {
+                  return '<a href="' + base_url + '/admin/dts/view?tn=' + row.tracking_number + '" data-toggle="tooltip" data-placement="top" title="View ' + row.tracking_number + '">' + row.document_name + '</a>';
+               }
          },
          {
             targets: -2,

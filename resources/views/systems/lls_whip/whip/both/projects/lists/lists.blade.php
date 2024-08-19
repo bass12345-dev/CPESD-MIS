@@ -66,7 +66,7 @@
                     targets: 1,
                     data: null,
                     render: function(data, type, row) {
-                        return '<a href="' + base_url + '/admin/whip/project-information/' + row.project_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
+                        return '<a href="' + base_url + '/{{session("user_type")}}/whip/project-information/' + row.project_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
                     }
                 },
                 {

@@ -58,6 +58,79 @@ class ProjectQuery
     }
 
 
+    //Project Information
+    
+    public function QueryProjectInformation($id){
+
+      $rows = DB::connection($this->conn)->table('projects as projects')
+      ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
+      ->leftJoin('project_nature', 'project_nature.project_nature_id', '=', 'projects.project_nature_id')
+      ->select(   
+                
+                //Contractors
+                'contractors.contractor_id as contractor_id', 
+                'contractors.contractor_name as contractor_name',
+                'contractors.status as contractor_status' ,
+                //Project Nature
+                'project_nature.project_nature as project_nature', 
+                'project_nature.project_nature_id as project_nature_id', 
+                //Projects
+                'projects.project_id as project_id',
+                'projects.project_title as project_title',
+                'projects.street as street',
+                'projects.barangay as barangay',
+                'projects.project_cost as project_cost',
+                'projects.project_status as project_status',
+                'projects.date_started as date_started',
+                'projects.date_started as date_completed'                  
+
+    )
+    ->where('projects.project_id', $id)
+    ->orderBy('projects.project_id', 'desc')
+    ->first();
+   
+    return $rows;
+
+    }
+
+    public function QueryAllProjectMonitoring($id){
+
+      $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
+      ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
+      ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
+      ->select(   
+                //Contractors
+                'contractors.contractor_id as contractor_id', 
+                'contractors.contractor_name as contractor_name',
+                'contractors.status as contractor_status' ,
+                
+                //Project Monitoring
+                'project_monitoring.date_of_monitoring as date_of_monitoring',
+                'project_monitoring.specific_activity as specific_activity',
+                'project_monitoring.annotations as annotations',
+                'project_monitoring.monitoring_status as monitoring_status',
+                'project_monitoring.project_monitoring_id as project_monitoring_id',
+
+                //Projects
+                'projects.project_id as project_id',
+                'projects.project_title as project_title',
+                'projects.street as street',
+                'projects.barangay as barangay',
+                'projects.project_cost as project_cost',
+                'projects.project_status as project_status',
+                'projects.date_started as date_started'         
+
+    )
+    ->where('project_monitoring.project_id', $id)
+    ->orderBy('project_monitoring.date_of_monitoring','asc')
+    ->get();
+   
+    return $rows;
+
+
+    }
+
+
     
 
     //Project Monitoring Information
@@ -167,6 +240,18 @@ class ProjectQuery
 
     }
 
+    //GRAPH
+
+    public function contractor_projects($id,$barangay,$status)
+    {
+  
+      $rows = DB::connection($this->conn)->table('projects as projects')
+        ->where('projects.contractor_id', $id)
+        ->where('projects.barangay', $barangay)
+        ->where('projects.project_status', $status)
+        ->count();
+      return $rows;
+    }
 
 
 

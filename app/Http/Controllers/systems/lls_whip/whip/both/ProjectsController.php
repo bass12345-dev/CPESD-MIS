@@ -51,6 +51,15 @@ class ProjectsController extends Controller
         return view('systems.lls_whip.whip.both.projects.lists.lists')->with($data);
     }
 
+    public function project_information($id){
+        $row                = $this->projectQuery->QueryProjectInformation($id);
+        $data['project_monitoring']               = $this->projectQuery->QueryAllProjectMonitoring($id);
+        $data['title']      = $row->project_title;
+        $data['row']        = $row;
+
+        return view('systems.lls_whip.whip.both.projects.view.view')->with($data);
+    }
+
     public function add_new_project(){
         $data['title'] = 'Add New Project';
         $data['barangay']   = config('custom_config.barangay');
@@ -133,4 +142,30 @@ class ProjectsController extends Controller
         }
         return response()->json($data);
     }
+
+
+
+    //GRAPH
+
+    public function get_projects_per_barangay($id){
+        $ongoing = [];
+        $completed = [];
+        $barangay = config('custom_config.barangay');
+        foreach($barangay as $row) {
+            $count_ongoing = $this->projectQuery->contractor_projects($id,$row,'ongoing');
+            array_push($ongoing,$count_ongoing);
+            $count_completed = $this->projectQuery->contractor_projects($id,$row,'completed');
+            array_push($completed,$count_completed);
+        }
+       $data['label']               = $barangay;
+       $data['data_ongoing']        = $ongoing;
+       $data['data_completed']      = $completed;
+       $data['color'] = ['rgb(41,134,204)','rgb(201,0,118)'];
+       return response()->json($data);
+
+
+    }
+
+
+
 }

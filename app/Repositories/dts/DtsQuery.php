@@ -125,11 +125,11 @@ class DtsQuery
 
     //Document Data
     public function get_document_data($tn){
-        $row =DB::connection($this->conn_dts)->table('documents')
+        $row = DB::table($this->dts_table_name.'.documents')
+        ->leftJoin($this->dts_table_name.'.document_types', 'document_types.type_id', '=', 'documents.doc_type')
+        ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'documents.u_id')
+        ->leftJoin($this->dts_table_name.'.offices', 'offices.office_id', '=', 'documents.origin')
         ->where('tracking_number', $tn)
-        ->leftJoin('document_types', 'document_types.type_id', '=', 'documents.doc_type')
-        ->leftJoin('users', 'users.user_id', '=', 'documents.u_id')
-        ->leftJoin('offices', 'offices.office_id', '=', 'documents.origin')
         ->first();
         return $row;
     }
@@ -212,7 +212,7 @@ class DtsQuery
 
     //Forwarded Documents
 
-    public function get_forwarded_documents()
+    public function QueryForwardedDocuments()
     {
         $rows = DB::table($this->dts_table_name.'.history as history')
             ->leftJoin($this->dts_table_name.'.documents as documents', 'documents.tracking_number', '=', 'history.t_number')
@@ -407,6 +407,96 @@ class DtsQuery
             ->orderBy('documents.tracking_number', 'desc')->limit($limit)->get();
 
         return $rows;
+    }
+
+
+
+    //Search
+    public function search($search)
+    {
+        $rows = DB::table($this->dts_table_name.'.documents as documents')
+        ->leftJoin($this->dts_table_name.'.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
+        ->leftJoin($this->users_table_name.'.users as users', 'users.user_id', '=', 'documents.u_id')
+        // ->leftJoin($this->dts_table_name.'.history as history', 'history.t_number', '=', 'documents.tracking_number')
+        ->select(    //Documents
+                    'documents.created as created', 
+                    'documents.doc_status as doc_status',  
+                    'documents.tracking_number as tracking_number', 
+                    'documents.document_name as   document_name', 
+                    'documents.document_id as document_id', 
+                    'documents.doc_status as doc_status',
+                    'documents.document_description as document_description',
+                    'documents.u_id as u_id',
+                    //Document Types
+                    'document_types.type_name',  
+                    //User
+                    'users.first_name as first_name', 
+                    'users.middle_name as middle_name', 
+                    'users.last_name as last_name', 
+                    'users.extension as extension', 
+                    
+                    DB::Raw("CONCAT(users.first_name, ' ', users.middle_name , ' ', users.last_name,' ',users.extension) as name"))
+        ->where(DB::raw("concat(documents.document_name, ' ', documents.tracking_number, ' ', documents.document_description)"), 'LIKE', "%" . $search . "%")
+        ->orderBy('documents.document_id', 'desc')->get();
+
+        return $rows;
+
+    }
+
+
+    public function get_document_history($tn){
+        $row = DB::connection($this->conn_dts)->table('history')
+        ->where('t_number',$tn)
+        ->leftJoin('final_actions', 'final_actions.action_id', '=', 'history.final_action_taken')
+        ->orderBy('history.history_id','asc');
+        return $row;
+    }
+
+    public function  history_user_data($where){
+        $row =  DB::table($this->users_table_name.'.users')
+        ->leftJoin($this->dts_table_name.'.offices', 'offices.office_id', '=', 'users.off_id')
+        ->where($where)
+        ->get();
+        return $row;
+    }
+
+
+    public function get_outgoing_history($tn){
+
+        $row = DB::table($this->dts_table_name.'.outgoing_documents as outgoing_documents')
+             ->leftJoin($this->dts_table_name.'.documents as documents', 'documents.document_id', '=', 'outgoing_documents.doc_id')
+             ->leftJoin($this->users_table_name.'.users as users', 'users.user_id', '=', 'outgoing_documents.user_id')
+             ->leftJoin($this->dts_table_name.'.offices as offices', 'offices.office_id', '=', 'outgoing_documents.off_id')
+             ->leftJoin($this->dts_table_name.'.document_types as document_types', 'document_types.type_id', '=', 'documents.doc_type')
+             ->select(  //Document
+                        'documents.tracking_number as tracking_number',
+                        'documents.doc_status as doc_status' ,
+                        'documents.document_name as document_name',
+                        'documents.document_id as document_id',
+                        //Documen Type
+                        'document_types.type_name as type_name',
+                        //Outgoing
+                        'outgoing_documents.remarks as remarks',
+                        'outgoing_documents.outgoing_date as outgoing_date',
+                        'outgoing_documents.outgoing_date_received as outgoing_date_received',
+                        'outgoing_documents.doc_id as doc_id',
+                        'outgoing_documents.outgoing_id as outgoing_id',
+                        'outgoing_documents.status as status',
+                        //Office
+                        'offices.office as office',
+                        //User
+                        'users.user_id as user_id',
+                        'users.user_type as user_type',
+                        'users.first_name as first_name', 
+                        'users.middle_name as middle_name', 
+                        'users.last_name as last_name', 
+                        'users.extension as extension',
+             )
+             ->where('documents.tracking_number', $tn)
+             ->orderBy('outgoing_documents.outgoing_id', 'asc')
+            ->get();
+
+        return $row;
     }
 
 

@@ -64,7 +64,7 @@
                 targets: 1,
                 data: null,
                 render: function (data, type, row) {
-                    return '<a href="' + base_url + '/user/whip/contractor-information/' + row.contractor_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.contractor_name + '">' + row.contractor_name + '</a>';
+                    return '<a href="' + base_url + '/{{session("user_type")}}/whip/contractor-information/' + row.contractor_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.contractor_name + '">' + row.contractor_name + '</a>';
                 }
             },
             {

@@ -15,6 +15,7 @@
 
 <script src=" {{ asset('dts/js/datatables.js') }}"></script>
 <script src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+<script src="https://pagination.js.org/dist/2.6.0/pagination.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://unpkg.com/intro.js/intro.js"></script>
 <script src="https://jsuites.net/v4/jsuites.js"></script>
