@@ -21,7 +21,7 @@
 
             <tr>
                 <td>Address</td>
-                <td class="text-start"><span class="title">{{$row->barangay.' '.$row->street}}</span></td>
+                <td class="text-start"><span class="title">{{$row->barangay.' '.$row->street}}</span>   <input class="hidden" name="project_address" value="{{$row->barangay}}"></td>
             </tr>
             <tr>
                 <td>Project Started</td>

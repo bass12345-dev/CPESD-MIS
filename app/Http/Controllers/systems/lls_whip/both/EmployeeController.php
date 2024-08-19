@@ -144,7 +144,8 @@ class EmployeeController extends Controller
                 'middle_name'   => $row->middle_name == null ? ' ' : $row->middle_name,
                 'last_name'     => $row->last_name,
                 'extension'     => $row->extension == null ? ' ' : $row->extension,
-                'full_address'  => $this->userService->full_address($row)
+                'full_address'  => $this->userService->full_address($row),
+                'barangay'      => $row->barangay
             );
         }
         return response()->json($data);

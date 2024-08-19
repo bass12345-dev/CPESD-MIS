@@ -93,7 +93,7 @@ class ProjectQuery
 
     }
 
-    public function QueryAllProjectMonitoring($id){
+    public function QueryMonitoringInProject($id){
 
       $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
       ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
@@ -122,7 +122,7 @@ class ProjectQuery
 
     )
     ->where('project_monitoring.project_id', $id)
-    ->orderBy('project_monitoring.date_of_monitoring','asc')
+    ->orderBy('project_monitoring.date_of_monitoring','desc')
     ->get();
    
     return $rows;

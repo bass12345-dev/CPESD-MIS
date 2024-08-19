@@ -7,7 +7,7 @@
             @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.monitoring_information')
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <button class="btn btn-warning refresh-data">Refresh</button>
-                <a href="{{url('/user/whip/monitoring-report/'.$row->project_monitoring_id)}}" class="btn btn-success generate-report">Generate Report</a>
+                <a href="javascript:;" class="btn btn-success generate-report">Generate Report</a>
                 <div class="row">
                     @include('systems.lls_whip.whip.user.pages.project_monitoring.view_monitoring.sections.nature_chart')
                 </div>
@@ -457,6 +457,7 @@
 
     }
 
+
     $(document).on('click','button.refresh-data', function(){
         chart_inside.destroy();
         chart_outside.destroy();
@@ -471,4 +472,6 @@
     load_skilled_outside_chart();
     load_skilled_inside_chart();
 </script>
+
+@include('systems.lls_whip.includes.custom_js.whip_generate_report')
 @endsection

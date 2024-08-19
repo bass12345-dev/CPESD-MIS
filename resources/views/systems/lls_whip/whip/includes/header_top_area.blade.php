@@ -13,9 +13,9 @@
                 </div>
                 <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12">
                     <div class="logo-area" >
-                        <a href="" style="color: #fff;" class="text-center">
-                            <h4>WORKERS HIRED IN INFRASTRACTURE PROJECTS (WHIP) MONITORING - {{session('user_type') == 'user' ? 'User' : 'Administrator  '}}</h4>
-                            <h5 >City Ordinance No. 868-2020 and Republic Act No. 6685</h5>
+                        <a href=""  class="text-center">
+                            <h4 style="color: #fff;">WORKERS HIRED IN INFRASTRACTURE PROJECTS (WHIP) MONITORING - {{session('user_type') == 'user' ? 'User' : 'Administrator  '}}</h4>
+                            <h5 style="color: #fff;">City Ordinance No. 868-2020 and Republic Act No. 6685</h5>
                             <!-- <img src="img/logo/logo.png" alt="" /> -->
                         </a>
                     </div>

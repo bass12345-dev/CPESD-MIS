@@ -29,7 +29,8 @@
                     return [{
                         'employee_id': row.employee_id,
                         'full_name': full_name,
-                        'full_address' : row.full_address
+                        'full_address' : row.full_address,
+                        'barangay'  : row.barangay
                     }];
                 }));
             },
@@ -52,6 +53,17 @@
     $('input[name="employee_id"]').val(data.employee_id);
     $('input[name="employee"]').val(data.full_name);
     $('input[name="address"]').val(data.full_address);
+    
+    if($('input[name="project_address"]').val() == data.barangay){
+        $('select[name=location_status]').val('within');
+        $('select[name=location_status]').find('option[value!=within]').prop('disabled',true);
+        $('select[name=location_status]').find('option[value=within]').prop('disabled',false);
+    }else {
+        $('select[name=location_status]').prop('disabled',false);
+        $('select[name=location_status]').find('option[value!=within]').prop('disabled',false);
+        $('select[name=location_status]').find('option[value=within]').prop('disabled',true);
+        $('select[name=location_status]').val('');
+    }
 
 });
 </script>

@@ -51,6 +51,7 @@
 <link href="{{asset('assets/css/yearpicker.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/additional.css')}}">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/messages.css')}}">
+<link rel="stylesheet" href="{{ asset('lls_assets/css/messages2.css')}}">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/hamster.css')}}">
 <link rel="stylesheet" href="{{ asset('lls_assets/css/timeline.css')}}">
 <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />

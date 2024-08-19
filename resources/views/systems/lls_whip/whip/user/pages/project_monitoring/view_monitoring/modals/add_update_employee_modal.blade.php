@@ -71,8 +71,10 @@
                                                 <i class="notika-icon notika-map"></i>
                                             </div>
                                             <div class="nk-int-st">
+                                              
                                                 <select class="form-control" name="location_status" required>
                                                     <option value="" selected>Select Location Status</option>
+                                                    <option value="within">Within</option>
                                                     <option value="far">Far</option>
                                                     <option value="near">Near</option>
                                                 </select>

@@ -53,7 +53,7 @@ class ProjectsController extends Controller
 
     public function project_information($id){
         $row                = $this->projectQuery->QueryProjectInformation($id);
-        $data['project_monitoring']               = $this->projectQuery->QueryAllProjectMonitoring($id);
+        $data['project_monitoring']               = $this->projectQuery->QueryMonitoringInProject($id);
         $data['title']      = $row->project_title;
         $data['row']        = $row;
 

@@ -4,45 +4,26 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
-
-            <div class="chat_window">
-                <div class="top_menu">
-
-                    <div class="title">Chat</div>
-                </div>
-                <ul class="messages">
-                    <li class="message right appeared">
-                        <div class="avatar"></div>
-                        <div class="text_wrapper">
-                            <div class="text">Hi Sandy! How are you?</div>
+            <div class="chat">
+                
+                <div class="chat-history">
+                <h2>Remarks</h2>
+                    <a href="javascript:;" type="button" class="refresh" style="margin-bottom: 20px;">Refresh</a>
+                   
+                    <form id="add_remarks_form">
+                        <input type="hidden" name="project_monitoring_id">
+                        <ul class="chat-ul">
+                        </ul>
+                        <div class="send_message">
+                            <textarea rows="9" class="form-control" name="remarks"></textarea>
+                            <button type="submit" class="btn btn-primary btn-block"
+                                style="margin-top: 10px;">Send</button>
                         </div>
-                    </li>
-                    <li class="message left appeared">
-                        <div class="avatar"></div>
-                        <div class="text_wrapper">
-                            <div class="text">Hi Sandy! How are you?</div>
-                        </div>
-                    </li>
-                    
-                </ul>
-                <div class="bottom_wrapper clearfix">
-                    <div class="message_input_wrapper"><textarea class="message_input"> </textarea></div>
-                    <div class="send_message">
-                        <div class="icon"></div>
-                        <div class="text">Send</div>
-                    </div>
-                </div>
-            </div>
-            <div class="message_template">
-                <li class="message">
-                    <div class="avatar"></div>
-                    <div class="text_wrapper">
-                        <div class="text"></div>
-                    </div>
-                </li>
-            </div>
+                    </form>
+            </div> <!-- end chat-history -->
+        </div> <!-- end chat -->
 
-        </div>
+
     </div>
+</div>
 </div>

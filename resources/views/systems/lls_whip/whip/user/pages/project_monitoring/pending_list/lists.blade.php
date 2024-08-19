@@ -5,6 +5,7 @@
 @include('systems.lls_whip.whip.admin.pages.project_monitoring.pending_list.modals.chat_message')
 @endsection
 @section('js')
+
 <script>
 
     $(document).ready(function () {
@@ -81,7 +82,7 @@
                     orderable: false,
                     className: 'text-center',
                     render: function(data, type, row) {
-                        return '<a href="javascript:;" data-toggle="modal" data-target="#chat_modal" style="font-size: 25px; " class=""><i class="fas fa-message"></i><span class="badge" style="margin-bottom: 28px;background-color: red;">42</span></a>';
+                        return '<a href="#" data-toggle="modal" data-target="#chat_modal" data-id="' + row.project_monitoring_id + '" style="font-size: 25px; " class="message"><i class="fas fa-message"></i></a>';
                     }
                 },
             {
@@ -99,7 +100,8 @@
 
         });
     });
-
+    
+    // <span class="badge" style="margin-bottom: 28px;background-color: red;">'+row.count_unseen+'</span>
 
     $('button#multi-delete').on('click', function () {
         var button_text = 'Delete selected items';
@@ -118,4 +120,5 @@
     });
 
 </script>
+@include('systems.lls_whip.includes.custom_js.remarks_js')
 @endsection

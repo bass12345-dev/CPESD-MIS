@@ -153,10 +153,57 @@ class MonitoringController extends Controller
         return response()->json($resp);
     }
 
+    public function add_remarks(Request $request){
+       $items = array(
+                'remarks'   => $request->input('remarks'),
+                'user_id'   => session('user_id'),
+                'seen_status'   => 'unseen',
+                'created_on'    => Carbon::now()->format('Y-m-d H:i:s'),
+                'project_monitoring_id' => $request->input('project_monitoring_id')
+       );
+
+       $insert = $this->customRepository->insert_item($this->conn,'remarks',$items);
+       if ($insert) {
+           // Registration successful
+           return response()->json([
+               'message' => 'Remarks Successfully', 
+               'response' => true
+           ], 201);
+       }else {
+           return response()->json([
+               'message' => 'Something Wrong', 
+               'response' => false
+           ], 422);
+       }   
+
+      
+    }
+
     //READ
+
+
+    public function get_remarks(Request $request){
+
+        $where = array('project_monitoring_id' => $request->input('id'),'user_id' => session('user_id'));
+        $items = array(
+                    'seen_status'    => 'seen',
+        );
+        $this->customRepository->update_item($this->conn,'remarks',$where,$items);
+        $remarks = $this->monitoringQuery->QueryRemarks($where['project_monitoring_id']);
+        $arr = [];
+        foreach ($remarks as $row) {
+            $arr[] = array(
+                'user' => $row->user_id == session('user_id') ? 'me' : 'other',
+                'name'  => $this->userService->user_full_name($row),
+                'remarks' => $row->remarks
+            );
+        }
+
+        return response()->json($arr);
+     }
    
     public function get_all_project_employee(Request $request){
-        $id = $request->input('id');
+       $id = $request->input('id');
        $items = $this->projectQuery->get_project_employee($id);
        $data = [];
        $i = 1;
@@ -204,7 +251,8 @@ class MonitoringController extends Controller
                     'monitoring_status'             => $row->monitoring_status,
                     'contractor'                    => $row->contractor_name,
                     'address'                       => $row->barangay.' '.$row->street,
-                    'person_responsible'            => $this->userService->user_full_name($row)
+                    'person_responsible'            => $this->userService->user_full_name($row),
+                    'count_unseen'                  => $this->customRepository->q_get_where($this->conn,array('project_monitoring_id' => $row->project_monitoring_id,'seen_status' => 'un'),'remarks')->count()
                    
            );
         }

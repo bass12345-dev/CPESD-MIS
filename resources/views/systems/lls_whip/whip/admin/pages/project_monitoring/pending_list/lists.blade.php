@@ -6,8 +6,9 @@
 @endsection
 @section('js')
 @include('systems.lls_whip.includes.custom_js.nature_js')
+
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         table = $('#data-table-basic').DataTable({
             responsive: true,
             ordering: false,
@@ -28,82 +29,82 @@
                 dataSrc: ""
             },
             columns: [{
-                    data: 'project_monitoring_id'
-                },
-                {
-                    data: 'i'
-                },
-                {
-                    data: 'project_title'
-                },
-                {
-                    data: 'contractor'
-                },
-                {
-                    data: 'address'
-                },
-                {
-                    data: 'date_of_monitoring'
-                },
-                {
-                    data: 'specific_activity'
-                },
-                {
-                    data: 'monitoring_status'
-                },
-                {
-                    data: null
-                },
-                {
-                    data: null
-                },
+                data: 'project_monitoring_id'
+            },
+            {
+                data: 'i'
+            },
+            {
+                data: 'project_title'
+            },
+            {
+                data: 'contractor'
+            },
+            {
+                data: 'address'
+            },
+            {
+                data: 'date_of_monitoring'
+            },
+            {
+                data: 'specific_activity'
+            },
+            {
+                data: 'monitoring_status'
+            },
+            {
+                data: null
+            },
+            {
+                data: null
+            },
 
             ],
             'select': {
                 'style': 'multi',
             },
             columnDefs: [{
-                    'targets': 0,
-                    'checkboxes': {
-                        'selectRow': true
-                    }
-                },
-                {
-                    targets: 2,
-                    data: null,
-                    render: function(data, type, row) {
-                        return '<a href="' + base_url + '/user/whip/project-monitoring-info/' + row.project_monitoring_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
-                    }
-                },
-                {
-                    targets: -3,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        return row.monitoring_status == 'pending' ?
-                            '<span class="badge notika-bg-danger">Pending</span>' :
-                            '<span class="badge notika-bg-success">Completed</span>';
-                    }
-                },
-                {
-                    targets: -2,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        return '<a href="javascript:;" data-toggle="modal" data-target="#chat_modal" style="font-size: 25px; " class=""><i class="fas fa-message"></i><span class="badge" style="margin-bottom: 28px;background-color: red;">42</span></a>';
-                    }
-                },
-                {
-                    targets: -1,
-                    data: null,
-                    orderable: false,
-                    className: 'text-center',
-                    render: function(data, type, row) {
-                        return '<button class="btn btn-success approved" data-id="' + row.project_monitoring_id + '" ><i class="fas fa-check"></i></button>';
-                    }
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
                 }
+            },
+            {
+                targets: 2,
+                data: null,
+                render: function (data, type, row) {
+                    return '<a href="' + base_url + '/user/whip/project-monitoring-info/' + row.project_monitoring_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
+                }
+            },
+            {
+                targets: -3,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return row.monitoring_status == 'pending' ?
+                        '<span class="badge notika-bg-danger">Pending</span>' :
+                        '<span class="badge notika-bg-success">Completed</span>';
+                }
+            },
+            {
+                targets: -2,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return '<a href="#"   data-toggle="modal" data-target="#chat_modal" data-id="' + row.project_monitoring_id + '" style="font-size: 25px; " class="message"><i class="fas fa-message"></i></a>';
+                }
+            },
+            {
+                targets: -1,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return '<button class="btn btn-success approved" data-id="' + row.project_monitoring_id + '" ><i class="fas fa-check"></i></button>';
+                }
+            }
             ]
 
         });
@@ -113,7 +114,7 @@
         table.ajax.reload();
     }
 
-    $(document).on('click', 'button.approved', function() {
+    $(document).on('click', 'button.approved', function () {
 
         Swal.fire({
             title: "Are you sure?",
@@ -136,7 +137,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data.response) {
                             toast_message_success(data.message);
                             table.ajax.reload();
@@ -144,7 +145,7 @@
                             toast_message_error(data.message);
                         }
                     },
-                    error: function(err) {
+                    error: function (err) {
                         if (err.status == 422) { // when status code is 422, it's a validation issue
                             toast_message_error('Something Wrong');
                         }
@@ -156,6 +157,11 @@
         });
 
 
-    })
+    });
+
+
+
+
 </script>
+@include('systems.lls_whip.includes.custom_js.remarks_js')
 @endsection
