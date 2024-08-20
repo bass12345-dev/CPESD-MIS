@@ -139,11 +139,15 @@ class ProjectQuery
       $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
           ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
           ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
+          ->leftJoin('project_nature', 'project_nature.project_nature_id', '=', 'projects.project_nature_id')
           ->select(   
                     //Contractors
                     'contractors.contractor_id as contractor_id', 
                     'contractors.contractor_name as contractor_name',
                     'contractors.status as contractor_status' ,
+
+                    //Project Nature
+                    'project_nature.project_nature as project_nature', 
                     
                     //Project Monitoring
                     'project_monitoring.date_of_monitoring as date_of_monitoring',

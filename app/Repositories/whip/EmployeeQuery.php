@@ -110,5 +110,44 @@ class EmployeeQuery
   }
 
 
+  public function within_project($id, $project_id,$barangay)
+  {
+    $rows = DB::connection($this->conn)->table('project_employee as project_employee')
+    ->leftJoin('employees', 'employees.employee_id', '=', 'project_employee.employee_id')
+      ->select(
+
+        //Employee
+        'project_employee.nature_of_employment as nature_of_employment',
+        DB::raw('COUNT(project_employee.nature_of_employment) as count_nature'),
+      )
+      ->where('employees.barangay',$barangay)
+      ->where('project_employee.project_monitoring_id', $id)
+      ->where('project_employee.project_id', $project_id)
+      ->groupBy('project_employee.nature_of_employment')
+      ->get();
+    return $rows;
+  }
+
+  public function location_status_project($id, $project_id,$location_status)
+  {
+    $rows = DB::connection($this->conn)->table('project_employee as project_employee')
+    ->leftJoin('employees', 'employees.employee_id', '=', 'project_employee.employee_id')
+      ->select(
+
+        //Employee
+        'project_employee.nature_of_employment as nature_of_employment',
+        DB::raw('COUNT(project_employee.nature_of_employment) as count_nature'),
+      )
+      ->where('project_employee.location_status',$location_status)
+      ->where('employees.city',$this->default_city)
+      ->where('project_employee.project_monitoring_id', $id)
+      ->where('project_employee.project_id', $project_id)
+      ->groupBy('project_employee.nature_of_employment')
+      ->get();
+    return $rows;
+  }
+
+
+
 
 }

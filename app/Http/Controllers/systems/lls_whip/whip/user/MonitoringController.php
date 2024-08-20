@@ -230,14 +230,15 @@ class MonitoringController extends Controller
     }
 
 
-    public function get_pending_project_monitoring(){
+    public function get_pending_project_monitoring(Request $request){
        
-        if(session('user_type') == 'user'){
+        $segments = $request->segments();
+
+        if($segments[0] == 'user') {
             $items = $this->monitoringQuery->get_user_pending_monitoring();
-        }else if(session('user_type') == 'admin'){
+        }else if($segments[0] == 'admin') {
             $items = $this->monitoringQuery->get_admin_pending_monitoring();
         }
-
         
         $data = [];
         $i = 1;
@@ -389,5 +390,53 @@ class MonitoringController extends Controller
 
     }
 
-   
+   //REPORT
+   public function generate_report(Request $request){
+       $project_monitoring_id = $request->input('project_monitoring_id');
+       $project_id = $request->input('project_id');
+       $row =  $this->projectQuery->get_monitoring_information(array('project_monitoring_id' => $project_monitoring_id))->first();
+       $count_total_skilled = 0;
+       $skilled_percentage = 0;
+       $count_total_unskilled = 0;
+       $unskilled_percentage = 0;
+       $total = 0;
+       $count_total_skilled = $this->customRepository->q_get_where($this->conn,array('project_monitoring_id' => $project_monitoring_id,'project_id' => $project_id,'nature_of_employment' => 'skilled'),$this->project_employee_table)->count();
+       $count_total_unskilled = $this->customRepository->q_get_where($this->conn,array('project_monitoring_id' => $project_monitoring_id,'project_id' => $project_id,'nature_of_employment' => 'unskilled'),$this->project_employee_table)->count();
+       $total = $count_total_skilled + $count_total_unskilled;
+
+       $skilled_percentage  =  $count_total_skilled == 0 ? 0 :   (int) $count_total_skilled / (int) $total * 100;
+       $unskilled_percentage = $count_total_unskilled == 0 ? 0 :   (int) $count_total_skilled / (int) $total * 100;
+
+       $inside_oroquieta            = $this->employeeQuery->nature_inside($project_monitoring_id,$project_id);
+       $outside_oroquieta            = $this->employeeQuery->nature_outside($project_monitoring_id,$project_id);
+
+       $within_the_project      = $this->employeeQuery->within_project($project_monitoring_id,$project_id,$row->barangay);
+
+       $near_project      = $this->employeeQuery->location_status_project($project_monitoring_id,$project_id,'near');
+       $far_project      = $this->employeeQuery->location_status_project($project_monitoring_id,$project_id,'far');
+
+
+       $data = array(
+            'data' => $row,
+            'total' => $total,
+            's_u' => array(
+                'skilled' => $count_total_skilled,
+                'skilled_percentage' => $skilled_percentage.'%',
+                'unskilled' => $count_total_unskilled,
+                'unskilled_percentage' => $unskilled_percentage.'%',
+            ),
+            'inside_oroquieta' =>  $inside_oroquieta,
+            'outside_oroquieta' => $outside_oroquieta,
+            'within_project'    => $within_the_project,
+            'near_project'      => $near_project,
+            'far_project'       => $far_project
+            
+
+
+       );
+
+       return response()->json($data);
+
+       
+   }
 }

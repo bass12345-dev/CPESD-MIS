@@ -8,6 +8,7 @@
             <button class="btn btn-success submit hidden" >Submit</button>
         </div>
         <input type="hidden" name="project_monitoring_id" value="{{$row->project_monitoring_id}}">
+        <input type="hidden" name="project_id" value="{{$row->project_id}}">
         <table class="table table-hover table-striped table-information " id="table-information" style="width: 100%; ">
        
             <tr>
