@@ -35,7 +35,7 @@
                     data: 'contractor'
                 },
                 {
-                    data: 'project_cost'
+                    data: null
                 },
                 {
                     data: 'project_location'
@@ -69,6 +69,16 @@
                         return '<a href="' + base_url + '/{{session("user_type")}}/whip/project-information/' + row.project_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';
                     }
                 },
+                {
+                targets: 3,
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function (data, type, row) {
+                  
+                    return parseFloat(row.project_cost).toFixed(2)
+                }
+            },
                 {
                     targets: -1,
                     data: null,

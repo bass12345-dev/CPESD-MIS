@@ -52,12 +52,18 @@ class ProjectsController extends Controller
     }
 
     public function project_information($id){
+        $count = $this->customRepository->q_get_where($this->conn,array('project_id' => $id), $this->projects_table)->count();
+        if($count > 0){
         $row                = $this->projectQuery->QueryProjectInformation($id);
         $data['project_monitoring']               = $this->projectQuery->QueryMonitoringInProject($id);
+        $data['project_nature']     = $this->customRepository->q_get($this->conn,'project_nature')->get();
         $data['title']      = $row->project_title;
         $data['row']        = $row;
 
         return view('systems.lls_whip.whip.both.projects.view.view')->with($data);
+        }else {
+            echo '404';
+        }
     }
 
     public function add_new_project(){

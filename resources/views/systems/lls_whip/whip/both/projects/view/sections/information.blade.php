@@ -11,56 +11,62 @@
             <td>Contractor Name</td>
             <td class="text-start">
                 <span class="title1">{{$row->contractor_name}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
+                <input type="hidden" class="form-control" name="contractor_name" value="{{$row->contractor_name}}">
             </td>
         </tr>
         <tr>
             <td>Project Title</td>
             <td class="text-start">
                 <span class="title1">{{$row->project_title}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
+                <input type="hidden" class="form-control" name="project_title" value="{{$row->project_title}}">
             </td>
         </tr>
         <tr>
             <td>Project Nature</td>
             <td class="text-start">
                 <span class="title1">{{$row->project_nature}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
+                <select name="project_nature" class="form-control" hidden>
+                    <option value="">Select Project Nature</option>
+                    <?php
+                        foreach ($project_nature as $key) :
+                        
+                        $is_selected = $key->project_nature_id == $row->project_nature_id ? 'selected' : '';
+                    ?>
+                    <option value="{{$key->project_nature_id}}" {{$is_selected}}>{{$key->project_nature}}</option>
+
+                    <?php endforeach; ?>
+                </select>
             </td>
         </tr>
         <tr>
             <td>Project Cost</td>
             <td class="text-start">
                 <span class="title1">{{$row->project_cost}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
+                <input type="hidden" class="form-control" name="project_cost" value="{{$row->project_cost}}">
             </td>
         </tr>
         <tr>
             <td>Barangay</td>
             <td class="text-start">
                 <span class="title1">{{$row->barangay}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
+                <select name="barangay" class="form-control" hidden>
+                <option value="">Select Project Nature</option>
+                    <?php
+                        foreach (config('custom_config.barangay') as $key) :
+                        
+                        $is_selected = $key == $row->barangay ? 'selected' : '';
+                    ?>
+                    <option value="{{$key}}" {{$is_selected}}>{{$key}}</option>
+
+                    <?php endforeach; ?>
+                    </select>
             </td>
         </tr>
         <tr>
             <td>Street</td>
             <td class="text-start">
                 <span class="title1">{{$row->street}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
-            </td>
-        </tr>
-        <tr>
-            <td>Date Started</td>
-            <td class="text-start">
-                <span class="title1">{{$row->date_started}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
-            </td>
-        </tr>
-        <tr>
-            <td>Date Completed</td>
-            <td class="text-start">
-                <span class="title1">{{$row->date_completed}}</span>
-                <input type="hidden" class="form-control" name="contractor_name" value="">
+                <input type="hidden" class="form-control" name="street" value="{{$row->street}}">
             </td>
         </tr>
         <tr>
@@ -68,9 +74,9 @@
             <td class="text-start">
                 <span class="title1">{{ ucfirst($row->project_status)}}</span>
                 <select class="form-control" name="status" hidden>
-                    <option value="">Select Status</option>
-                    <option value="ongoing">Ongoing</option>
-                    <option value="completed">Completed</option>
+                    <?php $is_selected = $row->project_status == 'ongoing' ? 'selected' : ''; $is_selected2 = $row->project_status == 'completed' ? 'selected' : ''; ?>
+                    <option value="ongoing" {{$is_selected}}>Ongoing</option>
+                    <option value="completed" {{$is_selected2}}>Completed</option>
                 </select>
         </tr>
 

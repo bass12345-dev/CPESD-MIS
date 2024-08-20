@@ -160,6 +160,21 @@
     });
 
 
+    $('button#multi-delete1').on('click', function () {
+        var button_text = 'Delete selected items';
+        var text = '';
+        var url = '/user/act/whip/d-p-m';
+        let items = get_select_items_datatable();
+        var data = {
+            id: items,
+        };
+
+        if (items.length == 0) {
+            toast_message_error('Please Select at Least One')
+        } else {
+            delete_item(data, url, button_text, text, table);
+        }
+    });
 
 
 </script>

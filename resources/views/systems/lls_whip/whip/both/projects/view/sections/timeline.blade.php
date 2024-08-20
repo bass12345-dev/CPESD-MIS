@@ -28,7 +28,9 @@
         $calc_unskilled =  $query_unskilled == 0 ? 0 :   (int) $query_unskilled / (int) $query_total * 100;
 
     ?>
+   
         <article class="timeline-entry">
+        <a href="{{url('/user/whip/project-monitoring-info/'.$row->project_monitoring_id)}}">
             <div class="timeline-entry-inner">
                 <time class="timeline-time" datetime="2014-01-10T03:45"><span>{{date('M d Y', strtotime($row->date_of_monitoring))}}</span> <span>{{$display}}</span></time>
                 <div class="timeline-icon {{$bg}}">
@@ -36,7 +38,7 @@
                 </div>
 
                 <div class="timeline-label">
-                    <h2><a href="#">Basil John</a> <span class="{{$text_class}}">{{$row->monitoring_status}}</span></h2>
+                    <h2>Basil John <span class="{{$text_class}}">{{$row->monitoring_status}}</span></h2>
                     <p style="font-size: 18px;">{{$row->specific_activity}}</p>
                     <div class="card flex-fill p-3">
                         <table class="table table-hover table-striped table-information " style="width: 100%; ">
@@ -52,8 +54,9 @@
                     </div>
                 </div>
             </div>
-
+            </a>
         </article>
+      
 
     <?php endforeach; ?>
     <?php }else { ?>

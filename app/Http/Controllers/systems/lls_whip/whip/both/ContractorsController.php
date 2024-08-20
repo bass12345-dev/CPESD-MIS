@@ -49,12 +49,20 @@ class ContractorsController extends Controller
     }
 
     public function contractor_information($id){
-        $row            = $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id),$this->contractors_table)->first();
-        $data['pending']= $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id,'project_status' => 'ongoing'),$this->projects_table)->count();
-        $data['completed']= $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id,'project_status' => 'completed'),$this->projects_table)->count();
-        $data['title']  = $row->contractor_name;
-        $data['row']    = $row;
-        return view('systems.lls_whip.whip.both.contractors.view.view')->with($data);
+        $count = $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id),$this->contractors_table);
+        if($count->count() > 0){
+
+            $row = $count->first();
+            $data['pending']= $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id,'project_status' => 'ongoing'),$this->projects_table)->count();
+            $data['completed']= $this->customRepository->q_get_where($this->conn,array('contractor_id' => $id,'project_status' => 'completed'),$this->projects_table)->count();
+            $data['title']  = $row->contractor_name;
+            $data['row']    = $row;
+            return view('systems.lls_whip.whip.both.contractors.view.view')->with($data);
+
+        }else {
+            echo '404';
+        }
+        
     }
 
     //CREATE
@@ -119,6 +127,25 @@ class ContractorsController extends Controller
 
     }
     //UPDATE
+
+    public function update_contractor(Request $request){
+        $where = array('contractor_id' => $request->input('contractor_id'));
+        $update = $this->customRepository->update_item($this->conn,$this->contractors_table,$where,$request->all());
+        if ($update) {
+            // Registration successful
+            return response()->json([
+                'message' => 'Contractor Updated Successfully', 
+                'response' => true
+            ], 201);
+        }else {
+            return response()->json([
+                'message' => 'Something Wrong/No Changes Apply', 
+                'response' => false
+            ], 422);
+        }
+    }
+
+
     //DELETE
     public function delete_contractors(Request $request){
         $id = $request->input('id')['id'];

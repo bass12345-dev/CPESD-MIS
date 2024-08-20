@@ -6,7 +6,7 @@
                     <div class="data-table-list">
                         <div class="basic-tb-hd">
                             <h2>{{$title}}</h2>
-                            <button class="btn btn-danger multi-delete" id="multi-delete" >Delete</button>
+                            <button class="btn btn-danger multi-delete" id="multi-delete1" >Delete</button>
                             <button class="btn btn-primary multi-delete" onclick="reload()" >Reload</button>
                         </div>
                         <div class="table-responsive">

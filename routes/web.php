@@ -130,6 +130,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::get("/search-emp",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'search_employee']);
       //Contractors
          Route::post("/whip/insert-contractor",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'insert_contractor']);
+         Route::post("/whip/update-contractor",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'update_contractor']);
          Route::get("/whip/g-a-c",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'get_all_contractors']);
          Route::post("/whip/d-c",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'delete_contractors']);
          Route::get("/whip/search-query",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'search_query']);  
