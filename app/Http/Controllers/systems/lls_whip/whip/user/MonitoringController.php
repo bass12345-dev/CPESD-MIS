@@ -234,9 +234,9 @@ class MonitoringController extends Controller
        
         $segments = $request->segments();
 
-        if($segments[0] == 'user') {
+        if(session('user_type') == 'user') {
             $items = $this->monitoringQuery->get_user_pending_monitoring();
-        }else if($segments[0] == 'admin') {
+        }else if(session('user_type') == 'admin') {
             $items = $this->monitoringQuery->get_admin_pending_monitoring();
         }
         
