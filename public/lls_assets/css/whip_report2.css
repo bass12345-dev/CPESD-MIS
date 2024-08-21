@@ -64,3 +64,42 @@ table {
     font-weight: 800;
     /* margin-left: px; */
 }
+.bg_color_skilled {
+    background-color: #fdfa72;
+}
+
+.bg_color_unskilled {
+    background-color: #A24857;
+}
+
+.within_project_skilled_unskilled {
+    background-color: #DFC5FE;
+}
+
+
+.bottom1 {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    align-items: center;
+}
+
+.bottom2 {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+
+/* .bottom2 .first,.second {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+} */

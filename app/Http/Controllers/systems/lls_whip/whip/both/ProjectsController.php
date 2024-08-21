@@ -114,6 +114,22 @@ class ProjectsController extends Controller
 
 
     //UPDATE
+    public function update_project(Request $request){
+        $where = array('project_id' => $request->input('project_id'));
+        $update = $this->customRepository->update_item($this->conn,$this->projects_table,$where,$request->all());
+        if ($update) {
+            // Registration successful
+            return response()->json([
+                'message' => 'Project Updated Successfully', 
+                'response' => true
+            ]);
+        }else {
+            return response()->json([
+                'message' => 'Something Wrong/No Changes Apply', 
+                'response' => false
+            ]);
+        }
+    }
     //DELETE
     public function delete_projects(Request $request){
 

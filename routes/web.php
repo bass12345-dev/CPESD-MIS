@@ -137,6 +137,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::post("/whip/g-c-p",[App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'get_contractor_projects']);  
       //Projects
          Route::post("/whip/insert-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'insert_project']);
+         Route::post("/whip/update-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'update_project']);
          Route::get("/whip/g-a-p",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'get_all_projects']);
          Route::post("/whip/d-p",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'delete_projects']);
          Route::get("/whip/search-project",[App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'search_project']);

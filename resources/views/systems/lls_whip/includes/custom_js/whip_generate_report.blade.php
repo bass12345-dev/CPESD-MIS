@@ -78,6 +78,13 @@
     //Unskilled Far
     let total_unskilled_far = 0;
     let total_unskilled_far_percentage = 0;
+    
+    var compliant_text_within_city_skilled = 'NON-COMPLIANT';
+    var compliant_text_within_project_skilled = 'NON-COMPLIANT';
+    var compliant_text_within_city_unskilled = 'NON-COMPLIANT';
+    var compliant_text_within_project_unskilled = 'NON-COMPLIANT';
+    
+
 
 
 
@@ -108,11 +115,20 @@
         if (row.nature_of_employment == 'skilled') {
           total_skilled_inside = row.count_nature;
           total_skilled_inside_percentage = parseFloat(total_skilled_inside / total_skilled * 100).toFixed(2);
+          if(total_skilled_inside_percentage >= 30){
+            compliant_text_within_city_skilled = 'COMPLIANT';
+          }
+      
         }
 
         if (row.nature_of_employment == 'unskilled') {
           total_unskilled_inside = row.count_nature;
           total_unskilled_inside_percentage = parseFloat(total_unskilled_inside / total_unskilled * 100).toFixed(2);
+          if(total_unskilled_inside_percentage >= 50){
+            compliant_text_within_city_unskilled = 'COMPLIANT';
+          }
+          
+  
         }
 
       });
@@ -124,11 +140,19 @@
         if (row.nature_of_employment == 'skilled') {
           total_skilled_within = row.count_nature;
           total_skilled_within_percentage = parseFloat(total_skilled_within / total_skilled_inside * 100).toFixed(2);
+          if(total_skilled_within_percentage >= 30){
+            compliant_text_within_project_skilled = 'COMPLIANT';
+          }
+          
         }
 
         if (row.nature_of_employment == 'unskilled') {
           total_unskilled_within = row.count_nature;
           total_unskilled_within_percentage = parseFloat(total_unskilled_within / total_unskilled_inside * 100).toFixed(2);
+          if(total_unskilled_within_percentage >= 50){
+            compliant_text_within_project_unskilled = 'COMPLIANT';
+          }
+        
         }
 
       });
@@ -227,7 +251,7 @@
                 <th>Actual No. of Hired Workers</th>\
                 <th>' + data.s_u.skilled + '</th>\
                 <th>100%</th>\
-                <th rowspan="3">COMPLIANT</th>\
+                <th rowspan="3" class="bg_color_skilled" >'+compliant_text_within_city_skilled+'</th>\
             </tr>\
              <tr>\
                 <td>No. of Workers Hired Outside Oroquieta</td>\
@@ -235,15 +259,15 @@
                 <td>' + total_skilled_outside_percentage + '%</td>\
             </tr>\
               <tr>\
-                <td>No. of Workers Hired Within Oroquieta</td>\
-                <td>' + total_skilled_inside + '</td>\
-                <td>' + total_skilled_inside_percentage + '%</td>\
+                <td class="bg_color_skilled">No. of Workers Hired Within Oroquieta</td>\
+                <td class="bg_color_skilled">' + total_skilled_inside + '</td>\
+                <td class="bg_color_skilled">' + total_skilled_inside_percentage + '%</td>\
             </tr>\
              <tr>\
-                <td>No. of Workers Within Project</td>\
-                <td>' + total_skilled_within + '</th>\
-                <td>' + total_skilled_within_percentage + '%</td>\
-                <td rowspan="3">NON-COMPLIANT</td>\
+                <td class="within_project_skilled_unskilled">No. of Workers Within Project</td>\
+                <td class="within_project_skilled_unskilled">' + total_skilled_within + '</td>\
+                <td class="within_project_skilled_unskilled">' + total_skilled_within_percentage + '%</td>\
+                <td rowspan="3" class="within_project_skilled_unskilled">'+compliant_text_within_project_skilled+'</td>\
             </tr>\
               <tr>\
                 <td>No. of Workers Hired From Nearby Brgy.</td>\
@@ -261,7 +285,7 @@
                        <html>\
                           <head>\
                              <title>Print</title>\
-                             <link href="{{asset("lls_assets/css/whip_report.css")}}" rel="stylesheet">\
+                             <link href="{{asset("lls_assets/css/whip_report2.css")}}" rel="stylesheet">\
                           </head>\
                           <body>';
     let header4 = '<div class="heade3" style="margin-top: 20px;">\
@@ -278,7 +302,7 @@
                 <th>Actual No. of Hired Workers</th>\
                 <th>' + data.s_u.unskilled + '</th>\
                 <th>100%</th>\
-                <th rowspan="3">COMPLIANT</th>\
+                <th rowspan="3" class="bg_color_unskilled">'+compliant_text_within_city_unskilled+'</th>\
             </tr>\
              <tr>\
                 <td>No. of Workers Hired Outside Oroquieta</td>\
@@ -286,15 +310,15 @@
                 <td>' + total_unskilled_outside_percentage + '%</td>\
             </tr>\
               <tr>\
-                <td>No. of Workers Hired Within Oroquieta</td>\
-                <td>' + total_unskilled_inside + '</td>\
-                <td>' + total_unskilled_inside_percentage + '%</td>\
+                <td class="bg_color_unskilled">No. of Workers Hired Within Oroquieta</td>\
+                <td class="bg_color_unskilled">' + total_unskilled_inside + '</td>\
+                <td class="bg_color_unskilled">' + total_unskilled_inside_percentage + '%</td>\
             </tr>\
              <tr>\
-                <td>No. of Workers Within Project</td>\
-                <td>' + total_unskilled_within + '</td>\
-                <td>' + total_unskilled_within_percentage + '%</td>\
-                <td rowspan="3">NON-COMPLIANT</td>\
+                <td class="within_project_skilled_unskilled">No. of Workers Within Project</td>\
+                <td class="within_project_skilled_unskilled">' + total_unskilled_within + '</td>\
+                <td class="within_project_skilled_unskilled">' + total_unskilled_within_percentage + '%</td>\
+                <td rowspan="3" class="within_project_skilled_unskilled">'+compliant_text_within_project_unskilled+'</td>\
             </tr>\
               <tr>\
                 <td>No. of Workers Hired From Nearby Brgy.</td>\
@@ -307,7 +331,13 @@
                 <td>'+total_unskilled_far_percentage+'%</td>\
             </tr>\
         </table>';
-    let bottom = '<div class="impression"><span>OVER-ALL IMPRESSION</span><span>________________________________________</span></div>';
+    let bottom = '<div class="impression"><span>OVER-ALL IMPRESSION</span><span>___________________________________________</span></div>';
+    let bottom2 = '<div class="impression"><span>REMARKS/RECOMMENDATION</span><span>__________________________________</span><br><span>___________________________________________________________________</span></div>';
+    let bottom3 = '<div class="bottom1"><p class="text-center" style="margin-right:200px;">Prepared by:</p> <p style="margin-left:200px;">Noted by:</p></div>';
+    let bottom4 = '<div class="bottom2">\
+                <div class="first"><p style="text-align:center;font-weight: 700;">KATLYN MARY F. DARAMAN</p> <p>Administrative Asst. WHIP Focal Person</p></div>\
+                <div class="second"><p style="text-align:center;font-weight: 700;">MARK ANTHONY D. ARTIGAS</p> <p style="margin-left:50px;">PESO Manager</p></div>\
+    </div>';
     con += '<div class="container">';
     con += header;
     con += table;
@@ -317,6 +347,9 @@
     con += header4;
     con += table3;
     con += bottom;
+    con += bottom2;
+    con += bottom3;
+    con += bottom4;
     con += '  </div></body></html>';
     newWin.document.write(con);
     setTimeout(() => {
