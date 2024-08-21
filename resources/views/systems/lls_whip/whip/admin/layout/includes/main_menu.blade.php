@@ -5,7 +5,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <?php $segments = Request::segments();?>
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboard' ? 'active' : '' ?>" href="#Home1"><i class="notika-icon notika-house"></i> Home</a>
+                        <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboard' || $segments[2] == 'analytics' ? 'active' : '' ?>" href="#Home1"><i class="notika-icon notika-house"></i> Home</a>
                         </li>
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'add-new-contractor' || $segments[2] == 'contractors-list' ? 'active' : '' ?>" href="#mailbox1"><i class="notika-icon notika-mail"></i>Contractors</a>
                         </li>
@@ -20,16 +20,16 @@
                         <li><a data-toggle="tab" class="<?= $segments[2] == 'employees-record' ? 'active' : '' ?>" href="#employees"><i class="notika-icon notika-mail"></i>Employees Record</a>
                         </li>
                         
-                        <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#compliant"><i class="notika-icon notika-mail"></i>Compliant</a>
-                        </li>
+                        <!-- <li><a data-toggle="tab" class="<?= $segments[2] == 'dashboar' ? 'active' : '' ?>" href="#compliant"><i class="notika-icon notika-mail"></i>Compliant</a>
+                        </li> -->
 
                     </ul>
                     <div class="tab-content custom-menu-content">
-                        <div id="Home1" class="tab-pane in <?= $segments[2] == 'dashboard' ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
+                        <div id="Home1" class="tab-pane in <?= $segments[2] == 'dashboard' || $segments[2] == 'analytics' ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
                                 <li><a href="{{url('admin/whip/dashboard')}} " class="<?= $segments[2] == 'dashboard' ? 'active' : '' ?>">Dashboard</a>
                                 </li>
-                                <li><a href="analytics.html">Analytics</a>
+                                <li><a href="{{url('admin/whip/analytics')}}" class="<?= $segments[2] == 'analytics' ? 'active' : '' ?>">Analytics</a>
                                 </li>
 
                             </ul>
@@ -78,12 +78,12 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="compliant" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <!-- <div id="compliant" class="tab-pane notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
                                 <li><a href="{{url('admin/whip/compliant-reports')}}">Compliant Report</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>

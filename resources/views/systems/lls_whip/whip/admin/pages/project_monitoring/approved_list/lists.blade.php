@@ -24,16 +24,14 @@
             "dom": "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             buttons: datatables_buttons(),
             ajax: {
-                url: base_url + "/user/act/whip/g-a-p-m" + add_to_url,
+                url: base_url + "/admin/act/whip/g-a-p-m" + add_to_url,
                 method: 'GET',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 },
                 dataSrc: ""
             },
-            columns: [{
-                    data: 'project_monitoring_id'
-                },
+            columns: [
                 {
                     data: 'i'
                 },
@@ -62,7 +60,7 @@
 
             columnDefs: [
                 {
-                    targets: 2,
+                    targets: 1,
                     data: null,
                     render: function(data, type, row) {
                         return '<a href="' + base_url + '/user/whip/project-monitoring-info/' + row.project_monitoring_id + '" data-toggle="tooltip" data-placement="top" title="View ' + row.project_title + '">' + row.project_title + '</a>';

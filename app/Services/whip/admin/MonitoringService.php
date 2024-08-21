@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\whip\user;
+namespace App\Services\whip\admin;
 
 use App\Repositories\CustomRepository;
 use App\Repositories\whip\MonitoringQuery;
@@ -30,12 +30,12 @@ class MonitoringService
     }
 
 
-    public function get_my_approved_monitoring($month,$year){
+    public function get_approved_monitoring($month,$year){
 
         if ($month == '' && $year == '') {
-            $items = $this->monitoringQuery->QueryMyApprovedMonitoring();
+            $items = $this->monitoringQuery->QueryAllApprovedMonitoring();
         } else {
-            $items = $this->monitoringQuery->QueryMyApprovedMonitoringByMonth($month, $year);
+            $items = $this->monitoringQuery->QueryApprovedMonitoringByMonth($month, $year);
         }
         $data = [];
         $i = 1;

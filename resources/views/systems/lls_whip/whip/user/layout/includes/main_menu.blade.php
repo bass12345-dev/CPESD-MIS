@@ -15,8 +15,8 @@
                         </li>
                         <li><a data-toggle="tab" href="#employees" class="<?= $segments[2] == 'employees-record' ? 'active' : '' ?>"><i class="notika-icon notika-mail"></i>Employees Record</a>
                         </li>
-                        <li><a data-toggle="tab" href="#compliant"><i class="notika-icon notika-mail"></i>Compliant</a>
-                        </li>
+                        <!-- <li><a data-toggle="tab" href="#compliant"><i class="notika-icon notika-mail"></i>Compliant</a>
+                        </li> -->
                     </ul>
                     <div class="tab-content custom-menu-content">
                         <div id="Home1" class="tab-pane in <?= $segments[2] == 'dashboard' ? 'active' : '' ?> notika-tab-menu-bg animated flipInX">
@@ -63,12 +63,12 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="compliant" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <!-- <div id="compliant" class="tab-pane notika-tab-menu-bg animated flipInX">
                             <ul class="notika-main-menu-dropdown">
                                 <li><a href="{{url('admin/whip/compliant-reports')}}">Compliant Report</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>

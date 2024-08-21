@@ -12,7 +12,7 @@
                             <table id="data-table-basic" class="table table-striped">
                             <thead>
                                     <tr>
-                                        <th></th>
+                                        
                                         <th>#</th>
                                         <th>Project</th>
                                         <th>Contractor</th>

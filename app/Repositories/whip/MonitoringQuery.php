@@ -69,6 +69,102 @@ class MonitoringQuery
 
   }
 
+  public function QueryMyApprovedMonitoring()
+  {
+
+    $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
+      ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
+      ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
+      ->leftJoin($this->users_table_name . '.users', 'users.user_id', '=', 'project_monitoring.added_by')
+      ->select(
+        //Contractors
+        'contractors.contractor_id as contractor_id',
+        'contractors.contractor_name as contractor_name',
+        'contractors.status as contractor_status',
+
+        //Project Monitoring
+        'project_monitoring.date_of_monitoring as date_of_monitoring',
+        'project_monitoring.specific_activity as specific_activity',
+        'project_monitoring.monitoring_status as monitoring_status',
+        'project_monitoring.project_monitoring_id as project_monitoring_id',
+
+        //Projects
+        'projects.project_id as project_id',
+        'projects.project_title as project_title',
+        'projects.street as street',
+        'projects.barangay as barangay',
+        'projects.project_cost as project_cost',
+        'projects.project_status as project_status',
+        'projects.date_started as date_started',
+
+        //User
+        'users.user_id as user_id',
+        'users.user_type as user_type',
+        'users.first_name as first_name',
+        'users.middle_name as middle_name',
+        'users.last_name as last_name',
+        'users.extension as extension',
+
+      )
+      ->where('contractors.status', 'active')
+      ->where('project_monitoring.monitoring_status', 'approved')
+      ->where('project_monitoring.added_by', session('user_id'))
+      ->orderBy('project_monitoring_id', 'desc')
+      ->get();
+
+    return $rows;
+
+  }
+
+  public function QueryMyApprovedMonitoringByMonth($month, $year)
+  {
+
+    $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
+      ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
+      ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
+      ->leftJoin($this->users_table_name . '.users', 'users.user_id', '=', 'project_monitoring.added_by')
+      ->select(
+        //Contractors
+        'contractors.contractor_id as contractor_id',
+        'contractors.contractor_name as contractor_name',
+        'contractors.status as contractor_status',
+
+        //Project Monitoring
+        'project_monitoring.date_of_monitoring as date_of_monitoring',
+        'project_monitoring.specific_activity as specific_activity',
+        'project_monitoring.monitoring_status as monitoring_status',
+        'project_monitoring.project_monitoring_id as project_monitoring_id',
+
+        //Projects
+        'projects.project_id as project_id',
+        'projects.project_title as project_title',
+        'projects.street as street',
+        'projects.barangay as barangay',
+        'projects.project_cost as project_cost',
+        'projects.project_status as project_status',
+        'projects.date_started as date_started',
+
+        //User
+        'users.user_id as user_id',
+        'users.user_type as user_type',
+        'users.first_name as first_name',
+        'users.middle_name as middle_name',
+        'users.last_name as last_name',
+        'users.extension as extension',
+
+      )
+      ->where('contractors.status', 'active')
+      ->where('project_monitoring.monitoring_status', 'approved')
+      ->where('project_monitoring.added_by', session('user_id'))
+      ->whereMonth('project_monitoring.approved_date', '=', $month)
+      ->whereYear('project_monitoring.approved_date', '=', $year)
+      ->orderBy('project_monitoring_id', 'desc')
+      ->get();
+
+    return $rows;
+
+  }
+
   //admin
   public function get_admin_pending_monitoring()
   {

@@ -98,8 +98,8 @@ table {
 
 
 
-/* .bottom2 .first,.second {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-} */
+
+.bottom2 p {
+    padding: 0;
+    margin: 0;
+}

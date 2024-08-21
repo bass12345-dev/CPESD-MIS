@@ -13,23 +13,27 @@ use App\Services\CustomService;
 use App\Services\whip\admin\MonitoringService;
 use App\Services\whip\ProjectsService;
 
+
 class MonitoringController extends Controller
 {
     protected $conn;
     protected $customRepository;
     protected $customService;
     protected $projectsService;
+    protected $monitoringService;
     protected $projectQuery;
     protected $employeeQuery;
     protected $monitoring_table;
     protected $position_table;
     protected $employment_status_table;
     protected $project_employee_table;
-    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery, CustomService $customService, ProjectsService $projectsService)
+    
+    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery, CustomService $customService, ProjectsService $projectsService, MonitoringService $monitoringService)
     {
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->customService        = $customService;
+        $this->monitoringService    = $monitoringService;
         $this->projectsService     = $projectsService;
         $this->projectQuery         = $projectQuery;
         $this->employeeQuery        = $employeeQuery;
@@ -54,6 +58,18 @@ class MonitoringController extends Controller
 
     //CREATE
     //READ
+
+    public function get_approved_project_monitoring(){
+        $month = '';
+        $year = '';
+        if(isset($_GET['date'])){
+            $month =   date('m', strtotime($_GET['date']));
+            $year =   date('Y', strtotime($_GET['date']));
+        }
+        
+        $data = $this->monitoringService->get_approved_monitoring($month,$year);
+        return response()->json($data);
+    }
    
     //UPDATE
     public function approved_monitoring(Request $request)

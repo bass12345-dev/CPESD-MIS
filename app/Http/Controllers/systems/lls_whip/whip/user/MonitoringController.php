@@ -181,6 +181,20 @@ class MonitoringController extends Controller
 
     //READ
 
+    public function get_my_approved_project_monitoring(){
+        
+            $month = '';
+            $year = '';
+            if(isset($_GET['date'])){
+                $month =   date('m', strtotime($_GET['date']));
+                $year =   date('Y', strtotime($_GET['date']));
+            }
+            
+            $data = $this->monitoringService->get_my_approved_monitoring($month,$year);
+            return response()->json($data);
+        
+    }
+
 
     public function get_remarks(Request $request){
 
@@ -262,17 +276,7 @@ class MonitoringController extends Controller
     }
 
 
-    public function get_approved_project_monitoring(){
-        $month = '';
-        $year = '';
-        if(isset($_GET['date'])){
-            $month =   date('m', strtotime($_GET['date']));
-            $year =   date('Y', strtotime($_GET['date']));
-        }
-        
-        $data = $this->monitoringService->get_approved_monitoring($month,$year);
-        return response()->json($data);
-    }
+
 
     //Reports
 
@@ -418,6 +422,7 @@ class MonitoringController extends Controller
 
        $data = array(
             'data' => $row,
+            'name' => $this->userService->user_full_name($row),
             'total' => $total,
             's_u' => array(
                 'skilled' => $count_total_skilled,

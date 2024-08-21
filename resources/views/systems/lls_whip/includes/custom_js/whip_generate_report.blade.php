@@ -285,7 +285,7 @@
                        <html>\
                           <head>\
                              <title>Print</title>\
-                             <link href="{{asset("lls_assets/css/whip_report2.css")}}" rel="stylesheet">\
+                             <link href="{{asset("lls_assets/css/whip_report3.css")}}" rel="stylesheet">\
                           </head>\
                           <body>';
     let header4 = '<div class="heade3" style="margin-top: 20px;">\
@@ -333,11 +333,19 @@
         </table>';
     let bottom = '<div class="impression"><span>OVER-ALL IMPRESSION</span><span>___________________________________________</span></div>';
     let bottom2 = '<div class="impression"><span>REMARKS/RECOMMENDATION</span><span>__________________________________</span><br><span>___________________________________________________________________</span></div>';
-    let bottom3 = '<div class="bottom1"><p class="text-center" style="margin-right:200px;">Prepared by:</p> <p style="margin-left:200px;">Noted by:</p></div>';
+    let bottom3 = '<div class="bottom1">\
+                      <p  style="margin-right:300px;">Prepared by:</p> \
+                      <p >Noted by:</p></div>';
     let bottom4 = '<div class="bottom2">\
-                <div class="first"><p style="text-align:center;font-weight: 700;">KATLYN MARY F. DARAMAN</p> <p>Administrative Asst. WHIP Focal Person</p></div>\
-                <div class="second"><p style="text-align:center;font-weight: 700;">MARK ANTHONY D. ARTIGAS</p> <p style="margin-left:50px;">PESO Manager</p></div>\
-    </div>';
+                    <div class="first">\
+                      <p class="name" style="text-align:center;font-weight: 700;">' + data.name + '</p> \
+                      <p>Administrative Asst. WHIP Focal Person</p>\
+                    </div>\
+                    <div class="second">\
+                      <p class="name" style="text-align:center;font-weight: 700;">MARK ANTHONY D. ARTIGAS</p> \
+                      <p style="margin-left:50px;">PESO Manager</p>\
+                    </div>\
+                  </div>';
     con += '<div class="container">';
     con += header;
     con += table;

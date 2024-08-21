@@ -8,9 +8,13 @@ class ProjectQuery
 {
   protected $conn;
   protected $default_city;
+  protected $whip_table_name;
+  protected $users_table_name;
   public function __construct(){
     $this->conn                 = config('custom_config.database.lls_whip');
     $this->default_city         = config('custom_config.default_city');
+    $this->whip_table_name       = env('DB_DATABASE_LLS');
+    $this->users_table_name     = env('DB_DATABASE');
   }
     public function q_search($conn,$search){
         $rows = DB::connection($conn)->table('projects as projects')
@@ -136,10 +140,11 @@ class ProjectQuery
     //Project Monitoring Information
     public function get_monitoring_information($where){
 
-      $rows = DB::connection($this->conn)->table('project_monitoring as project_monitoring')
-          ->leftJoin('projects', 'projects.project_id', '=', 'project_monitoring.project_id')
-          ->leftJoin('contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
-          ->leftJoin('project_nature', 'project_nature.project_nature_id', '=', 'projects.project_nature_id')
+      $rows = DB::table($this->whip_table_name.'.project_monitoring as project_monitoring')
+          ->leftJoin($this->whip_table_name.'.projects', 'projects.project_id', '=', 'project_monitoring.project_id')
+          ->leftJoin($this->whip_table_name.'.contractors', 'contractors.contractor_id', '=', 'projects.contractor_id')
+          ->leftJoin($this->whip_table_name.'.project_nature', 'project_nature.project_nature_id', '=', 'projects.project_nature_id')
+          ->leftJoin($this->users_table_name.'.users', 'users.user_id', '=', 'project_monitoring.added_by')
           ->select(   
                     //Contractors
                     'contractors.contractor_id as contractor_id', 
@@ -163,7 +168,12 @@ class ProjectQuery
                     'projects.barangay as barangay',
                     'projects.project_cost as project_cost',
                     'projects.project_status as project_status',
-                    'projects.date_started as date_started'         
+                    'projects.date_started as date_started',
+                      
+                    'users.first_name as first_name',
+                    'users.middle_name as middle_name',
+                    'users.last_name as last_name',
+                    'users.extension as extension',
 
         )
         ->where('contractors.status', 'active')
@@ -257,6 +267,20 @@ class ProjectQuery
       return $rows;
     }
 
+
+    //Dashboard
+
+    public function projects_per_barangay($barangay,$status)
+    {
+  
+      $rows = DB::connection($this->conn)->table('projects as projects')
+        ->where('projects.barangay', $barangay)
+        ->where('projects.project_status', $status)
+        ->count();
+      return $rows;
+    }
+
+    
 
 
     
