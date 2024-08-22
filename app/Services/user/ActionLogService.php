@@ -30,6 +30,23 @@ class ActionLogService
         $this->customRepository->insert_item($this->conn,'action_logs', $items);
     }
 
+    public function wl_add_action($action,$user_type,$_id){
+
+        $items  = array(
+            'action'            => $action,
+            'web_type'          => 'wl',
+            'user_type'         => $user_type,
+            'user_id'           =>  session('user_id'),
+            '_id'               =>  $_id,
+            'action_datetime'   => Carbon::now()->format('Y-m-d H:i:s'),
+           
+        );
+
+        $this->customRepository->insert_item($this->conn,'action_logs', $items);
+
+        
+    }
+
    
 
 }

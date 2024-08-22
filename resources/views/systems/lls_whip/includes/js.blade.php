@@ -7,12 +7,7 @@
 <!-- wow JS
 		============================================ -->
 <script src="{{asset('lls_assets/js/wow.min.js')}}"></script>
-<!-- price-slider JS
-		============================================ -->
-<script src="{{asset('lls_assets/js/jquery-price-slider.js')}}"></script>
-<!-- owl.carousel JS
-		============================================ -->
-<script src="{{asset('lls_assets/js/owl.carousel.min.js')}}"></script>
+
 <!-- scrollUp JS
 		============================================ -->
 <script src="{{asset('lls_assets/js/jquery.scrollUp.min.js')}}"></script>
@@ -28,28 +23,9 @@
 		============================================ -->
 <script src="{{asset('lls_assets/js/scrollbar/jquery.mCustomScrollbar.concat.min.js')}}"></script>
 
-<!-- sparkline JS
-		============================================ -->
-<script src="{{asset('lls_assets/js/sparkline/jquery.sparkline.min.js')}}"></script>
-<script src="{{asset('lls_assets/js/sparkline/sparkline-active.js')}}"></script>
-<!-- sparkline JS
-		============================================ -->
-<script src="{{asset('lls_assets/js/flot/jquery.flot.js')}}"></script>
-<script src="{{asset('lls_assets/js/flot/jquery.flot.resize.js')}}"></script>
-<script src="{{asset('lls_assets/js/flot/curvedLines.js')}}"></script>
-<script src="{{asset('lls_assets/js/flot/flot-active.js')}}"></script>
-<!-- knob JS
-		============================================ -->
-<script src="{{asset('lls_assets/js/knob/jquery.knob.js')}}"></script>
-<script src="{{asset('lls_assets/js/knob/jquery.appear.js')}}"></script>
-<script src="{{asset('lls_assets/js/knob/knob-active.js')}}"></script>
-<!--  wave JS
-		============================================ -->
-<script src="{{asset('lls_assets/js/wave/waves.min.js')}}"></script>
-<script src="{{asset('lls_assets/js/wave/wave-active.js')}}"></script>
-<!--  todo JS
-		============================================ -->
-<script src="{{asset('lls_assets/js/todo/jquery.todo.js')}}"></script>
+
+
+
 <script src="{{ asset('assets/css/bootstrap-select/bootstrap-select.js')}}"></script>
 <!-- plugins JS
 		============================================ -->

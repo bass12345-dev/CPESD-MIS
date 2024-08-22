@@ -49,7 +49,7 @@ Route::middleware([SessionGuard::class, AdminCheck::class])->prefix('/admin/sysm
 
 //USER VIEW 
 Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
-   //LLS
+                                          //LABOR LOCALIZATIOn
       //Dashboard
       Route::get("/lls/dashboard",[ App\Http\Controllers\systems\lls_whip\lls\user\DashboardController::class, 'index']);
       //Establishments
@@ -61,7 +61,7 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
       //Employees Record
          Route::get("/lls/employees-record",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'index']);
         
-   //WHIP
+                                          //WORKERS HIRED INFRASTRACTURE PROJECT
       //Dashboard
          Route::get("/whip/dashboard",[ App\Http\Controllers\systems\lls_whip\whip\user\DashboardController::class, 'index']);
       //Employees Record
@@ -85,7 +85,7 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::get("/whip/whip-positions",[ App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'index']);
 
    
-                                                   //DOCUMENT TRACKING SYSTEM//
+                                          //DOCUMENT TRACKING SYSTEM//
       //USER
          //Dashboard
          Route::get("/dts/dashboard",[ App\Http\Controllers\systems\dts\user\DashboardController::class, 'index']);
@@ -108,12 +108,28 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          //View Document
          Route::get("/dts/view",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'view_document']);
 
+                                       //WATCHLISTED//
+      //USER
+          //Dashboard
+          Route::get("/watchlisted/dashboard",[ App\Http\Controllers\systems\watchlisted\user\DashboardController::class, 'index']);
+          //Approved
+          Route::get("/watchlisted/approved",[ App\Http\Controllers\systems\watchlisted\user\ApprovedController::class, 'index']);
+          //Pending
+          Route::get("/watchlisted/pending",[ App\Http\Controllers\systems\watchlisted\user\PendingController::class, 'index']);
+          //Removed
+          Route::get("/watchlisted/removed",[ App\Http\Controllers\systems\watchlisted\user\RemovedController::class, 'index']);
+          //Search
+          Route::get("/watchlisted/search",[ App\Http\Controllers\systems\watchlisted\user\SearchController::class, 'index']);
+          //Add
+          Route::get("/watchlisted/add",[ App\Http\Controllers\systems\watchlisted\user\AddController::class, 'index']);
+          //View
+          Route::get("/watchlisted/view_profile/{id}",[ App\Http\Controllers\systems\watchlisted\user\ViewController::class, 'index']);
 });
 
 
 //USER ACTION LLS_WHIP
 Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function () {
-   //LLS
+                                 //LABOR LOCALIZATION
       //POSITIONS
       Route::get("/lls/a-p",[App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'get_all_lls_positions']);
       Route::post("/lls/i-u-p",[App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'insert_update_position_lls']);
@@ -122,7 +138,9 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
       Route::get("/lls/g-a-e",[App\Http\Controllers\systems\lls_whip\lls\both\EstablishmentsController::class, 'get_all_establishment']);
       Route::post("/lls/d-e",[App\Http\Controllers\systems\lls_whip\lls\both\EstablishmentsController::class, 'delete_establishment']);
       Route::post("/lls/u-e",[App\Http\Controllers\systems\lls_whip\lls\both\EstablishmentsController::class, 'update_establishment']);
-   //WHIP
+
+
+                                 //WORKERS HIRED INFRASTRACTURE PROJECT
       //Dashboard
          Route::get("/whip/g-c-i-o",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'get_contractors_inside_outside']);
          Route::get("/whip/g-w-i-o",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'get_workers_inside_outside']);
@@ -172,7 +190,9 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::post("/whip/i-u-p",[App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'insert_update_position_whip']);
          Route::get("/whip/a-p",[App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'get_all_whip_positions']);
          Route::post("/d-p",[App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'delete_positions']);
-   //DTS
+   
+                                 //DOCUMENT TRACKING SYSTEM//
+
       //My Documents
          Route::post("/dts/g-m-d",[App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'get_my_documents']);
          Route::post("/dts/update-document",[App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'update_document']);
@@ -210,6 +230,31 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
             Route::get("/dts/receiver-incoming",[ App\Http\Controllers\systems\dts\receiver\IncomingController::class, 'get_receiver_incoming']);
       //Search 
             Route::get("/dts/search",[ App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'search']);
+
+
+
+                              //WHIP
+         //Add
+            Route::post("/watchlisted/i-p",[App\Http\Controllers\systems\watchlisted\user\AddController::class, 'insert_person']);
+         //Pending
+            Route::get("/watchlisted/g-p-w",[App\Http\Controllers\systems\watchlisted\user\PendingController::class, 'get_pending_watchlisted']);
+            Route::post("/watchlisted/d-p",[App\Http\Controllers\systems\watchlisted\user\PendingController::class, 'delete_person']);
+         //Approved
+            Route::get("/watchlisted/g-a-w",[App\Http\Controllers\systems\watchlisted\user\ApprovedController::class, 'get_approved_watchlisted']);
+         //Removed
+            Route::get("/watchlisted/g-r-w",[App\Http\Controllers\systems\watchlisted\user\RemovedController::class, 'get_removed_watchlisted']);
+
+         //Search
+            Route::post("/watchlisted/search-query",[App\Http\Controllers\systems\watchlisted\both\SearchController::class, 'search_query']);
+
+         //Info
+            Route::get("/watchlisted/g-w-r",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'get_watchlisted_records']);
+         //Records
+            Route::post("/watchlisted/i-u-r",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'insert_update_records']);
+            Route::post("/watchlisted/delete-record",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'delete_record']);
+
+         
+
       
 });
 
@@ -236,7 +281,7 @@ Route::middleware([SessionGuard::class])->prefix('/receiver')->group(function ()
 //ADMIN VIEW LLS_WHIP
 Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->group(function () {
    //LLS
-
+      
    //ADMIN WHIP
       //Dashboard
          Route::get("/whip/dashboard",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'index']);
@@ -264,7 +309,7 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
           Route::get("/whip/project-nature",[ App\Http\Controllers\systems\lls_whip\whip\admin\ProjectNatureController::class, 'index']);
     
                                              //DOCUMENT TRACKING SYSTEM//
-      //ADMIN DTS
+      //ADMIN 
          //Dashboard
          Route::get("/dts/dashboard",[ App\Http\Controllers\systems\dts\admin\DashboardController::class, 'index']);
          Route::get("/dts/analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'index']);
@@ -288,6 +333,21 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
          //View Document
          Route::get("/dts/view",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'view_document']);
+
+
+                                 //Watchlisted
+
+         //Dashboard
+         Route::get("/watchlisted/dashboard",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'index']);
+         Route::get("/watchlisted/to-approve",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+         Route::get("/watchlisted/approved",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+         Route::get("/watchlisted/restore",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+         Route::get("/watchlisted/add",[ App\Http\Controllers\systems\watchlisted\admin\AddController::class, 'index']);
+         Route::get("/watchlisted/search",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+         Route::get("/watchlisted/manage-program",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+         Route::get("/watchlisted/activity-logs",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+          
+         
 
 
 
@@ -347,4 +407,9 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
          // Route::get("/dts/logged-in-history",[ App\Http\Controllers\systems\dts\admin\LoggedInController::class, 'get_logged_in_history']);
       //Action Logs
          Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\admin\ActionLogsController::class, 'get_action_logs']);
+
+
+                                    //Watchlisted
+         Route::get("/watchlisted/data-per-barangay",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'data_per_barangay']);
+         Route::post("/watchlisted/l-c-g-a",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'count_gender_active_chart']);
 });      

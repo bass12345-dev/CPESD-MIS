@@ -4,14 +4,10 @@
 <!-- Bootstrap CSS
 		============================================ -->
 <link rel="stylesheet" href="{{asset('lls_assets/css/bootstrap.min.css')}}">
-<!-- Bootstrap CSS
+<!-- Font Awesome CSS
 		============================================ -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- owl.carousel CSS
-		============================================ -->
-<link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.css')}}">
-<link rel="stylesheet" href="{{ asset('assets/css/owl.theme.css')}}">
-<link rel="stylesheet" href="{{ asset('assets/css/owl.transitions.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <!-- meanmenu CSS
 		============================================ -->
 <link rel="stylesheet" href="{{ asset('assets/css/meanmenu/meanmenu.min.css')}}">
@@ -28,9 +24,7 @@
 <!-- notika icon CSS
 		============================================ -->
 <link rel="stylesheet" href="{{ asset('assets/css/notika-icon.css') }}">
-<!-- wave CSS
-		============================================ -->
-<link rel="stylesheet" href="{{ asset('assets/css/wave/waves.min.css') }}">
+
 
 <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-select/bootstrap-select.css')}}">
 <!-- main CSS
