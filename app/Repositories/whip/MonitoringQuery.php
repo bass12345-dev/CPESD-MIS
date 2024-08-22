@@ -338,6 +338,15 @@ class MonitoringQuery
 
 
 
+  public function get_whip_monitoring_where_and_year_and_month($where, $year, $m)
+  {
+
+    return DB::connection($this->conn)->table('project_monitoring')->where($where)->whereMonth('created_on', '=', $m)->whereYear('created_on', '=', $year);
+  }
+
+
+
+
 
 
 }

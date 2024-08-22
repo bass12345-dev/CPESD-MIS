@@ -25,18 +25,20 @@
 @endsection
 @section('js')
 <script>
+    var year = $('select[id=admin_year]').val();
+
     function load_contractor_chart() {
         $.ajax({
             url: base_url + "/user/act/whip/g-c-i-o",
             method: 'GET',
             dataType: 'json',
-            beforeSend: function () {
+            beforeSend: function() {
                 $('.submit-loader').removeClass('hidden');
             },
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
-            success: function (data) {
+            success: function(data) {
                 $('.submit-loader').addClass('hidden');
                 try {
                     chart_outside = new Chart(document.getElementById("contractor-chart"), {
@@ -48,7 +50,7 @@
                                 backgroundColor: data.color,
 
                                 data: data.total
-                            },]
+                            }, ]
                         },
 
                     });
@@ -56,7 +58,7 @@
 
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
 
                 toast_message_error('Contractors Pie Chart is not displaying... Please Reload the Page')
 
@@ -70,13 +72,13 @@
             url: base_url + "/user/act/whip/g-w-i-o",
             method: 'GET',
             dataType: 'json',
-            beforeSend: function () {
+            beforeSend: function() {
                 $('.submit-loader').removeClass('hidden');
             },
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
-            success: function (data) {
+            success: function(data) {
                 $('.submit-loader').addClass('hidden');
                 try {
                     chart_outside = new Chart(document.getElementById("worker-chart"), {
@@ -88,7 +90,7 @@
                                 backgroundColor: data.color,
 
                                 data: data.total
-                            },]
+                            }, ]
                         },
 
                     });
@@ -96,7 +98,7 @@
 
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
 
                 toast_message_error('Contractors Pie Chart is not displaying... Please Reload the Page')
 
@@ -107,12 +109,12 @@
 
     function load_projects_per_barangay() {
 
-       
+
         $.ajax({
             url: base_url + "/user/act/whip/g-d-p-p-b",
             method: 'GET',
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 try {
                     new Chart(document.getElementById("projects-chart"), {
                         type: 'bar',
@@ -151,19 +153,79 @@
                         }
 
                     });
-                } catch (error) { }
+                } catch (error) {}
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
 
                 toast_message_error('Contractor\'s Projects Chart is not displaying... Please Reload the Page')
             },
         });
     }
 
+    function load_graph($this) {
+        monitoring_graph($this.value);
+    }
 
+    function monitoring_graph(year) {
+
+
+        $.ajax({
+            url: base_url + "/user/act/whip/g-w-m-a?year=" + year,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                try {
+                    new Chart(document.getElementById("monitoring-chart"), {
+                        type: 'bar',
+                        data: {
+                            labels: data.label,
+                            datasets: [{
+                                label: 'Approved Monitoring',
+                                backgroundColor: "rgb(5, 176, 133)",
+                                borderColor: 'rgb(23, 125, 255)',
+                                data: data.data_approved
+                            }, {
+                                label: 'Pending Monitoring',
+                                backgroundColor: 'rgb(216, 88, 79)',
+                                borderColor: 'rgb(23, 125, 255)',
+                                data: data.data_pending
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    padding: 10,
+                                    fontColor: '#007bff',
+                                }
+                            },
+                            responsive: true,
+                            title: {
+                                display: true,
+                                text: 'Monitoring'
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                        }
+
+                    });
+                } catch (error) {}
+            },
+            error: function(xhr, status, error) {
+
+                toast_message_error('Contractor\'s Projects Chart is not displaying... Please Reload the Page')
+            },
+        });
+
+
+    }
+
+    monitoring_graph(year);
     load_projects_per_barangay();
     load_workers_chart();
     load_contractor_chart();
-
 </script>
 @endsection

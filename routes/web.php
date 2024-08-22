@@ -127,6 +127,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          Route::get("/whip/g-c-i-o",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'get_contractors_inside_outside']);
          Route::get("/whip/g-w-i-o",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'get_workers_inside_outside']);
          Route::get("/whip/g-d-p-p-b",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'get_projects_per_barangay']);
+         Route::get("/whip/g-w-m-a",[ App\Http\Controllers\systems\lls_whip\whip\admin\DashboardController::class, 'get_monitoring_analytics']);
 
          
       //Employees Record

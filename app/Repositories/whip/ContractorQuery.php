@@ -41,6 +41,7 @@ class ContractorQuery
                 DB::raw('COUNT(IF(projects.project_status = "completed", 1, NULL)) as project_count_completed'),
             )
             ->groupBy('contractors.contractor_id')
+            ->groupBy('contractors.contractor_name')
             ->orderBy('contractor_name', 'asc')->get();
         return $rows;
 
