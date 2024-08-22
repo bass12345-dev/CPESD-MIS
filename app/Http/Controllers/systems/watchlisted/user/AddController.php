@@ -42,7 +42,7 @@ class AddController extends Controller
             'address'                   => $request->input('address'),
             'email_address'             => $request->input('emailAddress'),
             'created_at'                => Carbon::now()->format('Y-m-d H:i:s') ,
-            'status'                    => 'not-approved',
+            'status'                    => session('user_id') == 'user' ? 'not-approved' : 'approved',
             'age'                       => $request->input('age'),
             'gender'                    => $request->input('gender'),
             'added_by'                  => session('user_id')

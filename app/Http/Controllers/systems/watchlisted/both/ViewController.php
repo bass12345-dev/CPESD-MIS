@@ -42,7 +42,7 @@ class ViewController extends Controller
                 'record_description'    => $row->record_description,
                 'p_id'                  => $row->p_id,
                 'record_id'             => $row->record_id,
-                'actions'               => session('user_id') == $person->added_by ?  true : false
+                'actions'               => session('user_id') == $person->added_by ||  session('user_type') == 'admin'  ?  true : false
 
 
             );

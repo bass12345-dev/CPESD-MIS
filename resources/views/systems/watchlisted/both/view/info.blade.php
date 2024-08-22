@@ -2,7 +2,7 @@
    <div class="card-header">
       <h5 class="card-title mb-2">Information</h5>
       <?php
-      if (session('watch_id') == $person_data->user_id) {
+      if (session('watch_id') == $person_data->user_id || session('user_type') == 'admin') {
          echo '<button class="btn btn-primary update_information_button" data-bs-toggle="offcanvas" data-bs-target="#update_canvas">Update Information</button>';
       }
       ?>

@@ -243,15 +243,14 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
             Route::get("/watchlisted/g-a-w",[App\Http\Controllers\systems\watchlisted\user\ApprovedController::class, 'get_approved_watchlisted']);
          //Removed
             Route::get("/watchlisted/g-r-w",[App\Http\Controllers\systems\watchlisted\user\RemovedController::class, 'get_removed_watchlisted']);
-
          //Search
             Route::post("/watchlisted/search-query",[App\Http\Controllers\systems\watchlisted\both\SearchController::class, 'search_query']);
-
          //Info
             Route::get("/watchlisted/g-w-r",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'get_watchlisted_records']);
          //Records
             Route::post("/watchlisted/i-u-r",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'insert_update_records']);
             Route::post("/watchlisted/delete-record",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'delete_record']);
+        
 
          
 
@@ -340,12 +339,15 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          //Dashboard
          Route::get("/watchlisted/dashboard",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'index']);
          Route::get("/watchlisted/to-approve",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
-         Route::get("/watchlisted/approved",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
-         Route::get("/watchlisted/restore",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+         Route::get("/watchlisted/approved",[ App\Http\Controllers\systems\watchlisted\admin\ApprovedController::class, 'index']);
+         Route::get("/watchlisted/restore",[ App\Http\Controllers\systems\watchlisted\admin\RemoveController::class, 'index']);
          Route::get("/watchlisted/add",[ App\Http\Controllers\systems\watchlisted\admin\AddController::class, 'index']);
-         Route::get("/watchlisted/search",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
-         Route::get("/watchlisted/manage-program",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
-         Route::get("/watchlisted/activity-logs",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'index']);
+         Route::get("/watchlisted/search",[ App\Http\Controllers\systems\watchlisted\admin\SearchController::class, 'index']);
+         Route::get("/watchlisted/manage-program",[ App\Http\Controllers\systems\watchlisted\admin\ProgramController::class, 'index']);
+         Route::get("/watchlisted/activity-logs",[ App\Http\Controllers\systems\watchlisted\admin\ActivityLogsController::class, 'index']);
+
+         //View Profile
+         Route::get("/watchlisted/view_profile/{id}",[ App\Http\Controllers\systems\watchlisted\admin\ViewController::class, 'index']);
           
          
 
@@ -410,6 +412,28 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
 
 
                                     //Watchlisted
-         Route::get("/watchlisted/data-per-barangay",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'data_per_barangay']);
-         Route::post("/watchlisted/l-c-g-a",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'count_gender_active_chart']);
-});      
+         //Dashboard
+            Route::get("/watchlisted/data-per-barangay",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'data_per_barangay']);
+            Route::post("/watchlisted/l-c-g-a",[ App\Http\Controllers\systems\watchlisted\admin\DashboardController::class, 'count_gender_active_chart']);
+
+         //To Approved
+            Route::get("/watchlisted/t-a-w",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'to_approved_watchlisted']);
+            Route::post("/watchlisted/a-w",[ App\Http\Controllers\systems\watchlisted\admin\ToApproveController::class, 'approved_watchlisted']);
+         //Approved 
+            Route::get("/watchlisted/g-a-w",[ App\Http\Controllers\systems\watchlisted\admin\ApprovedController::class, 'get_approved_watchlisted']);
+         //Removed
+            Route::get("/watchlisted/r-f-w",[ App\Http\Controllers\systems\watchlisted\admin\RemoveController::class, 'remove_from_watchlisted']);
+         //Restore
+             Route::post("/watchlisted/c-s",[ App\Http\Controllers\systems\watchlisted\admin\ApprovedController::class, 'change_status']);
+         //Manage Program
+            Route::post("/watchlisted/i-u-p",[ App\Http\Controllers\systems\watchlisted\admin\ProgramController::class, 'insert_update_program']);
+            Route::get("/watchlisted/get-programs",[ App\Http\Controllers\systems\watchlisted\admin\ProgramController::class, 'get_programs']);
+            Route::post("/watchlisted/delete-program",[ App\Http\Controllers\systems\watchlisted\admin\ProgramController::class, 'delete_program']);
+            Route::get("/watchlisted/get-act-logs",[ App\Http\Controllers\systems\watchlisted\admin\ActivityLogsController::class, 'get_activity_logs']);
+         //Save Person Programs
+            Route::post('/watchlisted/s-p-p', [App\Http\Controllers\systems\watchlisted\admin\ViewController::class, 'save_record_program']);
+         //Update Information
+             Route::post('/watchlisted/update-info', [App\Http\Controllers\systems\watchlisted\admin\ViewController::class, 'update_information']);
+
+         
+});         

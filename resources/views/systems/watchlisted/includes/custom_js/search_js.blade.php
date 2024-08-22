@@ -101,7 +101,7 @@
                         {
                             data: null,
                             render: function(data, type, row) {
-                                return '<a href="' + base_url + '/user/watchlisted/view_profile/' + row.person_id + '" class="btn btn-primary"><i class="fas fa-eye"></i></a>';
+                                return '<a href="' + base_url + '/{{session("user_type")}}/watchlisted/view_profile/' + row.person_id + '" class="btn btn-primary"><i class="fas fa-eye"></i></a>';
                             }
                         },
 
