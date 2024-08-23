@@ -45,4 +45,8 @@
         });
 
     }
+
+    $(document).ready(function(){
+        $('button[type=submit]').prop('disabled',false);
+    })
 </script>

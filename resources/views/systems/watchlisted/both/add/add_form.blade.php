@@ -1,7 +1,7 @@
 <div class="card">
     
     <div class="card-body">
-        <form id="add_form">
+        <form id="add_document">
             <div class="form-row mb-2">
 
                 <div class="row">
@@ -61,7 +61,7 @@
 
 
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" disabled>Submit</button>
         </form>
     </div>
 </div>

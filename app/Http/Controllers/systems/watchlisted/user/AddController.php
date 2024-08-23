@@ -42,12 +42,11 @@ class AddController extends Controller
             'address'                   => $request->input('address'),
             'email_address'             => $request->input('emailAddress'),
             'created_at'                => Carbon::now()->format('Y-m-d H:i:s') ,
-            'status'                    => session('user_id') == 'user' ? 'not-approved' : 'approved',
+            'status'                    => session('user_id') == 'user' ? 'not-approved' : 'active',
             'age'                       => $request->input('age'),
             'gender'                    => $request->input('gender'),
             'added_by'                  => session('user_id')
         );
-
         $add = DB::connection($this->conn)->table('persons')->insertGetId($items);
         if ($add) {
             
