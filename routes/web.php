@@ -3,6 +3,7 @@
 use App\Http\Middleware\AdminCheck;
 use App\Http\Middleware\SessionGuard;
 use App\Http\Middleware\UserLoginCheck;
+use App\Http\Middleware\WhipCheck;
 use Illuminate\Support\Facades\Route;
 
 //Auth View
@@ -17,7 +18,9 @@ Route::get('/logout', [App\Http\Controllers\auth\AuthController::class, 'logout'
 
 Route::get('/home', function () {
    $data['title'] = 'CPESD MIS MANAGEMENT INFORMATION SYSTEM';
-   $data['link']  = session('user_type') == 'user' ? 'user' : 'admin';
+   // $data['link']  = session('user_type') == 'user' ? 'user' : 'admin';
+   $data['color'] = ['l-bg-cherry','l-bg-blue-dark','l-bg-orange-dark'];
+   $data['systems']   = config('custom_config._systems');
    return view('home.index')->with($data);
 })->middleware(SessionGuard::class);
 
@@ -41,6 +44,10 @@ Route::middleware([SessionGuard::class, AdminCheck::class])->prefix('/admin/sysm
    Route::get("/g-a-u",[ App\Http\Controllers\system_management\ManageUserController::class, 'get_all_users']);
    //System Authorization
    Route::post("/a-s",[ App\Http\Controllers\system_management\ManageUserController::class, 'authorize_system']);
+
+   
+
+
 });
 
 
@@ -49,6 +56,10 @@ Route::middleware([SessionGuard::class, AdminCheck::class])->prefix('/admin/sysm
 
 //USER VIEW 
 Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
+
+                                       //System
+      //System Authorization
+          Route::get("/sysm/c-i-a",[ App\Http\Controllers\system_management\ManageUserController::class, 'check_authorized']);
                                           //LABOR LOCALIZATIOn
       //Dashboard
       Route::get("/lls/dashboard",[ App\Http\Controllers\systems\lls_whip\lls\user\DashboardController::class, 'index']);
@@ -62,27 +73,29 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::get("/lls/employees-record",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'index']);
         
                                           //WORKERS HIRED INFRASTRACTURE PROJECT
-      //Dashboard
-         Route::get("/whip/dashboard",[ App\Http\Controllers\systems\lls_whip\whip\user\DashboardController::class, 'index']);
-      //Employees Record
-         Route::get("/whip/employees-record",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'index']);
-      //Contractors
-         Route::get("/whip/add-new-contractor",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'add_new_contractor']);
-         Route::get("/whip/contractors-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractors_list']);
-         Route::get("/whip/contractor-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractor_information']);
-      //Projects
-         Route::get("/whip/add-new-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'add_new_project']);
-         Route::get("/whip/projects-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'projects_list']);
-         Route::get("/whip/project-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'project_information']);
-      //Project Monitoring
-         Route::get("/whip/add-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'add_monitoring_view']);
-         Route::get("/whip/pending-projects-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'pending_project_monitoring_view']);
-         Route::get("/whip/project-monitoring-info/{id}",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'project_monitoring_information']);
-         Route::get("/whip/approved-projects-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'approved_project_monitoring_view']);
-         //Reports
-         Route::get("/whip/monitoring-report/{id}",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'view_monitoring_report']);
-      //Positions
-         Route::get("/whip/whip-positions",[ App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'index']);
+         Route::middleware([WhipCheck::class])->prefix('/whip')->group(function () {
+         //Dashboard
+             Route::get("/dashboard",[ App\Http\Controllers\systems\lls_whip\whip\user\DashboardController::class, 'index']);
+         //Employees Record
+            Route::get("/employees-record",[ App\Http\Controllers\systems\lls_whip\both\EmployeeController::class, 'index']);
+         //Contractors
+            Route::get("/add-new-contractor",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'add_new_contractor']);
+            Route::get("/contractors-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractors_list']);
+            Route::get("/contractor-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ContractorsController::class, 'contractor_information']);
+         //Projects
+            Route::get("/add-new-project",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'add_new_project']);
+            Route::get("/projects-list",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'projects_list']);
+            Route::get("/project-information/{id}",[ App\Http\Controllers\systems\lls_whip\whip\both\ProjectsController::class, 'project_information']);
+         //Project Monitoring
+            Route::get("/add-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'add_monitoring_view']);
+            Route::get("/pending-projects-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'pending_project_monitoring_view']);
+            Route::get("/project-monitoring-info/{id}",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'project_monitoring_information']);
+            Route::get("/approved-projects-monitoring",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'approved_project_monitoring_view']);
+            //Reports
+            Route::get("/monitoring-report/{id}",[ App\Http\Controllers\systems\lls_whip\whip\user\MonitoringController::class, 'view_monitoring_report']);
+         //Positions
+            Route::get("/whip-positions",[ App\Http\Controllers\systems\lls_whip\both\PositionsController::class, 'index']);
+         });
 
    
                                           //DOCUMENT TRACKING SYSTEM//
@@ -375,6 +388,7 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
          Route::post("/whip/a-m",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'approved_monitoring']);
          Route::post("/whip/g-a-m",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'get_approved_monitoring']);
          Route::get("/whip/g-a-p-m",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'get_approved_project_monitoring']);
+         Route::get("/whip/g-p-p-m",[ App\Http\Controllers\systems\lls_whip\whip\admin\MonitoringController::class, 'get_pending_project_monitoring']);
    // DTS
       //Analytics
          Route::post("/dts/d-t-analytics",[ App\Http\Controllers\systems\dts\admin\AnalyticsController::class, 'get_document_types_analytics']);

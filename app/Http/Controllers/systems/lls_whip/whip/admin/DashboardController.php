@@ -38,7 +38,8 @@ class DashboardController extends Controller
         $data['count_whip_positions']  = $this->customRepository->q_get_where($this->conn, array('type' => 'whip'), $this->positions_table)->count();
         $data['pending_projects']    = $this->customRepository->q_get_where($this->conn, array('project_status' => 'ongoing'), $this->projects_table)->count();
         $data['completed_projects']  = $this->customRepository->q_get_where($this->conn, array('project_status' => 'completed'), $this->projects_table)->count();
-
+        $data['pending_monitoring']    = $this->customRepository->q_get_where($this->conn, array('monitoring_status' => 'pending'), 'project_monitoring')->count();
+        $data['approved_monitoring']  = $this->customRepository->q_get_where($this->conn, array('monitoring_status' => 'approved'), 'project_monitoring')->count();
 
         $data['contractors_data'] = $this->contractorQuery->QueryContractorOngoingAndCompleted();
         return view('systems.lls_whip.whip.admin.pages.dashboard.dashboard')->with($data);

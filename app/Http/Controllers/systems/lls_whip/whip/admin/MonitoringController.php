@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Repositories\CustomRepository;
 use App\Repositories\whip\EmployeeQuery;
+use App\Repositories\whip\MonitoringQuery;
 use App\Repositories\whip\ProjectQuery;
 use App\Services\CustomService;
+use App\Services\user\UserService;
 use App\Services\whip\admin\MonitoringService;
 use App\Services\whip\ProjectsService;
 
@@ -21,22 +23,26 @@ class MonitoringController extends Controller
     protected $customService;
     protected $projectsService;
     protected $monitoringService;
+    protected $userService;
     protected $projectQuery;
     protected $employeeQuery;
+    protected $monitoringQuery;
     protected $monitoring_table;
     protected $position_table;
     protected $employment_status_table;
     protected $project_employee_table;
     
-    public function __construct(CustomRepository $customRepository, ProjectQuery $projectQuery, EmployeeQuery $employeeQuery, CustomService $customService, ProjectsService $projectsService, MonitoringService $monitoringService)
+    public function __construct(CustomRepository $customRepository, MonitoringQuery $monitoringQuery,ProjectQuery $projectQuery, EmployeeQuery $employeeQuery, CustomService $customService, ProjectsService $projectsService, MonitoringService $monitoringService, UserService $userService)
     {
         $this->conn                 = config('custom_config.database.lls_whip');
         $this->customRepository     = $customRepository;
         $this->customService        = $customService;
         $this->monitoringService    = $monitoringService;
         $this->projectsService     = $projectsService;
+        $this->userService          = $userService;
         $this->projectQuery         = $projectQuery;
         $this->employeeQuery        = $employeeQuery;
+        $this->monitoringQuery      = $monitoringQuery;
         $this->monitoring_table     = 'project_monitoring';
         $this->position_table       = 'positions';
         $this->employment_status_table = 'employment_status';
@@ -58,6 +64,29 @@ class MonitoringController extends Controller
 
     //CREATE
     //READ
+
+    public function get_pending_project_monitoring(){
+          $items = $this->monitoringQuery->get_admin_pending_monitoring();
+          $data = [];
+          $i = 1;
+          foreach ($items as $row) {
+             $data[] = array(
+                      'i'                             => $i++,
+                      'project_monitoring_id'         => $row->project_monitoring_id,
+                      'project_title'                 => $row->project_title,
+                      'date_of_monitoring'            => date('M d Y ', strtotime($row->date_of_monitoring)),
+                      'specific_activity'             => $row->specific_activity,
+                      'monitoring_status'             => $row->monitoring_status,
+                      'contractor'                    => $row->contractor_name,
+                      'address'                       => $row->barangay.' '.$row->street,
+                      'person_responsible'            => $this->userService->user_full_name($row),
+                      'count_unseen'                  => $this->customRepository->q_get_where($this->conn,array('project_monitoring_id' => $row->project_monitoring_id,'seen_status' => 'un'),'remarks')->count()
+                     
+             );
+          }
+  
+          return response()->json($data);
+    }
 
     public function get_approved_project_monitoring(){
         $month = '';

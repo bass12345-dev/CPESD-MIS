@@ -245,14 +245,9 @@ class MonitoringController extends Controller
 
 
     public function get_pending_project_monitoring(Request $request){
-       
-        $segments = $request->segments();
 
-        if(session('user_type') == 'user') {
-            $items = $this->monitoringQuery->get_user_pending_monitoring();
-        }else if(session('user_type') == 'admin') {
-            $items = $this->monitoringQuery->get_admin_pending_monitoring();
-        }
+        $items = $this->monitoringQuery->get_user_pending_monitoring();
+            // $items = $this->monitoringQuery->get_admin_pending_monitoring();
         
         $data = [];
         $i = 1;

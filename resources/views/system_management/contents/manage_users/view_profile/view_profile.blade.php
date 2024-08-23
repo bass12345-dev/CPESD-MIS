@@ -27,7 +27,6 @@
 				id : items,
 				user_id : user_id
 	};
-
 	$(this).find('button').attr('disabled',true);
 	$.ajax({
             url: base_url + '/admin/sysm/act/a-s',
@@ -39,7 +38,7 @@
             },
             beforeSend: function () {
                 $('button.submit').prop('disabled', true);
-                $('button.submit').html('<span class="loader"></span>')
+                $('button.submit').html('Please Wait')
             },
             success: function (data) {
                 if (data.response) {
@@ -51,9 +50,7 @@
             },
             error: function (err) {
                 toast_message_error('Server Error');
-                // setTimeout(() => {
-                //     location.reload();
-                // }, 1500);
+               
             }
 
 

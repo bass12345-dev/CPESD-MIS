@@ -5,14 +5,12 @@
     <form id="authorized_form">
         <div class="form-row mb-2">
             <input type="hidden" name="user_id" value="{{$user->user_id}}">
-            <?php
-                foreach ($systems as $row) :
-                $checked = $row[0] != null ? 'checked' : '';
-            ?>
+            <?php foreach ($systems as $row => $value) :
+                # code...
+             ?>
              <div class="list-group">
                 <label class="list-group-item h4">
-                    <input  class="form-check-input me-1" name="system_id" type="checkbox" value="{{$row[1]}} " {{$checked}}>
-                    {{$row[2]}}
+                    <input  class="form-check-input me-1" name="system_id" type="checkbox" value="{{$systems[$row]['system_id']}}" {{$systems[$row]['is_checked']}}> {{$systems[$row]['system_name']}}
                 </label>
             </div>
             <?php endforeach; ?>

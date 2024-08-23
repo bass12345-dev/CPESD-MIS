@@ -119,7 +119,7 @@ class UserService
     private function store_login_history($user_row){
 
         $items = ['web_type'=> 'cpesd-mis','user_id'=>$user_row->user_id,'logged_in_date'=> Carbon::now()->format('Y-m-d H:i:s') ];
-        $this->customRepository->insert_item($this->conn_dts,$this->login_history_table,$items);
+        $this->customRepository->insert_item($this->conn,$this->login_history_table,$items);
     }
 
 

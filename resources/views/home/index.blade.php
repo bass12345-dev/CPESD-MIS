@@ -53,56 +53,48 @@
     </div>
     <div class="links">
         <div class="card-container">
-            <a href="" class="card l-bg-orange-dark">
+
+            <?php foreach ($systems as $key => $value):
+             ?>
+
+            <a href="javascript:;" class="card l-bg-blue-dark" onclick="check(val='{{$key}}')">
                 <i class="fas fa-file"></i>
-                <span>PMAS</span>
+                <span>{{$value}}</span>
                 <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24">
                     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
                 </svg>
             </a>
-            <a href="http://cpesd-infosys.wuaze.com/mis/" class="card l-bg-orange-dark">
-                <i class="fas fa-file"></i>
-                <span>RFA</span>
-                <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                </svg>
-            </a>
-            <a href="{{url($link . '/watchlisted/dashboard')}}" class="card l-bg-cherry">
-                <i class="fas fa-eye"></i>
-                <span class="mr-2">Watchlisted </span>
-                <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                </svg>
-            </a>
-            <a href="{{url('/user/dts/dashboard')}}" class="card l-bg-blue-dark">
-                <i class="fas fa-search"></i>
-                <span>Document Tracker </span>
-                <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                </svg>
-            </a>
-            <a href="{{url('/user/lls/dashboard')}}" class="card l-bg-blue-dark">
-                <i class="fas fa-building"></i>
-                <span>Labor Localization</span>
-                <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                </svg>
-            </a>
-            <a href="{{url($link . '/whip/dashboard')}}" class="card l-bg-blue-dark">
-                <i class="fas fa-building"></i>
-                <span>WHIP</span>
-                <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                </svg>
-            </a>
+
+            <?php endforeach; ?>
+ 
         </div>
     </div>
 </body>
+
+<script>
+    var base_url = '<?php echo url(''); ?>';
+
+    function check(val) {
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", base_url + '/user/sysm/c-i-a?sys=' + val);
+        xhr.send();
+        xhr.responseType = "json";
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                const data = xhr.response;
+                if (data.response) {
+                    window.open(base_url + data.message, '_self');
+                } else {
+                    alert(data.message)
+                }
+            } else {
+                alert(`Error: ${xhr.status}`)
+            }
+        };
+
+    }
+</script>
 
 </html>
