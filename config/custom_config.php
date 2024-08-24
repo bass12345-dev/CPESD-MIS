@@ -5,7 +5,8 @@ return [
     'database' =>[
         'users'         => 'mysql_USERS',
         'lls_whip'      => 'mysql_LLS',
-        'dts'           => 'mysql_DTS'
+        'dts'           => 'mysql_DTS',
+        'pmas'          => 'mysql_PMAS',
     ],
     
     'barangay' => [
@@ -80,5 +81,7 @@ return [
         'lls'           =>  'Labor Localization',
         'whip'          =>  'WHIP'
     ],
+    'employment_status' => ['employed','self-employed','unemployed and actively looking for work', 'underemployed'],
+    'type_of_transactions' => ['simple','complex']
 ];
 

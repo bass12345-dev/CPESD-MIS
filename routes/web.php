@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Middleware\AdminCheck;
+use App\Http\Middleware\DtsCheck;
 use App\Http\Middleware\SessionGuard;
 use App\Http\Middleware\UserLoginCheck;
+use App\Http\Middleware\WatchCheck;
 use App\Http\Middleware\WhipCheck;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +20,6 @@ Route::get('/logout', [App\Http\Controllers\auth\AuthController::class, 'logout'
 
 Route::get('/home', function () {
    $data['title'] = 'CPESD MIS MANAGEMENT INFORMATION SYSTEM';
-   // $data['link']  = session('user_type') == 'user' ? 'user' : 'admin';
-   $data['color'] = ['l-bg-cherry','l-bg-blue-dark','l-bg-orange-dark'];
    $data['systems']   = config('custom_config._systems');
    return view('home.index')->with($data);
 })->middleware(SessionGuard::class);
@@ -99,44 +99,67 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
 
    
                                           //DOCUMENT TRACKING SYSTEM//
-      //USER
-         //Dashboard
-         Route::get("/dts/dashboard",[ App\Http\Controllers\systems\dts\user\DashboardController::class, 'index']);
-         //My documents
-         Route::get("/dts/my-documents",[ App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'index']);
-         //Add Documents
-         Route::get("/dts/add-document",[ App\Http\Controllers\systems\dts\user\AddDocumentController::class, 'index']);
-         //Incoming
-         Route::get("/dts/incoming",[ App\Http\Controllers\systems\dts\user\IncomingController::class, 'index']);
-         //Received
-         Route::get("/dts/received",[ App\Http\Controllers\systems\dts\user\ReceivedController::class, 'index']);
-         //Forwarded
-         Route::get("/dts/forwarded",[ App\Http\Controllers\systems\dts\user\ForwardedController::class, 'index']);
-         //Outgoing
-         Route::get("/dts/outgoing",[ App\Http\Controllers\systems\dts\user\OutgoingController::class, 'index']);
-         //Action Logs
-         Route::get("/dts/action-logs",[ App\Http\Controllers\systems\dts\user\ActionLogsController::class, 'index']);
-         //Search Documents
-         Route::get("/dts/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
-         //View Document
-         Route::get("/dts/view",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'view_document']);
+         Route::middleware([DtsCheck::class])->prefix('/dts')->group(function () {
+         //USER
+            //Dashboard
+            Route::get("/dashboard",[ App\Http\Controllers\systems\dts\user\DashboardController::class, 'index']);
+            //My documents
+            Route::get("/my-documents",[ App\Http\Controllers\systems\dts\user\MyDocumentsController::class, 'index']);
+            //Add Documents
+            Route::get("/add-document",[ App\Http\Controllers\systems\dts\user\AddDocumentController::class, 'index']);
+            //Incoming
+            Route::get("/incoming",[ App\Http\Controllers\systems\dts\user\IncomingController::class, 'index']);
+            //Received
+            Route::get("/received",[ App\Http\Controllers\systems\dts\user\ReceivedController::class, 'index']);
+            //Forwarded
+            Route::get("/forwarded",[ App\Http\Controllers\systems\dts\user\ForwardedController::class, 'index']);
+            //Outgoing
+            Route::get("/outgoing",[ App\Http\Controllers\systems\dts\user\OutgoingController::class, 'index']);
+            //Action Logs
+            Route::get("/action-logs",[ App\Http\Controllers\systems\dts\user\ActionLogsController::class, 'index']);
+            //Search Documents
+            Route::get("/search-docs",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'index']);
+            //View Document
+            Route::get("/view",[ App\Http\Controllers\systems\dts\both\SearchDocuments::class, 'view_document']);
+         });
 
                                        //WATCHLISTED//
-      //USER
-          //Dashboard
-          Route::get("/watchlisted/dashboard",[ App\Http\Controllers\systems\watchlisted\user\DashboardController::class, 'index']);
-          //Approved
-          Route::get("/watchlisted/approved",[ App\Http\Controllers\systems\watchlisted\user\ApprovedController::class, 'index']);
-          //Pending
-          Route::get("/watchlisted/pending",[ App\Http\Controllers\systems\watchlisted\user\PendingController::class, 'index']);
-          //Removed
-          Route::get("/watchlisted/removed",[ App\Http\Controllers\systems\watchlisted\user\RemovedController::class, 'index']);
-          //Search
-          Route::get("/watchlisted/search",[ App\Http\Controllers\systems\watchlisted\user\SearchController::class, 'index']);
-          //Add
-          Route::get("/watchlisted/add",[ App\Http\Controllers\systems\watchlisted\user\AddController::class, 'index']);
-          //View
-          Route::get("/watchlisted/view_profile/{id}",[ App\Http\Controllers\systems\watchlisted\user\ViewController::class, 'index']);
+         Route::middleware([WatchCheck::class])->prefix('/watchlisted')->group(function () {
+         //USER
+            //Dashboard
+            Route::get("/dashboard",[ App\Http\Controllers\systems\watchlisted\user\DashboardController::class, 'index']);
+            //Approved
+            Route::get("/approved",[ App\Http\Controllers\systems\watchlisted\user\ApprovedController::class, 'index']);
+            //Pending
+            Route::get("/pending",[ App\Http\Controllers\systems\watchlisted\user\PendingController::class, 'index']);
+            //Removed
+            Route::get("/removed",[ App\Http\Controllers\systems\watchlisted\user\RemovedController::class, 'index']);
+            //Search
+            Route::get("/search",[ App\Http\Controllers\systems\watchlisted\user\SearchController::class, 'index']);
+            //Add
+            Route::get("/add",[ App\Http\Controllers\systems\watchlisted\user\AddController::class, 'index']);
+            //View
+            Route::get("/view_profile/{id}",[ App\Http\Controllers\systems\watchlisted\user\ViewController::class, 'index']);
+         });
+
+         Route::prefix('/rfa')->group(function () {
+         //USER
+            //Dashboard
+            Route::get("/dashboard",[ App\Http\Controllers\systems\rfa\user\DashboardController::class, 'index']);
+            //Add
+            Route::get("/add",[ App\Http\Controllers\systems\rfa\user\AddController::class, 'index']);
+            //Pending Encoded
+            Route::get("/pending",[ App\Http\Controllers\systems\rfa\user\PendingController::class, 'index']);
+            //Approved Transactions
+            Route::get("/completed",[ App\Http\Controllers\systems\rfa\user\CompletedController::class, 'index']);
+            //Referred Transactions
+            Route::get("/referred",[ App\Http\Controllers\systems\rfa\user\ReferredController::class, 'index']);
+            //Clients
+            Route::get("/clients",[ App\Http\Controllers\systems\rfa\user\ClientController::class, 'index']);
+
+
+         });
+
 });
 
 
@@ -263,8 +286,31 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Records
             Route::post("/watchlisted/i-u-r",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'insert_update_records']);
             Route::post("/watchlisted/delete-record",[App\Http\Controllers\systems\watchlisted\both\ViewController::class, 'delete_record']);
-        
 
+
+
+                                 //RFA
+         //User
+
+         //Dashboard
+            Route::post("/rfa/l-u-c-r-t-d",[App\Http\Controllers\systems\rfa\user\DashboardController::class, 'get_user_chart_rfa_transaction_data']);
+         //Pending
+            Route::get("/rfa/g-u-p-r",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'get_user_pending_rfa']);
+            Route::get("/rfa/g-p-t-l",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'get_pending_transactions_limit']);
+         //Reference Number
+            Route::get("/rfa/g-l-r-n",[App\Http\Controllers\systems\rfa\user\AddController::class, 'get_last_ref_number']);
+         //Client
+            Route::post("/rfa/s-c",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'search_name']);
+            Route::post("/rfa/a-c",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'add_client']); 
+         //Transactions      
+            Route::post("/rfa/add-rfa",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'add_rfa']); 
+         //Referral
+             Route::post("/rfa/update-referral",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'update_referral']); 
+             Route::get("/rfa/g-u-r-r",[App\Http\Controllers\systems\rfa\user\ReferredController::class, 'get_user_referred_rfa']); 
+         //Action Taken
+            Route::post("/rfa/view-action-taken",[App\Http\Controllers\systems\rfa\user\ReferredController::class, 'view_action_taken']); 
+            Route::post("/rfa/accomplish-rfa",[App\Http\Controllers\systems\rfa\user\ReferredController::class, 'accomplish_rfa']); 
+         
          
 
       

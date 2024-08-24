@@ -21,7 +21,9 @@
         </div>
         <div class="menu">
             <ul>
+                <?php if(session('user_type') == 'admin') { ?>
                 <li><a href="{{url('/admin/sysm/dashboard')}}">System Management</a></l>
+                <?php } ?>
                 <li><a href="#">My Profile</a></li>
                 <li><a href="{{url('/logout')}}">Logout</a></li>
             </ul>
@@ -67,7 +69,7 @@
             </a>
 
             <?php endforeach; ?>
- 
+
         </div>
     </div>
 </body>
@@ -95,6 +97,8 @@
         };
 
     }
+
+
 </script>
 
 </html>

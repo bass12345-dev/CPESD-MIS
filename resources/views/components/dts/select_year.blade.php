@@ -1,9 +1,3 @@
 <select class="custom-select form-select form-control" id="admin_year" onchange="load_graph(this)">
-    <?php for ($i = 2023; $i <= 2030; $i++) {
-
-    $selected = $i == date('Y') ? "selected" : "";
-
-    echo '<option ' . $selected . '>' . $i . '</option>';
-
-} ?>
+@include('components.option')
 </select>

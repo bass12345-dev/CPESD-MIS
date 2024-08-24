@@ -54,4 +54,11 @@ class CustomService
         return $status;
     }
 
+
+    public function ref_number($item){
+        return date('Y', strtotime($item->rfa_date_filed)).'-'.date('m', strtotime($item->rfa_date_filed)).'-'.$item->number;
+
+    }
+
+
 }

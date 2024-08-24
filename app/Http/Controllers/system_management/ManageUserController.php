@@ -104,7 +104,8 @@ class ManageUserController extends Controller
             }
             $data = array('message' => 'Added Succesfully', 'response' => true);
         } else {
-            $data = array('message' => 'Server Error', 'response' => false);
+            $this->customRepository->delete_item($this->conn,  $this->user_system_authorized_table, array('user_id' => $user_id));
+            $data = array('message' => 'Removed Succesfully', 'response' => true);
         }
         return response()->json($data);
 
