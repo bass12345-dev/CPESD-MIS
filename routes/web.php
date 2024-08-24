@@ -297,6 +297,8 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Pending
             Route::get("/rfa/g-u-p-r",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'get_user_pending_rfa']);
             Route::get("/rfa/g-p-t-l",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'get_pending_transactions_limit']);
+         //Completed
+            Route::get("/rfa/get-user-completed-rfa",[App\Http\Controllers\systems\rfa\user\CompletedController::class, 'get_user_completed_rfa']);
          //Reference Number
             Route::get("/rfa/g-l-r-n",[App\Http\Controllers\systems\rfa\user\AddController::class, 'get_last_ref_number']);
          //Client

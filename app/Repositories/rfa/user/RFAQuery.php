@@ -62,6 +62,21 @@ class RFAQuery
         return $row;
     }
 
+    //Completed Transactions
+
+    public function QueryUserCompletedRFA(){
+
+        $row = DB::table($this->pmas_db_name . '.rfa_transactions as rfa_transactions')
+        ->leftJoin($this->pmas_db_name . '.type_of_request','type_of_request.type_of_request_id', '=','rfa_transactions.tor_id')
+        ->leftJoin($this->users_db_name . '.users', 'users.user_id', '=', 'rfa_transactions.rfa_created_by')
+        ->where('rfa_transactions.rfa_status','completed')
+        ->where('rfa_transactions.reffered_to', session('user_id'))
+        ->orderBy('rfa_transactions.reffered_date_and_time','desc')
+        ->get();
+        return $row;
+
+    }
+
     //Add View
 
     public function QueryRFATransactionsLimit($limit)
