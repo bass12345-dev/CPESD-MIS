@@ -70,26 +70,10 @@
          },
          error: function (xhr) {
             alert("Error occured.please try again");
-            // location.reload();
+            location.reload();
          },
       });
    }
-
-
-
-
-
-
-  
-
-
-
-
-
-
-   
-
-
 
    $('#add_rfa_form').on('submit', function (e) {
       e.preventDefault();

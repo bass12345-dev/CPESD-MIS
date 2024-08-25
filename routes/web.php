@@ -158,6 +158,7 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
             Route::get("/referred",[ App\Http\Controllers\systems\rfa\user\ReferredController::class, 'index']);
             //Clients
             Route::get("/clients",[ App\Http\Controllers\systems\rfa\user\ClientController::class, 'index']);
+            
 
 
          });
@@ -317,7 +318,11 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Action Taken
             Route::post("/rfa/view-action-taken",[App\Http\Controllers\systems\rfa\user\ReferredController::class, 'view_action_taken']); 
             Route::post("/rfa/accomplish-rfa",[App\Http\Controllers\systems\rfa\user\ReferredController::class, 'accomplish_rfa']); 
-         
+
+         //Count 
+            Route::get("/rfa/count-pending-rfa",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'count_pending_rfa']);
+            Route::get("/rfa/count-pending-transactions",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'count_pending_transactions']);
+            Route::get("/rfa/count-reffered-rfa",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'count_reffered_rfa']);
          
 
       
@@ -422,6 +427,10 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          Route::get("/rfa/dashboard",[ App\Http\Controllers\systems\rfa\admin\DashboardController::class, 'index']);
          //Pending
          Route::get("/rfa/pending",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'index']);
+         //Report
+         Route::get("/rfa/report",[ App\Http\Controllers\systems\rfa\admin\ReportController::class, 'index']);
+          //Report
+          Route::get("/rfa/clients",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'index']);
         
 
          
@@ -521,6 +530,21 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
                Route::get("/rfa/get-pending-rfa-transaction-limit",[ App\Http\Controllers\systems\rfa\admin\DashboardController::class, 'get_admin_pending_rfa_transaction_limit']);
             //Pending
                Route::get("/rfa/get-admin-pending-rfa",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'get_admin_pending_rfa']);
+               Route::post("/rfa/refer-to",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'refer_to']);
+               Route::post("/rfa/view-action",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'view_action']);
+               Route::post("/rfa/approved-rfa",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'approved_rfa']);
+            
+            //Clients
+               Route::get("/rfa/get-clients",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'get_clients']);
+               Route::post("/rfa/update-client",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'update_client']);
+               Route::post("/rfa/delete-client",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'delete_client']);
+               
+
+            //Generate Report
+               Route::post("/rfa/generate-rfa-report",[ App\Http\Controllers\systems\rfa\admin\ReportController::class, 'generate_rfa_report']);
+           
+               
+               
          
                
 

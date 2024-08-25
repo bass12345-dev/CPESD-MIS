@@ -5,28 +5,34 @@ use App\Http\Controllers\Controller;
 use App\Repositories\CustomRepository;
 use App\Repositories\rfa\admin\AdminRFAQuery;
 use App\Services\CustomService;
+use App\Services\user\ActionLogService;
 use App\Services\user\UserService;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class PendingController extends Controller
 {
 
     protected $conn;
+    protected $conn_user;
     protected $customRepository;
     protected $customService;
+    protected $actionLogService;
     protected $userService;
     protected $rFAQuery;
 
-    public function __construct(CustomRepository $customRepository, AdminRFAQuery $rFAQuery, CustomService $customService, UserService $userService){
+    public function __construct(CustomRepository $customRepository, AdminRFAQuery $rFAQuery, CustomService $customService, UserService $userService, ActionLogService $actionLogService){
        
         $this->customRepository = $customRepository;
         $this->customService    = $customService;
         $this->userService      = $userService;
+        $this->actionLogService = $actionLogService;
         $this->conn             = config('custom_config.database.pmas');
+        $this->conn_user = config('custom_config.database.users');
         $this->rFAQuery         = $rFAQuery;
     }
     public function index(){
         $data['title']                                  = 'Pending';
+        $data['refer_to'] = $this->customRepository->q_get_where_order($this->conn_user,'users',array('user_type' => 'user'),'first_name','desc')->get(); 
         return view('systems.rfa.admin.pages.pending.pending')->with($data);
     }
 
@@ -84,6 +90,60 @@ class PendingController extends Controller
         return response()->json($data);
     }
 
+
+
+    public function refer_to(Request $request){
+
+        $where          = array('rfa_id' => $request->input('rfa_id'));
+        $data           = array(
+            'reffered_to'              => $request->input('reffered_to'),
+            'action_taken'             => $request->input('action_taken'),
+            'reffered_date_and_time'   => date('Y-m-d H:i:s', time()),
+        );
+
+        $update = $this->customRepository->update_item($this->conn, 'rfa_transactions', $where, $data);
+        if ($update) {
+            $item = $this->customRepository->q_get_where($this->conn_user, array('user_id' => $data['reffered_to']), 'users')->first();
+            $rfa_item = $this->customRepository->q_get_where($this->conn, array('rfa_id' => $where['rfa_id']), 'rfa_transactions')->first();
+            $this->actionLogService->add_pmas_rfa_action('rfa', $where['rfa_id'], 'Updated Referral to ' . $item->first_name . ' ' . $item->last_name . ' | RFA No. ' . $this->customService->ref_number($rfa_item));
+            $resp = array('message' => 'Referral Updated Successfully', 'response' => true);
+        } else {
+            $resp = array('message' => 'Error', 'response' => false);
+        }
+        return response()->json($resp);
+    }   
+
+    public function view_action(Request $request){
+
+        $data = [];
+        $where = array('rfa_id'=>$request->input('id'));
+        $data['action_to_be_taken'] = $this->customRepository->q_get_where($this->conn,$where,'rfa_transactions')->first()->action_to_be_taken;
+        $data['rfa_id'] = $where['rfa_id']; 
+        echo json_encode($data);
+        
+    }
+
+    public function approved_rfa(Request $request){
+    
+
+        $where          = array('rfa_id' => $request->input('id'));
+        $data           = array(
+            'rfa_status'            => 'completed',
+            'approved_date'   =>  Carbon::now()->format('Y-m-d H:i:s'),
+        );
+
+
+        $update = $this->customRepository->update_item($this->conn, 'rfa_transactions', $where, $data);
+        if ($update) {
+            $rfa_item = $this->customRepository->q_get_where($this->conn, array('rfa_id' => $where['rfa_id']), 'rfa_transactions')->first();
+            $this->actionLogService->add_pmas_rfa_action('rfa', $where['rfa_id'], 'Approved RFA No. ' . $this->customService->ref_number($rfa_item));
+            $resp = array('message' => 'Approved Successfully', 'response' => true);
+        } else {
+            $resp = array('message' => 'Error', 'response' => false);
+        }
+        return response()->json($resp);
+
+    }
 
 
   

@@ -136,7 +136,7 @@
                             alert("Error occured.please try again");
                             button.prop("disabled", false);
                             button.text('Submit');
-                            // location.reload();
+                            location.reload();
                         },
                     })
                 } else if (result.dismiss === "cancel") {

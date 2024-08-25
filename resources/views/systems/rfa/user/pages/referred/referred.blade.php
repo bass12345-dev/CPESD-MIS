@@ -23,14 +23,15 @@
 <script src="https://cdn.jsdelivr.net/npm/js-loading-overlay@1.1.0/dist/js-loading-overlay.min.js"></script>
 <script type="text/javascript" src="{{ asset('pmas_rfa/tinymce/tinymce.js')}}"></script>
 @include('systems.rfa.includes.custom_js.tinymce_init_js')
+
 <script>
 
 
    $(document).on('click', 'button#reload_user_reffered_rfa', function (e) {
       $('#rfa_reffered_table').DataTable().destroy();
       load_user_reffered_rfa();
-      //    count_total_reffered_rfa();
-      //    count_total_rfa_pending();
+         count_total_reffered_rfa();
+         count_total_rfa_pending();
    });
 
    function load_user_reffered_rfa() {

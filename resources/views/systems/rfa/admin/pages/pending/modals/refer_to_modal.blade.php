@@ -31,7 +31,7 @@
 
                         <div class="form-group">
                            <div class="col-12">Action Taken</div>
-                              <textarea class="form-control" id="action_taken" name="action_taken"></textarea>
+                              <textarea class="form-control" id="action_to_be_taken" name="action_taken"></textarea>
                           
                                 
                         </div>

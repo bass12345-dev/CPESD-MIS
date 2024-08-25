@@ -22,12 +22,13 @@
 @include('systems.rfa.user.pages.pending.modals.refer_to_modal')
 @endsection
 @section('js')
+
 <script>
     $(document).on('click', 'button#reload_user_pending_rfa', function (e) {
         $('#rfa_pending_table').DataTable().destroy();
         load_user_pending_rfa();
-        //    count_total_rfa_pending();
-        //    count_total_reffered_rfa()
+        count_total_rfa_pending();
+        count_total_reffered_rfa()
     });
 
 

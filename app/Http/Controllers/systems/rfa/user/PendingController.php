@@ -175,6 +175,33 @@ class PendingController extends Controller
     }
 
 
+    public function count_pending_rfa(){
+
+        $count = 0;
+
+        if (session('user_type') == 'admin') {
+    
+            $where = array('rfa_status' => 'pending');
+            $count = $this->customRepository->q_get($this->conn,'rfa_transactions')->count(); 
+           
+        }else if (session('user_type') == 'user') {
+            
+            $where = array('rfa_status' => 'pending','rfa_created_by' => session('user_id'));
+            $count = $this->customRepository->q_get_where($this->conn,$where,'rfa_transactions')->count();
+        }
+    
+        return $count;
+
+    }
+
+    public function count_reffered_rfa(){
+
+        $where = array('rfa_status' => 'pending','reffered_to' => session('user_id'));
+        $count = $this->customRepository->q_get_where($this->conn,$where,'rfa_transactions')->count();
+        echo $count;
+
+    }
+
 
 
 }

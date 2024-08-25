@@ -16,11 +16,11 @@
                     <li class="<?= $segments[2] == 'pending' ? 'active' : '' ?>"><a
                             href="{{url('/admin/rfa/pending')}}"><i class="fa fa-history"></i>
                             <span>Pending RFA</span><span class="badge badge-danger count_pending_rfa">0</span></a></li>
-                    <li class="<?= $segments[2] == 'completed' ? 'active' : '' ?>"><a
-                            href="{{url('/user/rfa/completed')}}"><i class="fa fa-history"></i>
+                    <li class="<?= $segments[2] == 'report' ? 'active' : '' ?>"><a
+                            href="{{url('/admin/rfa/report')}}"><i class="fa fa-history"></i>
                             <span>RFA Report</span></a></li>
                     <li class="<?= $segments[2] == 'clients' ? 'active' : '' ?>"><a
-                            href="{{url('/user/rfa/clients')}}"><i class="fa fa-history"></i>
+                            href="{{url('/admin/rfa/clients')}}"><i class="fa fa-history"></i>
                             <span>Clients</span></a></li>
                 </ul>
             </nav>
