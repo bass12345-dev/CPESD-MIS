@@ -29,6 +29,7 @@ class AddController extends Controller
         if (session('user_type') == 'user') {
 
             $data['title'] = 'Request For Assistance';
+            $data['data']   = null;
             $data['barangay'] = config('custom_config.barangay');
             $data['employment_status'] = config('custom_config.employment_status');
             $data['type_of_request'] = $this->customRepository->q_get_order($this->conn,'type_of_request','type_of_request_name', 'asc')->get();

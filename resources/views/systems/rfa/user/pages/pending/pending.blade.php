@@ -63,6 +63,10 @@
         });
     }
 
+    $(document).on('click', 'a#view_rfa', function (e) {
+      window.open(base_url + '/user/rfa/update-rfa/' + $(this).data('id'), '_self');
+   });
+
 
     $(document).on('click', 'a.update_referred', function (e) {
         $('#update_refer_to_modal').modal('show');

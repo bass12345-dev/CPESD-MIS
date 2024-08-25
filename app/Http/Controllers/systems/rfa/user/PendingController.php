@@ -39,6 +39,53 @@ class PendingController extends Controller
         return view('systems.rfa.user.pages.pending.pending')->with($data);
     }
 
+    public function update_rfa_view($id)
+    {
+
+        $row = $this->customRepository->q_get_where($this->conn, array('rfa_id' => $id), 'rfa_transactions');
+        if ($row->count()) {
+            $rfa_row       = $row->first();
+            $data['title'] = $this->customService->ref_number($rfa_row);
+            $data['data']   = $rfa_row;
+            $data['barangay'] = config('custom_config.barangay');
+            $data['employment_status'] = config('custom_config.employment_status');
+            $data['type_of_request'] = $this->customRepository->q_get_order($this->conn, 'type_of_request', 'type_of_request_name', 'asc')->get();
+            $data['type_of_transactions'] = config('custom_config.type_of_transactions');
+            $data['refer_to'] = $this->customRepository->q_get_where_order($this->conn_user, 'users', array('user_type' => 'user'), 'first_name', 'desc')->get();
+            return view('systems.rfa.user.pages.update.update')->with($data);
+
+        }else {
+            echo '404';
+        }
+
+    }
+
+    public function get_rfa_data(Request $request){
+        $id = $request->input('id');
+        $row = $this->rFAQuery->QueryRFAData($id);
+
+        $data = array(
+    
+                    'date_time_filed'       => date('F d Y', strtotime($row->rfa_date_filed)),
+                    'rfa_id '               => $row->rfa_id ,
+                    'client_id'             => $row->rfa_client_id,
+                    'client_name'           => $row->client_first_name.' '.$row->client_middle_name.' '.$row->client_last_name.' '.$row->client_extension,
+                    'type_of_request_name'  => $row->type_of_request_name,
+                    'type_of_transaction'   => $row->type_of_transaction,
+                    'address'               => $row->client_purok == 0 ? $row->client_barangay : $row->client_purok.' '.$row->client_barangay,
+                    'ref_number'            => $this->customService->ref_number($row),
+                    'number'                => $row->number,
+                    'year'                  => date('Y', strtotime($row->rfa_date_filed)),
+                    'month'                 => date('m', strtotime($row->rfa_date_filed)),
+                    'reffered_to'           => $row->reffered_to,
+                    'tor_id'                => $row->tor_id,
+
+        );
+        return response()->json($data);
+    }
+
+
+
     public function get_user_pending_rfa()
     {
         $data = [];
@@ -113,12 +160,12 @@ class PendingController extends Controller
             'reffered_to' => $referred_to,
         );
 
-        $update = $this->customRepository->update_item($this->conn,'rfa_transactions',$where, $data);
+        $update = $this->customRepository->update_item($this->conn, 'rfa_transactions', $where, $data);
 
         if ($update) {
-            $item           = $this->customRepository->q_get_where($this->conn_user,array('user_id' => $referred_to),'users')->first();
-            $rfa_item       = $this->customRepository->q_get_where($this->conn,array('rfa_id' => $rfa_id),'rfa_transactions')->first();
-            $this->actionLogService->add_pmas_rfa_action('rfa',$rfa_id,'Updated Referral to '.$item->first_name.' '.$item->last_name.' | RFA No. '. $this->customService->ref_number($rfa_item));
+            $item = $this->customRepository->q_get_where($this->conn_user, array('user_id' => $referred_to), 'users')->first();
+            $rfa_item = $this->customRepository->q_get_where($this->conn, array('rfa_id' => $rfa_id), 'rfa_transactions')->first();
+            $this->actionLogService->add_pmas_rfa_action('rfa', $rfa_id, 'Updated Referral to ' . $item->first_name . ' ' . $item->last_name . ' | RFA No. ' . $this->customService->ref_number($rfa_item));
             $resp = array('message' => 'Referral Updated Successfully', 'response' => true);
         } else {
             $resp = array('message' => 'Error', 'response' => false);

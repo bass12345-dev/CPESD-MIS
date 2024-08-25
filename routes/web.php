@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminCheck;
 use App\Http\Middleware\DtsCheck;
+use App\Http\Middleware\RFACheck;
 use App\Http\Middleware\SessionGuard;
 use App\Http\Middleware\UserLoginCheck;
 use App\Http\Middleware\WatchCheck;
@@ -142,7 +143,7 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
             Route::get("/view_profile/{id}",[ App\Http\Controllers\systems\watchlisted\user\ViewController::class, 'index']);
          });
 
-         Route::prefix('/rfa')->group(function () {
+         Route::middleware([RFACheck::class])->prefix('/rfa')->group(function () {
          //USER
             //Dashboard
             Route::get("/dashboard",[ App\Http\Controllers\systems\rfa\user\DashboardController::class, 'index']);
@@ -150,6 +151,7 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
             Route::get("/add",[ App\Http\Controllers\systems\rfa\user\AddController::class, 'index']);
             //Pending Encoded
             Route::get("/pending",[ App\Http\Controllers\systems\rfa\user\PendingController::class, 'index']);
+            Route::get("/update-rfa/{id}",[ App\Http\Controllers\systems\rfa\user\PendingController::class, 'update_rfa_view']);
             //Approved Transactions
             Route::get("/completed",[ App\Http\Controllers\systems\rfa\user\CompletedController::class, 'index']);
             //Referred Transactions
@@ -297,6 +299,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Pending
             Route::get("/rfa/g-u-p-r",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'get_user_pending_rfa']);
             Route::get("/rfa/g-p-t-l",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'get_pending_transactions_limit']);
+            Route::post("/rfa/get-rfa-data",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'get_rfa_data']);
          //Completed
             Route::get("/rfa/get-user-completed-rfa",[App\Http\Controllers\systems\rfa\user\CompletedController::class, 'get_user_completed_rfa']);
          //Reference Number
@@ -304,8 +307,10 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Client
             Route::post("/rfa/s-c",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'search_name']);
             Route::post("/rfa/a-c",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'add_client']); 
+            Route::get("/rfa/get-my-clients",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'get_my_clients']); 
          //Transactions      
             Route::post("/rfa/add-rfa",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'add_rfa']); 
+            Route::post("/rfa/update-rfa",[App\Http\Controllers\systems\rfa\user\ClientController::class, 'update_rfa']); 
          //Referral
              Route::post("/rfa/update-referral",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'update_referral']); 
              Route::get("/rfa/g-u-r-r",[App\Http\Controllers\systems\rfa\user\ReferredController::class, 'get_user_referred_rfa']); 
@@ -409,7 +414,11 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
 
          //View Profile
          Route::get("/watchlisted/view_profile/{id}",[ App\Http\Controllers\systems\watchlisted\admin\ViewController::class, 'index']);
-          
+         
+                                 //RFA
+         
+
+
          
 
 

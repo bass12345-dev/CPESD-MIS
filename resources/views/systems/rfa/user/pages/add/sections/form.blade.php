@@ -1,6 +1,7 @@
 <div class="col-lg-6 col-md-6">
     <div class="form-wizard">
         <form id="add_rfa_form">
+            <input type="hidden" value="{{ $data != null ? $data->rfa_id : ''}}" name="update_rfa_id" >
             <fieldset class="wizard-fieldset show">
                 <h5>Requet For Assistance Form</h5>
                 <div class="form-group">

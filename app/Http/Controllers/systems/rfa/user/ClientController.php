@@ -68,6 +68,30 @@ class ClientController extends Controller
 
     }
 
+    public function update_rfa(Request $request){
+        
+        $where = array('rfa_id' => $request->input('update_rfa_id'));
+
+        $data = array(
+
+            'client_id'           => $request->input('client_id'),
+            'tor_id'              => $request->input('type_of_request'),
+            'type_of_transaction' => $request->input('type_of_transaction'),
+            'reffered_to'         => $request->input('refer_to_id') == '' ? NULL : $request->input('refer_to_id'),
+        );
+
+        $update             = $this->customRepository->update_item($this->conn,'rfa_transactions',$where,$data);
+        if ($update) {
+            $rfa_item       = $this->customRepository->q_get_where($this->conn,array('rfa_id' =>  $where['rfa_id']),'rfa_transactions')->first();
+            $this->actionLogService->add_pmas_rfa_action('rfa',$where['rfa_id'],'Updated RFA No. '. $this->customService->ref_number($rfa_item));
+            $resp = array('message' => 'RFA No. '.$this->customService->ref_number($rfa_item).' Accomplished Successfully', 'response' => true);
+        } else {
+            $resp = array('message' => 'Error', 'response' => false);
+        }
+        return response()->json($resp);
+
+
+    }
     public function add_rfa(Request $request)
     {
 
@@ -171,6 +195,29 @@ class ClientController extends Controller
 
     }
 
+
+    public function get_my_clients(){
+        
+        $item = $this->rFAQuery->QueryMyClients();
+        $data = [];
+        foreach ($item as $row) {
+            
+                $data[] = array(
+
+                        'rfa_client_id'     => $row->rfa_client_id,
+                        'address'           => $row->client_purok == 0 ? $row->client_barangay : 'Purok '.$row->client_purok.' '.$row->client_barangay,
+                        'contact_number'    => $row->client_contact_number,
+                        'age'               => $row->client_age,
+                        'employment_status' => $row->client_employment_status,
+                        'full_name'         => $row->client_first_name.' '.$row->client_middle_name.' '.$row->client_last_name.' '.$row->client_extension,
+                        'gender'            => $row->client_gender == null ? '' : $row->client_gender,
+                        'count'             => $row->count
+                        
+                );
+        }
+
+        return response()->json($data);
+    }
 
 
 }
