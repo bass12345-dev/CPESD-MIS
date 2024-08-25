@@ -9,10 +9,12 @@
                 </ul>
             </div>
         </div>
+        <?php if(session('user_type') == 'user') : ?>
         <div class="col-sm-6 clearfix">
             <div class=" pull-right">
                 <a href="{{url('user/rfa/add')}}" id="request_for_assistance" class="btn sub-button mb-2 mt-2 mr-2">Request for
                     Assistance</a>
             </div>
         </div>
+        <?php endif; ?>
     </div>

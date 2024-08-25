@@ -414,10 +414,15 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
 
          //View Profile
          Route::get("/watchlisted/view_profile/{id}",[ App\Http\Controllers\systems\watchlisted\admin\ViewController::class, 'index']);
+
+         
          
                                  //RFA
-         
-
+         //Dashboard
+         Route::get("/rfa/dashboard",[ App\Http\Controllers\systems\rfa\admin\DashboardController::class, 'index']);
+         //Pending
+         Route::get("/rfa/pending",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'index']);
+        
 
          
 
@@ -505,6 +510,21 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
             Route::post('/watchlisted/s-p-p', [App\Http\Controllers\systems\watchlisted\admin\ViewController::class, 'save_record_program']);
          //Update Information
              Route::post('/watchlisted/update-info', [App\Http\Controllers\systems\watchlisted\admin\ViewController::class, 'update_information']);
+
+
+                              //RFA
+
+            //Dashboard
+               Route::post("/rfa/l-a-c-r-t-d",[ App\Http\Controllers\systems\rfa\admin\DashboardController::class, 'get_admin_chart_rfa_transaction_data']);
+               Route::post("/rfa/l-g-c-b-m",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'load_gender_client_by_month']);
+               Route::get("/rfa/bygender-total",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'get_by_gender_total']);
+               Route::get("/rfa/get-pending-rfa-transaction-limit",[ App\Http\Controllers\systems\rfa\admin\DashboardController::class, 'get_admin_pending_rfa_transaction_limit']);
+            //Pending
+               Route::get("/rfa/get-admin-pending-rfa",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'get_admin_pending_rfa']);
+         
+               
+
+               
 
          
 });         

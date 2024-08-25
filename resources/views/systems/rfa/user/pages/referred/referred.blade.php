@@ -22,15 +22,9 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/js-loading-overlay@1.1.0/dist/js-loading-overlay.min.js"></script>
 <script type="text/javascript" src="{{ asset('pmas_rfa/tinymce/tinymce.js')}}"></script>
+@include('systems.rfa.includes.custom_js.tinymce_init_js')
 <script>
 
-   tinymce.init({
-      selector: 'textarea#action_to_be_taken',
-      height: 500,
-      plugins: ['advlist', 'autolink', 'lists', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'],
-      toolbar: 'undo redo | blocks | ' + 'bold italic backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'removeformat | help',
-      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
-   });
 
    $(document).on('click', 'button#reload_user_reffered_rfa', function (e) {
       $('#rfa_reffered_table').DataTable().destroy();
