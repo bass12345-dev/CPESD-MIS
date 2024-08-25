@@ -67,7 +67,7 @@ class ReferredController extends Controller
                             'type_of_request_name'  => $row->type_of_request_name,
                             'type_of_transaction'   => $row->type_of_transaction,
                             'address'               => 'Purok '.$client->purok == 0 ? $client->barangay : 'Purok '.$client->purok.' '.$client->barangay,
-                            'ref_number'            => '<a href="'.url('').'view-rfa?id='.$row->rfa_id.'">'.$this->customService->ref_number($row).'</a>',
+                            'ref_number'            => '<a href="'.url('').'/user/rfa/view-rfa/'.$row->rfa_id.'">'.$this->customService->ref_number($row).'</a>',
                             'status1'               => $status1,
                             'action1'               => $action1
                             

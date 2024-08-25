@@ -158,9 +158,10 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
             Route::get("/referred",[ App\Http\Controllers\systems\rfa\user\ReferredController::class, 'index']);
             //Clients
             Route::get("/clients",[ App\Http\Controllers\systems\rfa\user\ClientController::class, 'index']);
+            //View
+            Route::get("/view-rfa/{id}",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'view_rfa']);
             
-
-
+          
          });
 
 });
@@ -429,8 +430,10 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          Route::get("/rfa/pending",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'index']);
          //Report
          Route::get("/rfa/report",[ App\Http\Controllers\systems\rfa\admin\ReportController::class, 'index']);
-          //Report
-          Route::get("/rfa/clients",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'index']);
+         //Report
+         Route::get("/rfa/clients",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'index']);
+         //View RFA
+         Route::get("/rfa/view-rfa/{id}",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'view_rfa']);
         
 
          

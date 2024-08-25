@@ -4,6 +4,7 @@ namespace App\Http\Controllers\systems\rfa\admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\CustomRepository;
 use App\Repositories\rfa\admin\AdminRFAQuery;
+use App\Repositories\rfa\user\RFAQuery;
 use App\Services\CustomService;
 use App\Services\user\ActionLogService;
 use App\Services\user\UserService;
@@ -19,8 +20,9 @@ class PendingController extends Controller
     protected $actionLogService;
     protected $userService;
     protected $rFAQuery;
+    protected $userRFAQuery;
 
-    public function __construct(CustomRepository $customRepository, AdminRFAQuery $rFAQuery, CustomService $customService, UserService $userService, ActionLogService $actionLogService){
+    public function __construct(CustomRepository $customRepository, AdminRFAQuery $rFAQuery, CustomService $customService, UserService $userService, ActionLogService $actionLogService, RFAQuery $userRFAQuery){
        
         $this->customRepository = $customRepository;
         $this->customService    = $customService;
@@ -29,11 +31,29 @@ class PendingController extends Controller
         $this->conn             = config('custom_config.database.pmas');
         $this->conn_user = config('custom_config.database.users');
         $this->rFAQuery         = $rFAQuery;
+        $this->userRFAQuery     = $userRFAQuery;
     }
     public function index(){
         $data['title']                                  = 'Pending';
         $data['refer_to'] = $this->customRepository->q_get_where_order($this->conn_user,'users',array('user_type' => 'user'),'first_name','desc')->get(); 
         return view('systems.rfa.admin.pages.pending.pending')->with($data);
+    }
+
+    public function view_rfa($id){
+       
+        $row = $this->customRepository->q_get_where($this->conn, array('rfa_id' => $id), 'rfa_transactions');
+        if ($row->count()) {
+            $rfa_row       = $this->rFAQuery->QueryRFAData($id);
+            $data['title'] = $this->customService->ref_number($rfa_row);
+            $data['data']   = $rfa_row;
+            return view('systems.rfa.both.view.view')->with($data);
+
+        }else {
+            echo '404';
+        }
+
+        
+        
     }
 
     public function get_admin_pending_rfa(){

@@ -104,7 +104,7 @@ function generate_rfa_report(date_filter) {
             }, {
                data: null,
                render: function (data, type, row) {
-                  return '<ul class="d-flex justify-content-center">\ <li><a href="javascript:;" data-id="' + data['rfa_id'] + '"   id="view_rfa_"  class="text-secondary action-icon"><i class="ti-eye"></i></a></li>\ </ul>';
+                  return '<ul class="d-flex justify-content-center">\ <li><a href="'+base_url+'/admin/rfa/view-rfa/'+data['rfa_id'] +'" data-id="' + data['rfa_id'] + '"   id=""  class="text-secondary action-icon"><i class="ti-eye"></i></a></li>\ </ul>';
                }
             }, ],
          })

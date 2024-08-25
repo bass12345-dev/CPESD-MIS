@@ -61,6 +61,9 @@ function load_admin_pending_rfa() {
    });
 }
 load_admin_pending_rfa();
+$(document).on('click', 'a#view_rfa_', function (e) {
+      window.open(base_url + '/admin/rfa/view-rfa/' + $(this).data('id'), '_self');
+   });
 $(document).on('click', 'button#reload_admin_pending_rfa', function (e) {
    $('#rfa_pending_table').DataTable().destroy();
    load_admin_pending_rfa();

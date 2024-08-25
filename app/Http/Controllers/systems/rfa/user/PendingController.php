@@ -118,7 +118,7 @@ class PendingController extends Controller
                 'status1' => $status1,
                 'action1' => $action1,
                 'date_time_filed' => date('F d Y h:i A', strtotime($row->rfa_date_filed)),
-                'ref_number' => '<a href="' . url('/') . 'view-rfa?id=' . $row->rfa_id . '">' . $this->customService->ref_number($row) . '</a>'
+                'ref_number' => '<a href="' . url('') . '/user/rfa/view-rfa/' . $row->rfa_id . '">' . $this->customService->ref_number($row) . '</a>'
             );
         }
 
