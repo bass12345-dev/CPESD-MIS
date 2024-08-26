@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminCheck;
 use App\Http\Middleware\DtsCheck;
+use App\Http\Middleware\PMASCheck;
 use App\Http\Middleware\RFACheck;
 use App\Http\Middleware\SessionGuard;
 use App\Http\Middleware\UserLoginCheck;
@@ -164,6 +165,23 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
           
          });
 
+
+         Route::middleware([PMASCheck::class])->prefix('/pmas')->group(function () {
+            //USER
+               //Dashboard
+               Route::get("/dashboard",[ App\Http\Controllers\systems\pmas\user\DashboardController::class, 'index']);
+               //Pending
+               Route::get("/pending",[ App\Http\Controllers\systems\pmas\user\PendingController::class, 'index']);
+               //Completed
+               Route::get("/completed",[ App\Http\Controllers\systems\pmas\user\CompletedController::class, 'index']);
+               //Add
+               Route::get("/add",[ App\Http\Controllers\systems\pmas\user\AddController::class, 'index']);
+              
+
+               
+             
+            });
+
 });
 
 
@@ -324,6 +342,21 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
             Route::get("/rfa/count-pending-rfa",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'count_pending_rfa']);
             Route::get("/rfa/count-pending-transactions",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'count_pending_transactions']);
             Route::get("/rfa/count-reffered-rfa",[App\Http\Controllers\systems\rfa\user\PendingController::class, 'count_reffered_rfa']);
+
+
+
+                                 //PMAS
+         //Dashboard
+            Route::post("/pmas/load-user-chart-transaction-data",[App\Http\Controllers\systems\pmas\user\DashboardController::class, 'get_user_chart_transaction_data']);
+         //Pending
+            Route::get("/pmas/get-user-pending-transactions",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_user_pending_transactions']);
+            Route::post("/pmas/pass-pmas",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'pass_pmas']);
+         //Add
+            Route::get("/pmas/get-pending-transaction-limit",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_pending_transaction_limit']);
+         //Last Pmas Number
+            Route::get("/pmas/get-last-pmas-number",[App\Http\Controllers\systems\pmas\user\AddController::class, 'get_last_pmas_number']);
+         
+            
          
 
       

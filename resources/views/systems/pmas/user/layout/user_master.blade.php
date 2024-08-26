@@ -8,10 +8,10 @@
 <body>
     @include('components.pmas_rfa.preloader')
     <div class="page-container">       
-        @include('systems.rfa.admin.layout.includes.sidebar')
+        @include('systems.pmas.user.layout.includes.sidebar')
         <div class="main-content">           
             @include('systems.rfa.includes.topbar')
-                @include('components.pmas_rfa.breadcrumbs')
+                @include('components.pmas_rfa.pmas_breadcrumbs')
                 <div class="main-content-inner">
                     @yield('content')
             </div>
@@ -22,7 +22,7 @@
 @include('systems.rfa.includes.custom_js.layout_js')
 @yield('js')
 @include('global_includes.js.custom_js.alert_loader')
-@include('systems.rfa.includes.custom_js.count_total_pending_js')
+
 </body>
 </html>
 

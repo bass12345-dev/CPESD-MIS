@@ -21,9 +21,8 @@
 @include('systems.rfa.includes.js')
 @include('systems.rfa.includes.custom_js.layout_js')
 @yield('js')
-@include('global_includes.js.custom_js.datatable_settings')
 @include('global_includes.js.custom_js.alert_loader')
-@include('global_includes.js.custom_js._ajax')
+
 @include('systems.rfa.includes.custom_js.count_total_pending_js')
 @include('systems.rfa.includes.custom_js.count_total_referred_js')
 </body>

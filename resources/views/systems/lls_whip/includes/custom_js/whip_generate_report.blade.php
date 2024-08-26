@@ -40,7 +40,9 @@
 
     // Total 
     let total_skilled = 0;
+    let total_skilled_percentage = 0;
     let total_unskilled = 0;
+    let total_unskilled_percentage = 0;
 
     //Skilled Outside
     let total_skilled_outside = 0;
@@ -93,6 +95,14 @@
     //Total
     total_skilled = data.s_u.skilled;
     total_unskilled = data.s_u.unskilled;
+
+    if(data.s_u.skilled != 0){
+      total_skilled_percentage = 100;
+    }
+
+    if(data.s_u.unskilled != 0){
+      total_unskilled_percentage = 100;
+    }
 
     if (data.outside_oroquieta.length > 0) {
       $.each(data.outside_oroquieta, function(index, row) {
@@ -250,7 +260,7 @@
              <tr>\
                 <th>Actual No. of Hired Workers</th>\
                 <th>' + data.s_u.skilled + '</th>\
-                <th>100%</th>\
+                <th>'+ total_skilled_percentage+'%</th>\
                 <th rowspan="3" class="bg_color_skilled" >'+compliant_text_within_city_skilled+'</th>\
             </tr>\
              <tr>\
@@ -301,7 +311,7 @@
              <tr>\
                 <th>Actual No. of Hired Workers</th>\
                 <th>' + data.s_u.unskilled + '</th>\
-                <th>100%</th>\
+                <th>'+ total_unskilled_percentage+'%</th>\
                 <th rowspan="3" class="bg_color_unskilled">'+compliant_text_within_city_unskilled+'</th>\
             </tr>\
              <tr>\

@@ -60,5 +60,26 @@ class CustomService
 
     }
 
+    public function pmas_number($item){
+        return date('Y', strtotime($item->date_and_time_filed)).' - '.date('m', strtotime($item->date_and_time_filed)).' - '.$item->number;
+    }
+
+    public function put_zeros_p_r($last_digits){
+        $reference_number = '';
+
+        switch ($last_digits) {
+            case $last_digits < 10:
+                $reference_number = '00' . $last_digits;
+                break;
+            case $last_digits < 100:
+                $reference_number = '0' . $last_digits;
+                break;
+            default:
+                $reference_number = $last_digits;
+                break;
+        }
+        return $reference_number;
+    }
+
 
 }

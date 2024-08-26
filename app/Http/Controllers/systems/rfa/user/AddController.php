@@ -5,6 +5,7 @@ namespace App\Http\Controllers\systems\rfa\user;
 use App\Http\Controllers\Controller;
 use App\Repositories\CustomRepository;
 use App\Repositories\rfa\user\RFAQuery;
+use App\Services\CustomService;
 use Illuminate\Http\Request;
 
 class AddController extends Controller
@@ -14,14 +15,16 @@ class AddController extends Controller
     protected $conn_user;
     protected $customRepository;
     protected $rFAQuery;
+    protected $customService;
 
-    public function __construct(CustomRepository $customRepository, RFAQuery $rFAQuery)
+    public function __construct(CustomRepository $customRepository, RFAQuery $rFAQuery, CustomService $customService)
     {
 
         $this->customRepository = $customRepository;
         $this->conn = config('custom_config.database.pmas');
         $this->conn_user = config('custom_config.database.users');
         $this->rFAQuery = $rFAQuery;
+        $this->customService    = $customService;
     }
     public function index()
     {
@@ -77,12 +80,12 @@ class AddController extends Controller
             } else if ($current_year < $last_created) {
                 //get last created rfa plus 1
                 $last_reference_number_add_one = $this->rFAQuery->get_last_ref_number_where($ymd_format)->first()->number + 1;
-                $reference_number = $this->put_zeros($last_reference_number_add_one);
+                $reference_number = $this->customService->put_zeros_p_r($last_reference_number_add_one);
 
             } else if ($current_year === $last_created) {
 
                 $last_reference_number_add_one = $this->rFAQuery->get_last_ref_number_where($current_year)->first()->number + 1;
-                $reference_number = $this->put_zeros($last_reference_number_add_one);
+                $reference_number = $this->customService->put_zeros_p_r($last_reference_number_add_one);
             }
 
         } else {
@@ -95,27 +98,7 @@ class AddController extends Controller
     }
 
 
-    private function put_zeros($last_digits)
-    {
-
-        $reference_number = '';
-
-        switch ($last_digits) {
-            case $last_digits < 10:
-                $reference_number = '00' . $last_digits;
-                break;
-            case $last_digits < 100:
-                $reference_number = '0' . $last_digits;
-                break;
-            default:
-                $reference_number = $last_digits;
-                break;
-        }
-        return $reference_number;
-
-    }
-
-
+   
 
 
 }
