@@ -29,7 +29,7 @@
 
 					<div class="form-group">
 						<div class="col-12">Responsible Section</div>
-						<select class="custom-select input wizard-required" name="type_of_monitoring_id">
+						<select class="custom-select input wizard-required" name="type_of_monitoring_id" required>
 							<option value="">Select Responsible Section</option>
 							<?php 
 

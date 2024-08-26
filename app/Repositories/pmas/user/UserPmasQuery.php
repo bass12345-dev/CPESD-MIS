@@ -62,7 +62,7 @@ class UserPmasQuery
             ->leftJoin($this->pmas_db_name . '.type_of_activities', 'type_of_activities.type_of_activity_id', '=', 'transactions.type_of_activity_id')
             ->leftJoin($this->pmas_db_name . '.responsibility_center', 'responsibility_center.responsibility_center_id', '=', 'transactions.responsibility_center_id')
             ->leftJoin($this->pmas_db_name . '.cso', 'cso.cso_id', '=', 'transactions.cso_Id')
-            ->orderBy('transactions.number', 'desc')
+            ->orderBy('transactions.transaction_id', 'desc')
             ->limit($limit)
             ->get();
         return $row;
@@ -75,4 +75,40 @@ class UserPmasQuery
         ->orderBy('date_and_time_filed', 'desc');
     return $row;
     }
+
+
+     //Completed
+     public function QueryUserCompletedTransactions()
+     {
+ 
+         $row = DB::table($this->pmas_db_name . '.transactions as transactions')
+             ->leftJoin($this->users_db_name . '.users', 'users.user_id', '=', 'transactions.created_by')
+             ->leftJoin($this->pmas_db_name . '.responsible_section', 'responsible_section.responsible_section_id', '=', 'transactions.responsible_section_id')
+             ->leftJoin($this->pmas_db_name . '.type_of_activities', 'type_of_activities.type_of_activity_id', '=', 'transactions.type_of_activity_id')
+             ->leftJoin($this->pmas_db_name . '.responsibility_center', 'responsibility_center.responsibility_center_id', '=', 'transactions.responsibility_center_id')
+             ->leftJoin($this->pmas_db_name . '.cso', 'cso.cso_id', '=', 'transactions.cso_Id')
+             ->where('transactions.transaction_status', 'completed')
+             ->where('transactions.created_by', session('user_id'))
+             ->orderBy('transactions.number', 'desc')
+             ->get();
+         return $row;
+ 
+     }
+
+     //Transaction Data
+
+     public function QueryTransactionData($id){
+
+        $row = DB::table($this->pmas_db_name . '.transactions as transactions')
+             ->leftJoin($this->users_db_name . '.users', 'users.user_id', '=', 'transactions.created_by')
+             ->leftJoin($this->pmas_db_name . '.responsible_section', 'responsible_section.responsible_section_id', '=', 'transactions.responsible_section_id')
+             ->leftJoin($this->pmas_db_name . '.type_of_activities', 'type_of_activities.type_of_activity_id', '=', 'transactions.type_of_activity_id')
+             ->leftJoin($this->pmas_db_name . '.responsibility_center', 'responsibility_center.responsibility_center_id', '=', 'transactions.responsibility_center_id')
+             ->leftJoin($this->pmas_db_name . '.cso', 'cso.cso_id', '=', 'transactions.cso_Id')
+             ->where('transactions.transaction_id', $id)
+             ->first();
+        return $row;
+
+     }
+ 
 }

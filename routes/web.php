@@ -169,13 +169,15 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
          Route::middleware([PMASCheck::class])->prefix('/pmas')->group(function () {
             //USER
                //Dashboard
-               Route::get("/dashboard",[ App\Http\Controllers\systems\pmas\user\DashboardController::class, 'index']);
+                  Route::get("/dashboard",[ App\Http\Controllers\systems\pmas\user\DashboardController::class, 'index']);
                //Pending
-               Route::get("/pending",[ App\Http\Controllers\systems\pmas\user\PendingController::class, 'index']);
+                  Route::get("/pending",[ App\Http\Controllers\systems\pmas\user\PendingController::class, 'index']);
                //Completed
-               Route::get("/completed",[ App\Http\Controllers\systems\pmas\user\CompletedController::class, 'index']);
+                  Route::get("/completed",[ App\Http\Controllers\systems\pmas\user\CompletedController::class, 'index']);
                //Add
-               Route::get("/add",[ App\Http\Controllers\systems\pmas\user\AddController::class, 'index']);
+                  Route::get("/add",[ App\Http\Controllers\systems\pmas\user\AddController::class, 'index']);
+               //View
+                  Route::get("/view-transaction/{id}",[ App\Http\Controllers\systems\pmas\user\PendingController::class, 'view_transaction']);
               
 
                
@@ -351,10 +353,20 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Pending
             Route::get("/pmas/get-user-pending-transactions",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_user_pending_transactions']);
             Route::post("/pmas/pass-pmas",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'pass_pmas']);
+         //Completed
+            Route::get("/pmas/get-user-completed-transactions",[App\Http\Controllers\systems\pmas\user\CompletedController::class, 'get_user_completed_transactions']);
+         
          //Add
+            Route::post("/pmas/add-transaction",[App\Http\Controllers\systems\pmas\user\AddController::class, 'add_transaction']);
             Route::get("/pmas/get-pending-transaction-limit",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_pending_transaction_limit']);
          //Last Pmas Number
             Route::get("/pmas/get-last-pmas-number",[App\Http\Controllers\systems\pmas\user\AddController::class, 'get_last_pmas_number']);
+         //Type of Activity
+            Route::post("/pmas/get_under_type_of_activity",[App\Http\Controllers\systems\pmas\user\AddController::class, 'get_under_type_of_activity']);
+         //Get Transaction Data
+            Route::post("/pmas/get-transaction-data",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_transaction_data']);
+         
+         
          
             
          

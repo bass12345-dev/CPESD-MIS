@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\CustomRepository;
 use App\Repositories\pmas\user\UserPmasQuery;
 use App\Services\CustomService;
+use App\Services\pmas\user\TransactionService;
 use App\Services\user\ActionLogService;
 use App\Services\user\UserService;
 use Illuminate\Http\Request;
@@ -18,9 +19,10 @@ class PendingController extends Controller
     protected $userService;
     protected $actionLogService;
     protected $customService;
+    protected $transactionService;
     protected $userPmasQuery;
 
-    public function __construct(CustomRepository $customRepository,  UserService $userService,UserPmasQuery $userPmasQuery, ActionLogService $actionLogService, CustomService $customService)
+    public function __construct(CustomRepository $customRepository,  UserService $userService,UserPmasQuery $userPmasQuery, ActionLogService $actionLogService, CustomService $customService,TransactionService $transactionService)
     {
 
         $this->customRepository = $customRepository;
@@ -28,6 +30,7 @@ class PendingController extends Controller
         $this->userService = $userService;
         $this->actionLogService = $actionLogService;
         $this->customService    = $customService;
+        $this->transactionService   = $transactionService;
         $this->conn = config('custom_config.database.pmas');
         $this->conn_user = config('custom_config.database.users');
 
@@ -39,6 +42,19 @@ class PendingController extends Controller
         return view('systems.pmas.user.pages.pending.pending')->with($data);
     }
 
+    public function view_transaction($id){
+        $data['title']      = 'Update ';
+        $row = $this->customRepository->q_get_where($this->conn,array('transaction_id' => $id),'transactions');
+        if($row->count()){
+            $row  = $row->first();
+            $data['title']      = $this->customService->pmas_number($row);
+            $data['row']        = $row;
+            return view('systems.pmas.user.pages.update.update')->with($data);
+        }else {
+            echo '404';
+        }
+        
+    }
 
     public function get_user_pending_transactions(){
 
@@ -68,7 +84,7 @@ class PendingController extends Controller
                                                         <i class="ti-settings" style="font-size : 15px;"></i>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="javascript:;" data-id="'.$row->transaction_id.'"  data-name="'.date('Y', strtotime($row->date_and_time_filed)).' - '.date('m', strtotime($row->date_and_time_filed)).' - '.$row->number.'"  id="update-transaction" > 
+                                                        <a class="dropdown-item" href="'.url('/user/pmas/view-transaction/').'/'.$row->transaction_id.'" data-id="'.$row->transaction_id.'"  data-name="'.date('Y', strtotime($row->date_and_time_filed)).' - '.date('m', strtotime($row->date_and_time_filed)).' - '.$row->number.'"  id="update-transaction" > 
                                                                 <i class="ti-eye"></i> View/Update Information
                                                         </a>
                                                         <a class="dropdown-item" href="javascript:;" id="pass_to" data-id="'.$row->transaction_id.'"  data-name="'.date('Y', strtotime($row->date_and_time_filed)).' - '.date('m', strtotime($row->date_and_time_filed)).' - '.$row->number.'"  data-toggle="modal" data-target="#pass_to_modal"> 
@@ -83,7 +99,7 @@ class PendingController extends Controller
                                                         <i class="ti-settings" style="font-size : 15px;"></i>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="javascript:;" data-id="'.$row->transaction_id.'"  data-name="'.date('Y', strtotime($row->date_and_time_filed)).' - '.date('m', strtotime($row->date_and_time_filed)).' - '.$row->number.'"  id="update-transaction" > 
+                                                        <a class="dropdown-item" href="'.url('/user/pmas/view-transaction/').'/'.$row->transaction_id.'" data-id="'.$row->transaction_id.'"  data-name="'.date('Y', strtotime($row->date_and_time_filed)).' - '.date('m', strtotime($row->date_and_time_filed)).' - '.$row->number.'"  id="update-transaction" > 
                                                             <i class="ti-eye"></i> View/Update Information
                                                         </a>
                                                     </di>
@@ -92,7 +108,7 @@ class PendingController extends Controller
             }else if ($row->remarks != '' AND $row->action_taken_date != null) {
                                     $action = '<ul class="d-flex justify-content-center">
                                                         <li class="mr-3 ">
-                                                            <a href="javascript:;" class="text-secondary action-icon" data-id="'.$row->transaction_id.'" data-status="'.$row->transaction_status.'"  id="view_transaction" >
+                                                            <a href="'.url('/user/pmas/view-transaction/').'/'.$row->transaction_id.'" class="text-secondary action-icon" data-id="'.$row->transaction_id.'" data-status="'.$row->transaction_status.'"  id="view_transaction" >
                                                                 <i class="fa fa-eye"></i>
                                                             </a>
                                                         </li>
@@ -168,6 +184,15 @@ class PendingController extends Controller
     }
 
 
+
+    public function get_transaction_data(Request $request){
+
+        $row = $this->transactionService->transaction_data($request->input('id'));
+        return response()->json($row);
+
+        
+
+    }
 
 
 }
