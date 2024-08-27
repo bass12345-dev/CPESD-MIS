@@ -22,7 +22,7 @@
 @include('systems.rfa.includes.custom_js.layout_js')
 @yield('js')
 @include('global_includes.js.custom_js.alert_loader')
-
+@include('systems.pmas.includes.custom_js.count_total_pending_js')
 </body>
 </html>
 

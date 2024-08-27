@@ -5,7 +5,7 @@ namespace App\Http\Controllers\system_management;
 use App\Http\Controllers\Controller;
 use App\Repositories\CustomRepository;
 use App\Services\CustomService;
-use App\Services\user\USerService;
+use App\Services\user\UserService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -18,7 +18,7 @@ class ManageUserController extends Controller
     protected $userService;
     protected $user_table;
     protected $user_system_authorized_table;
-    public function __construct(CustomRepository $customRepository, USerService $uSerService, CustomService $customService)
+    public function __construct(CustomRepository $customRepository, UserService $uSerService, CustomService $customService)
     {
         $this->customRepository = $customRepository;
         $this->userService = $uSerService;

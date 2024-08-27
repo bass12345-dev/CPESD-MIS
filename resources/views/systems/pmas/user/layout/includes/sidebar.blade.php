@@ -15,7 +15,7 @@
                     </li>
                     <li class="<?= $segments[2] == 'pending' ? 'active' : '' ?>"><a href="{{url('/user/pmas/pending')}}"><i class="fa fa-history"></i>
                             <span>Pending Transactions</span><span
-                                class="badge badge-danger count_pending_rfa">0</span></a></li>
+                                class="badge badge-danger count_pending">0</span></a></li>
                     <li class="<?= $segments[2] == 'completed' ? 'active' : '' ?>"><a
                         href="{{url('/user/pmas/completed')}}"><i class="fa fa-history"></i>
                         <span>Completed Transactions</span></a></li>

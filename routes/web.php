@@ -177,11 +177,11 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
                //Add
                   Route::get("/add",[ App\Http\Controllers\systems\pmas\user\AddController::class, 'index']);
                //View
+                  Route::get("/view-update-transaction/{id}",[ App\Http\Controllers\systems\pmas\user\PendingController::class, 'view_update_transaction']);
                   Route::get("/view-transaction/{id}",[ App\Http\Controllers\systems\pmas\user\PendingController::class, 'view_transaction']);
               
 
-               
-             
+   
             });
 
 });
@@ -353,18 +353,26 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Pending
             Route::get("/pmas/get-user-pending-transactions",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_user_pending_transactions']);
             Route::post("/pmas/pass-pmas",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'pass_pmas']);
+            Route::get("/pmas/count-pending-transactions",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'count_pending_transactions']);
+            Route::post("/pmas/view-remarks",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'view_remarks']);
          //Completed
             Route::get("/pmas/get-user-completed-transactions",[App\Http\Controllers\systems\pmas\user\CompletedController::class, 'get_user_completed_transactions']);
+         //Accomplished
+            Route::post("/pmas/accomplished",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'accomplished']);
          
          //Add
             Route::post("/pmas/add-transaction",[App\Http\Controllers\systems\pmas\user\AddController::class, 'add_transaction']);
             Route::get("/pmas/get-pending-transaction-limit",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_pending_transaction_limit']);
+         //Update
+            Route::post("/pmas/update-transaction",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'update_transaction']);
          //Last Pmas Number
             Route::get("/pmas/get-last-pmas-number",[App\Http\Controllers\systems\pmas\user\AddController::class, 'get_last_pmas_number']);
          //Type of Activity
             Route::post("/pmas/get_under_type_of_activity",[App\Http\Controllers\systems\pmas\user\AddController::class, 'get_under_type_of_activity']);
          //Get Transaction Data
             Route::post("/pmas/get-transaction-data",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_transaction_data']);
+
+            
          
          
          
@@ -480,7 +488,25 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
          //View RFA
          Route::get("/rfa/view-rfa/{id}",[ App\Http\Controllers\systems\rfa\admin\PendingController::class, 'view_rfa']);
         
+                                 //PMAS
 
+         //Dashboard
+         Route::get("/pmas/dashboard",[ App\Http\Controllers\systems\pmas\admin\DashboardController::class, 'index']);
+         //Dashboard
+         Route::get("/pmas/pending",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'index']);
+         //Dashboard
+         Route::get("/pmas/report",[ App\Http\Controllers\systems\pmas\admin\ReportController::class, 'index']);
+         //Dashboard
+         Route::get("/pmas/cso",[ App\Http\Controllers\systems\pmas\admin\DashboardController::class, 'index']);
+         //Dashboard
+         Route::get("/pmas/responsibility-center",[ App\Http\Controllers\systems\pmas\admin\ResponsibilityCenterContoller::class, 'index']);
+         //Dashboard
+         Route::get("/pmas/type-of-activity",[ App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'index']);
+         //View 
+         Route::get("/pmas/view-transaction/{id}",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'view_transaction']);
+         
+
+         
          
 
 
@@ -586,11 +612,57 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
                Route::get("/rfa/get-clients",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'get_clients']);
                Route::post("/rfa/update-client",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'update_client']);
                Route::post("/rfa/delete-client",[ App\Http\Controllers\systems\rfa\admin\ClientController::class, 'delete_client']);
-               
-
             //Generate Report
                Route::post("/rfa/generate-rfa-report",[ App\Http\Controllers\systems\rfa\admin\ReportController::class, 'generate_rfa_report']);
-           
+
+
+                                 //PMAS
+
+               //Dashboard
+               Route::post("/pmas/load-admin-chart-transaction-data",[ App\Http\Controllers\systems\pmas\admin\DashboardController::class, 'get_admin_chart_transaction_data']);
+               Route::get("/pmas/load-admin-chart-cso-data",[ App\Http\Controllers\systems\pmas\admin\DashboardController::class, 'get_admin_chart_cso_data']);
+
+               //View Remarks
+               Route::post("/pmas/view-remarks",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'view_remarks']);
+               Route::post("/pmas/add-remark",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'add_remarks']);
+               //Approved 
+               Route::post("/pmas/approved",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'approved']);
+               //Pending Transactions
+               Route::post("/pmas/get-pending-transactions",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'get_pending_transactions']);
+               //Count Pending Transactions
+               Route::get("/pmas/count-pending-transactions",[App\Http\Controllers\systems\pmas\admin\PendingController::class, 'count_pending_transactions']);
+               //Project Transaction Data
+               Route::post("/pmas/get-project-transaction-data",[App\Http\Controllers\systems\pmas\admin\ReportController::class, 'get_project_transaction_data']);
+
+               //Report
+               Route::post("/pmas/generate-pmas-report",[ App\Http\Controllers\systems\pmas\admin\ReportController::class, 'generate_pmas_report']);
+               
+               //Type of Activities
+               Route::get("/pmas/get-activities",[ App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'get_activities']);
+               Route::post("/pmas/delete-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'delete_activity']);
+               Route::post("/pmas/add-type-of-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'add_activity']);
+               Route::post("/pmas/update-type-of-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'update_activity']);
+               //Under Type
+               Route::post("/pmas/add-under-type-of-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'add_under_type_of_activity']);
+               Route::post("/pmas/get_under_type_of_activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'get_under_type_of_activity']);
+               Route::post("/pmas/update-under-type-of-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'update_under_type_of_activity']);
+               Route::post("/pmas/delete-under-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'delete_under_activity']);
+
+
+               
+
+               
+              
+               
+
+               
+
+              
+             
+
+               
+
+               
                
                
          

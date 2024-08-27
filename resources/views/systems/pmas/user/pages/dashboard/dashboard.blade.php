@@ -1,7 +1,7 @@
 @extends('systems.pmas.user.layout.user_master')
 @section('title', $title)
 @section('content')
-@include('systems.pmas.user.pages.dashboard.sections.count1')
+@include('systems.pmas.includes.components.count_pending_completed')
 @include('systems.pmas.includes.components.count_coops')
 @include('systems.pmas.user.pages.dashboard.sections.graph1')
 @endsection

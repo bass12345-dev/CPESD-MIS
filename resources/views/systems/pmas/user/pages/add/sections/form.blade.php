@@ -16,6 +16,7 @@
 						</div>
 						<input type="number" class="form-control  wizard-required input " value="" name="pmas_number"
 							readonly>
+						<input type="hidden" name="transaction_id">
 					</div>
 					<div class="wizard-form-error"></div>
 				</div>
@@ -128,6 +129,10 @@
 				@include('systems.pmas.user.pages.add.sections.more.for_training')
 				@include('systems.pmas.user.pages.add.sections.more.for_project_monitoring')
 				@include('systems.pmas.user.pages.add.sections.more.for_project_meeting')
+				<div class="form-group d-none annotation">
+					<div class="col-12">Notes/Proceedings</div>
+						 <textarea id="tiny"  name="annotation"></textarea>
+					</div>
 
 				<div class="form-group clearfix">
 					<button type="submit" class="form-wizard-submit float-right btn-add-transaction"> Submit</button> <a

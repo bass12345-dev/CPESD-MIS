@@ -1,39 +1,3 @@
-<!doctype html>
-<html class="no-js" lang="en">
-
-<head>
-    @include('global_includes.meta')
-    @include('systems.rfa.includes.css')
-</head>
-
-<body>
-    @include('components.pmas_rfa.preloader')
-    <div class="page-container sbar_collapsed">
-        <div class="main-content">
-            @include('systems.rfa.includes.components.add_rfa_topbar')
-            <div class="main-content-inner">
-                <div class="row">
-                    <div class="col-12 mt-3">
-                        <section class="wizard-section" style="background-color: #fff;">
-                            <div class="row no-gutters">
-                                @include('systems.pmas.user.pages.update.sections.view_transaction')
-                                @include('systems.pmas.user.pages.add.sections.form')
-                            </div>
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @include('systems.pmas.user.pages.add.modals.select_under_type_of_activity_modal')
-</body>
-@include('global_includes.js.global_js')
-@include('systems.rfa.includes.js')
-<script src="https://cdn.jsdelivr.net/npm/js-loading-overlay@1.1.0/dist/js-loading-overlay.min.js"></script>
-@include('systems.rfa.includes.custom_js.layout_js')
-@include('global_includes.js.custom_js.wizard_js')
-@include('global_includes.js.custom_js.alert_loader')
-<script type="text/javascript" src="{{ asset('pmas_rfa/tinymce/tinymce.js')}}"></script>
-
 <script>
     function load_transaction_data() {
         $.ajax({
@@ -54,7 +18,7 @@
             success: function (data) {
                 if (data) {
                     JsLoadingOverlay.hide();
-                    load_notes(data.annotations);
+
                     $('#project_section').attr('hidden', 'hidden');
                     $('#training_section').attr('hidden', 'hidden');
                     $('#meeting_section').attr('hidden', 'hidden');
@@ -159,74 +123,7 @@
     }
 
 
-
     $(document).ready(function () {
-        $('div.annotation').removeClass('d-none');
         load_transaction_data();
     });
-    function load_notes(notes) {
-        setTimeout(function () {
-            tinymce.remove();
-            tinymce.init({
-                selector: '#tiny',
-                setup: function (editor) {
-                    editor.on('init', function (e) {
-                        editor.setContent(notes);
-                    });
-                }
-            });
-        }, 500)
-    }
-
-
-
-    $('#add_transaction_form').on('submit', function (e) {
-        e.preventDefault();
-        var button = $('.btn-update-transaction');
-        if ($('input[name=pmas_number]').val() == '') {
-            alert('something');
-        } else {
-            tinyMCE.triggerSave();
-            $.ajax({
-                type: "POST",
-                url: base_url + '/user/act/pmas/update-transaction',
-                data: $(this).serialize(),
-                dataType: 'json',
-                beforeSend: function () {
-                    button.html('<div class="loader"></div>');
-                    button.prop("disabled", true);
-                    loader();
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                },
-                success: function (data) {
-                    if (data.response) {
-                        $('#add_transaction_form')[0].reset();
-                        button.prop("disabled", false);
-                        button.text('Submit');
-                        toast_message_success(data.message);
-                        $('a.form-wizard-previous-btn').click();
-                        JsLoadingOverlay.hide();
-                    } else {
-                        button.prop("disabled", false);
-                        button.text('Submit');
-                        toast_message_error(data.message);
-                        $('a.form-wizard-previous-btn').click();
-                    }
-                    load_transaction_data()
-                },
-                error: function (xhr) {
-                    alert("Error occured.please try again");
-                    button.prop("disabled", false);
-                    button.text('Submit');
-                    JsLoadingOverlay.hide();
-                },
-            })
-        }
-    });
-
-
 </script>
-@include('systems.pmas.includes.custom_js.add_update_js')
-</html>

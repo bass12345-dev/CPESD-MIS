@@ -28,17 +28,7 @@
     $(document).on('click', 'button#reload_user_pending_transaction', function (e) {
         $('#pending_transactions_table').DataTable().destroy();
         fetch_user_pending_transactions();
-
-        JsLoadingOverlay.show({
-            'overlayBackgroundColor': '#666666',
-            'overlayOpacity': 0.6,
-            'spinnerIcon': 'pacman',
-            'spinnerColor': '#000',
-            'spinnerSize': '2x',
-            'overlayIDName': 'overlay',
-            'spinnerIDName': 'spinner',
-        });
-
+        loader();
     });
 
     function fetch_user_pending_transactions() {
@@ -88,7 +78,7 @@
             }
         })
     }
-    fetch_user_pending_transactions();
+
     $(document).on('click', 'a#pass_to', function (e) {
 
         $('.pass-to-title').text('PMAS NO ' + $(this).data('name'));
@@ -129,7 +119,7 @@
                     } else {
                         button.prop("disabled", false);
                         button.text('Submit');
-                        toast_message_success(data.message)
+                        toast_message_error(data.message)
 
                     }
                     JsLoadingOverlay.hide();
@@ -148,6 +138,84 @@
         }
     });
 
+    $(document).on('click', 'a#view-remarks', function (e) {
+        $.ajax({
+            type: "POST",
+            url: base_url + '/user/act/pmas/view-remarks',
+            data: {
+                id: $(this).data('id')
+            },
+            dataType: 'json',
+            beforeSend: function () {
+                $('div#remarks').addClass('.loader');
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            success: function (data) {
+                $("#view_remarks_modal").modal('show');
+                $('div#remarks').find('p').html(data.remarks);
+                $('input[name=t_id]').val(data.transaction_id);
+            }
+        })
+    });
 
+    $(document).on('click', 'button#btn-done-remarks', function (e) {
+        e.preventDefault();
+        var id = $('input[name=t_id]').val();
+        var button = $('button#btn-done-remarks');
+        Swal.fire({
+            title: "",
+            text: "Confirm",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: base_url + '/user/act/pmas/accomplished',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    beforeSend: function () {
+                        button.html('<div class="loader"></div>');
+                        button.prop("disabled", true);
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    success: function (data) {
+                        if (data.response) {
+                            button.prop("disabled", false);
+                            button.text('Done');
+                            toast_message_success(data.message);
+                            $('#view_remarks_modal').modal('hide');
+                            $('#pending_transactions_table').DataTable().destroy();
+                            fetch_user_pending_transactions();
+                        } else {
+                            button.prop("disabled", false);
+                            button.text('Submit');
+                            toast_message_error(data.message);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Error occured.please try again");
+                        button.prop("disabled", false);
+                        button.text('Submit');
+                    },
+                })
+            } else if (result.dismiss === "cancel") {
+                swal.close()
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        fetch_user_pending_transactions();
+    });
 </script>
 @endsection

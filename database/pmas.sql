@@ -15,7 +15,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `pmas`
@@ -1320,7 +1320,7 @@ CREATE TABLE `cso_project_implemented` (
   `funding_agency` varchar(250) NOT NULL,
   `status` set('inactive','active') NOT NULL,
   `cso_project_created` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `cso_project_implemented`
@@ -1678,7 +1678,7 @@ CREATE TABLE `project_meeting` (
   `meeting_transaction_id` int NOT NULL,
   `meeting_present` int NOT NULL,
   `meeting_absent` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `project_meeting`
@@ -1739,7 +1739,7 @@ INSERT INTO `project_meeting` (`meeting_transaction_id`, `meeting_present`, `mee
 CREATE TABLE `project_monitoring` (
   `project_monitoring_id` int UNSIGNED NOT NULL,
   `project_transact_id` int DEFAULT NULL,
-  `project_title` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `project_title` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
   `period` datetime DEFAULT NULL,
   `attendance_present` int DEFAULT NULL,
   `attendance_absent` int DEFAULT NULL,
@@ -1840,7 +1840,7 @@ CREATE TABLE `responsibility_center` (
   `responsibility_center_code` varchar(50) NOT NULL,
   `responsibility_center_name` varchar(150) NOT NULL,
   `responsibility_created` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `responsibility_center`
@@ -2041,7 +2041,7 @@ CREATE TABLE `rfa_clients` (
   `employment_status` varchar(150) NOT NULL,
   `rfa_client_created` datetime NOT NULL,
   `rfa_client_added_by` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `rfa_clients`
@@ -2134,14 +2134,14 @@ CREATE TABLE `rfa_transactions` (
   `number` varchar(150) NOT NULL,
   `rfa_status` set('pending','completed') NOT NULL,
   `rfa_date_filed` datetime NOT NULL,
-  `action_taken` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `action_taken` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
   `reffered_to` int DEFAULT NULL,
   `reffered_date_and_time` datetime DEFAULT NULL,
   `action_to_be_taken` text,
   `action_to_be_taken_date_time` datetime DEFAULT NULL,
   `accomplished_status` int DEFAULT NULL,
   `approved_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `rfa_transactions`
@@ -2250,7 +2250,7 @@ CREATE TABLE `rfa_transaction_history` (
   `action_to_be_taken` text NOT NULL,
   `rfa_tracking_status` enum('received','to-complete','completed') DEFAULT NULL,
   `release_status` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2309,7 +2309,7 @@ CREATE TABLE `transactions` (
   `is_project_monitoring` int DEFAULT NULL,
   `is_training` int DEFAULT NULL,
   `is_project_meeting` int DEFAULT NULL,
-  `remarks` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `remarks` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
   `transaction_status` enum('pending','completed') NOT NULL,
   `transaction_date_time_completed` datetime DEFAULT NULL,
   `annotations` text,
@@ -2719,7 +2719,7 @@ CREATE TABLE `type_of_request` (
   `type_of_request_id` int NOT NULL,
   `type_of_request_name` varchar(150) NOT NULL,
   `type_of_request_created` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `type_of_request`

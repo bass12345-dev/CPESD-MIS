@@ -54,7 +54,7 @@ function fetch_user_completed_transactions() {
             }, {
                data: null,
                render: function (data, type, row) {
-                  return '<ul class="d-flex justify-content-center">\ <li class="mr-3 "><a href="javascript:;" class="text-secondary action-icon" data-id="' + data['transaction_id'] + '"   id="view_transaction"><i class="fa fa-eye"></i></a></li>\ </ul>';
+                  return '<ul class="d-flex justify-content-center">\ <li class="mr-3 "><a href="'+base_url+'/user/pmas/view-transaction/'+data['transaction_id']+'" class="text-secondary action-icon" data-id="' + data['transaction_id'] + '"   ><i class="fa fa-eye"></i></a></li>\ </ul>';
                }
             }]
          })
