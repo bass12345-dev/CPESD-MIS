@@ -13,9 +13,10 @@
     <link href=" {{ asset('dts/css/hamster.css') }} " rel="stylesheet">
 <style type="text/css">
     body {
-        background-color: gray;
-        /* background-image: url("{{ asset('assets/img/background-track.jpg') }}"); */
-        background-size: cover;
         height: 100vh;
+    }
+
+    #background {
+        position: absolute;
     }
 </style>
