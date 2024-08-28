@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\systems\pmas\admin;
+namespace App\Http\Controllers\systems\cso;
 use App\Http\Controllers\Controller;
 use App\Repositories\CustomRepository;
 use App\Repositories\pmas\user\UserPmasQuery;
@@ -8,7 +8,7 @@ use App\Services\CustomService;
 use App\Services\user\UserService;
 use Illuminate\Http\Request;
 
-class CSOController extends Controller
+class DashboardController extends Controller
 {
 
     protected $conn;
@@ -30,14 +30,14 @@ class CSOController extends Controller
     }
     public function index()
     {
-        $data['title'] = 'CSO';
-        return view('systems.pmas.admin.pages.dashboard.dashboard')->with($data);
+        $data['title'] = 'CSO Dashboard';
+        $data['count_po'] = $this->customRepository->q_get_where($this->conn, array('type_of_cso' => 'PO'), 'cso')->count();
+        $data['count_coop'] = $this->customRepository->q_get_where($this->conn, array('type_of_cso' => 'Coop'), 'cso')->count();
+        $data['count_nsc'] = $this->customRepository->q_get_where($this->conn, array('type_of_cso' => 'NSC'), 'cso')->count();
+        return view('systems.cso.pages.dashboard.dashboard')->with($data);
     }
 
-    //Create
-    //Read
-    //Update
-    //DELETE
+
 
 
 }

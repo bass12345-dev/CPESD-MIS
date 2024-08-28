@@ -184,6 +184,15 @@ Route::middleware([SessionGuard::class])->prefix('/user')->group(function () {
    
             });
 
+         Route::get("/cso/dashboard",[ App\Http\Controllers\systems\cso\DashboardController::class, 'index']);
+         Route::get("/cso/manage-cso",[ App\Http\Controllers\systems\cso\ManageCsoController::class, 'index']);
+         Route::get("/cso/activity-logs",[ App\Http\Controllers\systems\cso\ManageCsoController::class, 'index']);
+         //View
+         Route::get("/cso/cso-information/{id}",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'view_cso']);
+
+
+         
+
 });
 
 
@@ -372,6 +381,21 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Get Transaction Data
             Route::post("/pmas/get-transaction-data",[App\Http\Controllers\systems\pmas\user\PendingController::class, 'get_transaction_data']);
 
+
+                                    //CSO
+         //Manage CSO
+            Route::post("/cso/get-cso",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_cso']);
+            Route::post("/cso/add-cso",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'add_cso']);
+            Route::post("/cso/delete-cso",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'delete_cso']);
+            Route::post("/cso/update-cso-status",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'update_cso_status']);
+            Route::post("/cso/get-cso-infomation",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_cso_infomation']);
+         //CSO Officers
+            Route::post("/cso/get-officers",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_officers']);
+
+            
+            
+           
+
             
          
          
@@ -492,18 +516,28 @@ Route::middleware([SessionGuard::class,AdminCheck::class])->prefix('/admin')->gr
 
          //Dashboard
          Route::get("/pmas/dashboard",[ App\Http\Controllers\systems\pmas\admin\DashboardController::class, 'index']);
-         //Dashboard
+         //Pending
          Route::get("/pmas/pending",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'index']);
-         //Dashboard
+         //Report
          Route::get("/pmas/report",[ App\Http\Controllers\systems\pmas\admin\ReportController::class, 'index']);
          //Dashboard
          Route::get("/pmas/cso",[ App\Http\Controllers\systems\pmas\admin\DashboardController::class, 'index']);
-         //Dashboard
+         //Responsibility Center
          Route::get("/pmas/responsibility-center",[ App\Http\Controllers\systems\pmas\admin\ResponsibilityCenterContoller::class, 'index']);
-         //Dashboard
+         //Type of Acitivity
          Route::get("/pmas/type-of-activity",[ App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'index']);
+          //Responsible Section
+          Route::get("/pmas/responsible-section",[ App\Http\Controllers\systems\pmas\admin\ResponsibleSectionController::class, 'index']);
          //View 
          Route::get("/pmas/view-transaction/{id}",[ App\Http\Controllers\systems\pmas\admin\PendingController::class, 'view_transaction']);
+
+
+
+
+
+
+                          
+         
          
 
          
@@ -648,7 +682,20 @@ Route::middleware([SessionGuard::class])->prefix('/admin/act')->group(function (
                Route::post("/pmas/update-under-type-of-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'update_under_type_of_activity']);
                Route::post("/pmas/delete-under-activity",[App\Http\Controllers\systems\pmas\admin\TypeOfActivityContoller::class, 'delete_under_activity']);
 
+               //Responsibility Center
+               Route::get("/pmas/get-responsiblity",[ App\Http\Controllers\systems\pmas\admin\ResponsibilityCenterContoller::class, 'get_responsibility']);
+               Route::post("/pmas/update-center",[App\Http\Controllers\systems\pmas\admin\ResponsibilityCenterContoller::class, 'update_center']);
+               Route::post("/pmas/add-responsibility",[App\Http\Controllers\systems\pmas\admin\ResponsibilityCenterContoller::class, 'add_responsibility']);
+               Route::post("/pmas/delete-center",[App\Http\Controllers\systems\pmas\admin\ResponsibilityCenterContoller::class, 'delete_center']);
 
+               //Responsible Section]
+               
+               Route::get("/pmas/get-responsible",[ App\Http\Controllers\systems\pmas\admin\ResponsibleSectionController::class, 'get_responsible']);
+               Route::post("/pmas/add-responsible",[ App\Http\Controllers\systems\pmas\admin\ResponsibleSectionController::class, 'add_responsible']);
+               Route::post("/pmas/update-responsible",[ App\Http\Controllers\systems\pmas\admin\ResponsibleSectionController::class, 'update_responsible']);
+               Route::post("/pmas/delete-responsible",[ App\Http\Controllers\systems\pmas\admin\ResponsibleSectionController::class, 'delete_responsible']);
+
+              
                
 
                

@@ -75,13 +75,24 @@ return [
 
     '_systems' => [
         'pmas'          =>  'PMAS',
+        'cso'          =>   'CSO\'s',
         'rfa'           =>  'RFA',
         'watchlisted'   =>  'Watchlisted',
         'dts'           =>  'Document Tracking System',
         'lls'           =>  'Labor Localization',
-        'whip'          =>  'WHIP'
+        'whip'          =>  'WHIP',
+        
     ],
     'employment_status' => ['employed','self-employed','unemployed and actively looking for work', 'underemployed'],
-    'type_of_transactions' => ['simple','complex']
+    'type_of_transactions' => ['simple','complex'],
+    
+
+    'cso_type'  =>  ['PO', 'Coop','NSC'],
+    'positions' => ['President/BOD Chairperson/BOT',
+        'Vice President/BOD Vice Chairperson',
+        'Secretary',
+        'Treasurer',
+        'Auditor',
+        'Manager']
 ];
 

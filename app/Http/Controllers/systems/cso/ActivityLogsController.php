@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\systems\pmas\admin;
+namespace App\Http\Controllers\systems\cso;
 use App\Http\Controllers\Controller;
 use App\Repositories\CustomRepository;
 use App\Repositories\pmas\user\UserPmasQuery;
@@ -8,7 +8,7 @@ use App\Services\CustomService;
 use App\Services\user\UserService;
 use Illuminate\Http\Request;
 
-class ResponsibleActionContoller extends Controller
+class ActivityLogs extends Controller
 {
 
     protected $conn;
@@ -30,14 +30,9 @@ class ResponsibleActionContoller extends Controller
     }
     public function index()
     {
-        $data['title'] = 'Admin Dashboard';
-        return view('systems.pmas.admin.pages.dashboard.dashboard')->with($data);
+        $data['title'] = 'Activity Logs';
+        return view('systems.cso.pages.activity_logs.activity_logs')->with($data);
     }
-
-    //Create
-    //Read
-    //Update
-    //DELETE
 
 
 
