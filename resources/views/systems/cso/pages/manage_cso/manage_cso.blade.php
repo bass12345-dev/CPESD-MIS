@@ -203,6 +203,7 @@
    });
    $('#update_cso_status_form').on('submit', function(e) {
       e.preventDefault();
+      var btn = $('.btn-update-cso-status');
       $.ajax({
          type: "POST",
          url: base_url + '/user/act/cso/update-cso-status',
@@ -212,8 +213,8 @@
          processData: false,
          dataType: 'json',
          beforeSend: function() {
-            $('.btn-update-cso-status').text('Please wait...');
-            $('.btn-update-cso-status').attr('disabled', 'disabled');
+            btn.text('Please wait...');
+            btn.attr('disabled', 'disabled');
          },
          headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -221,27 +222,28 @@
          success: function(data) {
             if (data.response) {
                $('#update_cso_status_modal').modal('hide');
-               $('.btn-update-cso-status').text('Save Changes');
-               $('.btn-update-cso-status').removeAttr('disabled');
+               btn.text('Save Changes');
+               btn.removeAttr('disabled');
                toast_message_success(data.message);
                $('#cso_table').DataTable().destroy();
                get_cso();
             } else {
-               $('.btn-update-cso-status').text('Save Changes');
-               $('.btn-update-cso-status').removeAttr('disabled');
+               btn.text('Save Changes');
+               btn.removeAttr('disabled');
                toast_message_error(data.message);
             }
          },
          error: function(xhr) {
             alert("Error occured.please try again");
-            $('.btn-update-cso-status').text('Save Changes');
-            $('.btn-update-cso-status').removeAttr('disabled');
+            btn.text('Save Changes');
+            btn.removeAttr('disabled');
             location.reload();
          },
       });
    });
    $('#add_cso_form').on('submit', function(e) {
       e.preventDefault();
+      var btn = $('.btn-add-cso');
       $.ajax({
          type: "POST",
          url: base_url + '/user/act/cso/add-cso',
@@ -251,8 +253,8 @@
          processData: false,
          dataType: 'json',
          beforeSend: function() {
-            $('.btn-add-cso').text('Please wait...');
-            $('.btn-add-cso').attr('disabled', 'disabled');
+            btn.text('Please wait...');
+            btn.attr('disabled', 'disabled');
          },
          headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -260,21 +262,21 @@
          success: function(data) {
             if (data.response) {
                $('#add_cso_form')[0].reset();
-               $('.btn-add-cso').text('Submit');
-               $('.btn-add-cso').removeAttr('disabled');
+               btn.text('Submit');
+               btn.removeAttr('disabled');
                toast_message_success(data.message);
                $('#cso_table').DataTable().destroy();
                get_cso();
             } else {
-               $('.btn-add-cso').text('Submit');
-               $('.btn-add-cso').removeAttr('disabled');
+               btn.text('Submit');
+               btn.removeAttr('disabled');
                toast_message_error(data.message);
             }
          },
          error: function(xhr) {
             alert("Error occured.please try again");
-            $('.btn-add-cso').text('Submit');
-            $('.btn-add-cso').removeAttr('disabled');
+            btn.text('Submit');
+            btn.removeAttr('disabled');
             location.reload();
          },
       });

@@ -93,6 +93,12 @@ return [
         'Secretary',
         'Treasurer',
         'Auditor',
-        'Manager']
+        'Manager'],
+
+    'folder_name' => [
+        'cor_folder_name' => 'cor',
+        'bylaws_folder_name' => 'bylaws', 
+        'aoc_folder_name' => 'aoc' , 
+        'other_docs_folder_name' => 'other_docs']
 ];
 

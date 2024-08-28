@@ -389,19 +389,24 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
             Route::post("/cso/delete-cso",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'delete_cso']);
             Route::post("/cso/update-cso-status",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'update_cso_status']);
             Route::post("/cso/get-cso-infomation",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_cso_infomation']);
+            Route::post("/cso/update-cso-information",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'update_cso_information']);
          //CSO Officers
             Route::post("/cso/get-officers",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_officers']);
-
+            Route::post("/cso/add-officer",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'add_officer']);
+            Route::post("/cso/delete-cso-officer",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'delete_cso_officer']);
+            Route::post("/cso/update-officer-information",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'update_officer_information']);
+         //CSo Projects
+            Route::post("/cso/get-projects",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_projects']);
+            Route::post("/cso/add-project",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'add_project']);
+            Route::post("/cso/update-project",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'update_project']);
+            Route::post("/cso/delete-cso-project",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'delete_cso_project']);
+         //Cso Activities
+            Route::post("/cso/cso-activities-data",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'cso_activities_data']);
+         //Files
+            Route::post("/cso/upload-cso-file",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'upload_cso_file']);
+            Route::get("/cso/get-file",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_file']);
             
             
-           
-
-            
-         
-         
-         
-            
-         
 
       
 });
