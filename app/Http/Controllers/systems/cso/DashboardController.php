@@ -37,6 +37,25 @@ class DashboardController extends Controller
         return view('systems.cso.pages.dashboard.dashboard')->with($data);
     }
 
+    public function count_cso_per_barangay(){
+
+        $barangay = config('custom_config.barangay');
+        $data = [];
+        foreach($barangay as $row) {
+            $data[] = array(
+
+                    'barangay' => $row,
+                    'active' => $this->customRepository->q_get_where($this->conn,array('barangay' => $row , 'cso_status' => 'active'),'cso')->count(),
+                    'inactive' => $this->customRepository->q_get_where($this->conn,array('barangay' => $row , 'cso_status' => 'inactive'),'cso')->count(),
+
+                );
+
+        }
+
+        return response()->json($data);
+
+    }
+
 
 
 

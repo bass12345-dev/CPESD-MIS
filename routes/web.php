@@ -383,6 +383,9 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
 
 
                                     //CSO
+         //Dashboard
+          //Barangay
+          Route::get("/cso/count-cso-per-barangay",[App\Http\Controllers\systems\cso\DashboardController::class, 'count_cso_per_barangay']);
          //Manage CSO
             Route::post("/cso/get-cso",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_cso']);
             Route::post("/cso/add-cso",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'add_cso']);
@@ -405,6 +408,7 @@ Route::middleware([SessionGuard::class])->prefix('/user/act')->group(function ()
          //Files
             Route::post("/cso/upload-cso-file",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'upload_cso_file']);
             Route::get("/cso/get-file",[App\Http\Controllers\systems\cso\ManageCsoController::class, 'get_file']);
+        
             
             
 
